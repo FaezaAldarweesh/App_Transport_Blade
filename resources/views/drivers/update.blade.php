@@ -1,11 +1,21 @@
-@extends('layouts.app')
+@extends('layouts.master')
+
+@section('title')
+تعديل بيانات السائق
+@endsection
+
+@section('css')
+<link rel="dns-prefetch" href="//fonts.bunny.net">
+<link href="https://fonts.bunny.net/css?family=Nunito" rel="stylesheet">
+<link href="https://cdnjs.cloudflare.com/ajax/libs/select2/4.1.0-beta.1/css/select2.min.css" rel="stylesheet">
+@endsection
 
 @section('content')
-<div class="container">
+<div class="container" style="margin-top: 70px">
     <div class="row justify-content-center">
-        <div class="col-md-8">
+        {{-- <div class="col-md-8"> --}}
             <div class="card shadow-sm">
-                <div class="card-header">{{ __('Edit driver') }}</div>
+                {{-- <div class="card-header">{{ __('Edit driver') }}</div> --}}
 
                 <div class="card-body">
 
@@ -54,7 +64,11 @@
                     </form>
                 </div>
             </div>
-        </div>
+        {{-- </div> --}}
     </div>
 </div>
+@endsection
+
+@section('scripts')
+
 @endsection

@@ -2,6 +2,7 @@
 
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Route;
+use App\Http\Controllers\employeeController;
 use App\Http\Controllers\BladeController\BusController;
 use App\Http\Controllers\BladeController\PathController;
 use App\Http\Controllers\BladeController\TripController;
@@ -24,7 +25,9 @@ use App\Http\Controllers\BladeController\SupervisorController;
 Route::get('/', function () {
     return view('welcome');
 });
-
+Route::get('/bus', function () {
+    return view('buses.view');
+});
 Auth::routes();
 
 Route::get('/home', [App\Http\Controllers\HomeController::class, 'index'])->name('home');
@@ -63,3 +66,8 @@ Route::Resource('trip',TripController::class);
 Route::get('all_trashed_trip', [TripController::class, 'all_trashed_trip'])->name('all_trashed_trip');
 Route::get('restore_trip/{trip_id}', [TripController::class, 'restore'])->name('restore_trip');
 Route::delete('forceDelete_trip/{trip_id}', [TripController::class, 'forceDelete'])->name('forceDelete_trip');
+
+Route::resource('employee', employeeController::class); 
+Route::get('/trush',[employeeController::class,'trush']) -> name("employee.trush");
+Route::get('restor/{id}',[employeeController::class,'restor']) -> name("employee.restor");
+Route::delete('force_delete/{id}',[employeeController::class,'force_delete']) -> name("employee.force_delete");
