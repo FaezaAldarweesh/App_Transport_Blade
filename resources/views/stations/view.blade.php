@@ -1,11 +1,21 @@
-@extends('layouts.app')
+@extends('layouts.master')
+
+@section('title')
+المحطات
+@endsection
+
+@section('css')
+<link rel="dns-prefetch" href="//fonts.bunny.net">
+<link href="https://fonts.bunny.net/css?family=Nunito" rel="stylesheet">
+<link href="https://cdnjs.cloudflare.com/ajax/libs/select2/4.1.0-beta.1/css/select2.min.css" rel="stylesheet">
+@endsection
 
 @section('content')
 <div class="container">
     <div class="row justify-content-center">
-        <div class="col-md-10">
+        {{-- <div class="col-md-10"> --}}
             <div class="card shadow-lg border-0">
-                <div class="card-header bg-primary text-white">{{ __('Dashboard') }}</div>
+                {{-- <div class="card-header bg-primary text-white">{{ __('Dashboard') }}</div> --}}
 
                 @if (session('success'))
                     <div class="alert alert-success alert-dismissible fade show" role="alert">
@@ -17,7 +27,7 @@
                 @endif
 
                 <div class="card-body">
-                    <h2 class="mb-4 text-center text-secondary">Station List</h2>
+                    {{-- <h2 class="mb-4 text-center text-secondary">Station List</h2> --}}
 
                     <div class="d-flex justify-content-between mb-3">
                         <a href="{{ route('station.create') }}" class="btn btn-success text-white">
@@ -33,6 +43,7 @@
                                 <th>#</th>
                                 <th>name</th>
                                 <th>path</th>
+                                <th>ٍStatus</th>
                                 <th>Tools</th>
                             </tr>
                         </thead>
@@ -42,6 +53,14 @@
                                     <td class="text-center">{{ $loop->iteration }}</td>
                                     <td>{{ $station->name }}</td>
                                     <td>{{ $station->path->name }}</td>
+                                    @php
+                                        $translation = [
+                                            0 => 'لم يتم الوصول لها بعد',
+                                            1 => 'تم االوصول إليها'
+                                        ]   
+                                    @endphp
+                                    <td>{{ $translation[$station->status]?? $station->status }}</td>
+
                                     <td class="text-center">
                                         <a href="{{ route('station.edit', $station->id) }}" class="btn btn-warning btn-sm text-white">
                                             <i class="bi bi-pencil-square"></i> Edit
@@ -64,13 +83,17 @@
                         </tbody>
                     </table>
 
-                    <a href="{{ route('all_trashed_station') }}" class="btn btn-danger">
+                    {{-- <a href="{{ route('all_trashed_station') }}" class="btn btn-danger">
                         <i class="bi bi-trash me-1"></i> Trashed Station
-                    </a>
+                    </a> --}}
 
                 </div>
             </div>
-        </div>
+        {{-- </div> --}}
     </div>
 </div>
+@endsection
+
+@section('scripts')
+
 @endsection

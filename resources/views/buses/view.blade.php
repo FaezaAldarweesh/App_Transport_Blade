@@ -74,9 +74,9 @@
                         </tbody>
                     </table>
 
-                    <a href="{{ route('all_trashed_bus') }}" class="btn btn-danger">
+                    {{-- <a href="{{ route('all_trashed_bus') }}" class="btn btn-danger">
                         <i class="bi bi-trash me-1"></i> Trashed Bus
-                    </a>
+                    </a> --}}
 
                 </div>
             </div>

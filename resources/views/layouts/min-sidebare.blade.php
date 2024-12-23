@@ -63,13 +63,13 @@
             <div class="collapse" id="base">
               <ul class="nav nav-collapse">
                 <li>
-                  <a href="components/avatars.html">
+                  <a href="{{ route('user.index') }}">
                     <span class="sub-item">All Users</span>
                   </a>
                 </li>
                 <li>
-                  <a href="components/buttons.html">
-                    <span class="sub-item">Trushed Users</span>
+                  <a href="{{ route('all_trashed_user') }}">
+                    <span class="sub-item">Trashed Users</span>
                   </a>
                 </li>
               </ul>
@@ -84,13 +84,13 @@
             <div class="collapse" id="sidebarLayouts">
               <ul class="nav nav-collapse">
                 <li>
-                  <a href="sidebar-style-2.html">
+                  <a href="{{ route('employee.index') }}">
                     <span class="sub-item">All Employees</span>
                   </a>
                 </li>
                 <li>
-                  <a href="icon-menu.html">
-                    <span class="sub-item">Trushed Employees</span>
+                  <a href="{{ route('all_trashed_employee') }}">
+                    <span class="sub-item">Trashed Employees</span>
                   </a>
                 </li>
               </ul>
@@ -105,13 +105,13 @@
             <div class="collapse" id="forms">
               <ul class="nav nav-collapse">
                 <li>
-                  <a href="forms/forms.html">
+                  <a href="{{ route('student.index') }}">
                     <span class="sub-item">All Students</span>
                   </a>
                 </li>
                 <li>
-                  <a href="forms/forms.html">
-                    <span class="sub-item">Trushed Students</span>
+                  <a href="{{ route('all_trashed_student') }}">
+                    <span class="sub-item">Trashed Students</span>
                   </a>
                 </li>
               </ul>
@@ -132,7 +132,7 @@
                 </li>
                 <li>
                   <a href="{{ route('all_trashed_driver') }}">
-                    <span class="sub-item">Trushed Driver</span>
+                    <span class="sub-item">Trashed Driver</span>
                   </a>
                 </li>
               </ul>
@@ -147,13 +147,13 @@
             <div class="collapse" id="maps">
               <ul class="nav nav-collapse">
                 <li>
-                  <a href="maps/googlemaps.html">
+                  <a href="{{ route('supervisor.index') }}">
                     <span class="sub-item">All Supervisor</span>
                   </a>
                 </li>
                 <li>
-                  <a href="maps/jsvectormap.html">
-                    <span class="sub-item">Trushed Supervisor</span>
+                  <a href="{{ route('all_trashed_supervisor') }}">
+                    <span class="sub-item">Trashed Supervisor</span>
                   </a>
                 </li>
               </ul>
@@ -174,7 +174,7 @@
                 </li>
                 <li>
                   <a href="{{ route('all_trashed_bus') }}">
-                    <span class="sub-item"> Trushed Busses</span>
+                    <span class="sub-item"> Trashed Busses</span>
                   </a>
                 </li>
               </ul>
@@ -195,15 +195,15 @@
             </a>
           </li> --}}
           <li class="nav-item">
-            <a data-bs-toggle="collapse" href="#submenu">
-              <i class="fas fa-bars"></i>
+            <a data-bs-toggle="collapse" href="#charts1">
+              <i class="far fa-chart-bar"></i>
               <p>Paths</p>
               <span class="caret"></span>
             </a>
-            <div class="collapse" id="submenu">
+            <div class="collapse" id="charts1">
               <ul class="nav nav-collapse">
                 <li>
-                  <a data-bs-toggle="collapse" href="#subnav1">
+                  <a href="{{ route('path.index') }}">
                     <span class="sub-item">All Paths</span>
                     {{-- <span class="caret"></span> --}}
                   </a>
@@ -223,7 +223,7 @@
                   </div> --}}
                 </li>
                 <li>
-                  <a data-bs-toggle="collapse" href="#subnav2">
+                  <a href="{{ route('all_trashed_path') }}">
                     <span class="sub-item">Trushed Paths</span>
                     {{-- <span class="caret"></span> --}}
                   </a>
@@ -240,6 +240,49 @@
               </ul>
             </div>
           </li>
+          <li class="nav-item">
+            <a data-bs-toggle="collapse" href="#charts2">
+              <i class="far fa-chart-bar"></i>
+              <p>Stations</p>
+              <span class="caret"></span>
+            </a>
+            <div class="collapse" id="charts2">
+              <ul class="nav nav-collapse">
+                <li>
+                  <a href="{{ route('station.index') }}">
+                    <span class="sub-item"> All Stations</span>
+                  </a>
+                </li>
+                <li>
+                  <a href="{{ route('all_trashed_station') }}">
+                    <span class="sub-item"> Trashed Stations</span>
+                  </a>
+                </li>
+              </ul>
+            </div>
+           </li> 
+          </li>
+          <li class="nav-item">
+            <a data-bs-toggle="collapse" href="#charts3">
+              <i class="far fa-chart-bar"></i>
+              <p>Trips</p>
+              <span class="caret"></span>
+            </a>
+            <div class="collapse" id="charts3">
+              <ul class="nav nav-collapse">
+                <li>
+                  <a href="{{ route('trip.index') }}">
+                    <span class="sub-item"> All Trips</span>
+                  </a>
+                </li>
+                <li>
+                  <a href="{{ route('all_trashed_trip') }}">
+                    <span class="sub-item"> Trashed Trips</span>
+                  </a>
+                </li>
+              </ul>
+            </div>
+           </li> 
           </li>
         </ul>
       </div>

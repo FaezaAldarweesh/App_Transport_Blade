@@ -1,74 +1,121 @@
 <?php
 
-namespace App\Http\Controllers;
+namespace App\Http\Controllers\BladeController;
 
-use App\Http\Requests\Employee_Request;
 use App\Models\Employee;
-use Illuminate\Http\Request;
-use Illuminate\Validation\Rule;
-use App\Services\EmployeeService;
+use App\Http\Controllers\Controller;
+use App\Http\Requests\Employee_Request\Employee_Request;
+use Illuminate\Support\Facades\Request;
+use App\Services\BladeServices\EmployeeService;
 
-class employeeController extends Controller
+class EmployeeController extends Controller
 {
-    protected $employeeservices;
-    public function __construct(EmployeeService $employeeservices){
-        $this -> employeeservices = $employeeservices;
+    protected $employeesevices;
+    /**
+     * construct to inject bus Services 
+     * @param BusService $busservices
+     */
+    public function __construct(EmployeeService $employeesevices)
+    {
+        $this->employeesevices = $employeesevices;
     }
-
-//>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>
-
-    public function index(){
-        return $this -> employeeservices -> show_main_page();
+    //===========================================================================================================================
+    /**
+     * method to view all buses
+     * @return /view
+     */
+    public function index()
+    {  
+        $employees = $this->employeesevices->get_all_employee();
+        return view('employees.view', compact('employees'));
     }
-
-//>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>
-
-    public function store(Employee_Request $request){
-        return $this -> employeeservices -> create_employee($request);
+    //===========================================================================================================================
+    /**
+     * method header to driver create page 
+     */
+    public function create(){
+        return view('employees.create');
     }
-
-//>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>
-
-    public function show(){
-        return $this -> employeeservices -> show_all_employees();
-    }
-//>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>
-
-    public function edit($id){
-        return $this -> employeeservices -> edit_employee($id);
-    }
-//>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>
-
-    public function update(Employee_Request $request, $id){
-        return $this -> employeeservices -> update_employee($request, $id);
+    //===========================================================================================================================
+    /**
+     * method to store a new bus
+     * @param   Store_Bus_Request $request
+     * @return /view
+     */
+    public function store(Employee_Request $request)
+    {
+        $buses = $this->employeesevices->create_employee($request->validated());
+        session()->flash('success', 'تمت عملية إضافة الموظف بنجاح');
+        return redirect()->route('employee.index');
     }
     
-//>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>
-
-    public function destroy($id){
-        return $this -> employeeservices -> delete_employee($id);
-     }
-
-//>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>
-
-     public function trush(){
-        $employee =  $this -> employeeservices -> trush();
-        return view('employee_trush',compact('employee'));
+    //===========================================================================================================================
+    /**
+    * method header bus to edit page
+    */
+    public function edit($employee_id){
+        $employee = Employee::findOrFail($employee_id);
+        return view('employees.update' , compact('employee'));
+    }
+    //===========================================================================================================================
+    /**
+     * method to update bus alraedy exist
+     * @param  Update_Bus_Request $request
+     * @param  $bus_id
+     * @return /view
+     */
+    public function update(Employee_Request $request, $employee_id)
+    {
+        $employee = $this->employeesevices->update_employee($request->validated(), $employee_id);
+        session()->flash('success', 'تمت عملية التعديل على الموظف بنجاح');
+        return redirect()->route('employee.index');
+    }
+    //===========================================================================================================================
+    /**
+     * method to soft delete bus alraedy exist
+     * @param  $bus_id
+     * @return /view
+     */
+    public function destroy($employee_id)
+    {
+        $employee = $this->employeesevices->delete_employee($employee_id);
+        session()->flash('success', 'تمت عملية إضافة الموظف للأرشيف بنجاح');
+        return redirect()->route('employee.index');
+    }
+    //========================================================================================================================
+    /**
+     * method to return all soft deleted bus
+     * @return /view
+     */
+    public function all_trashed_employee()
+    {
+        $employee = $this->employeesevices->all_trashed_employee();
+        return view('employees.trush', compact('employee'));
+    }
+    //========================================================================================================================
+    /**
+     * method to restore soft deleted bus alraedy exist
+     * @param   $bus_id
+     * @return /view
+     */
+    public function restore($employee_id)
+    {
+        $restore = $this->employeesevices->restore_employee($employee_id);
+        session()->flash('success', 'تمت عملية استعادة الموظف بنجاح');
+        return redirect()->route('all_trashed_employee');
+    }
+    //========================================================================================================================
+    /**
+     * method to force delete on bus that soft deleted before
+     * @param   $bus_id
+     * @return /view
+     */
+    public function forceDelete($employee_id)
+    {
+        $delete = $this->employeesevices->forceDelete_employee($employee_id);
+        session()->flash('success', 'تمت عملية حذف الموظف بنجاح');
+        return redirect()->route('all_trashed_employee');
+    }
         
-     }
-
-//>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>
-
-     public function restor($id){
-        $employee_restor = $this -> employeeservices -> restor_employee($id);
-        return redirect() -> route('employee.trush');
-     }
-
-//>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>
-
-     public function force_delete($id){
-        $deleted_employee = $this -> employeeservices -> force_delete_employee($id);
-        return redirect() -> route('employee.trush');
-     }
+    //========================================================================================================================
 }
-

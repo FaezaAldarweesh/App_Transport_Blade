@@ -285,22 +285,26 @@ class TripService {
         try {
             $Trip = Trip::onlyTrashed()->findOrFail($Trip_id);
 
-            $returnTrip = Trip::where('name', $Trip->name)
+            $returnTrip = Trip::withTrashed()
+                              ->where('name', $Trip->name)
                               ->where('type', $Trip->type === 'go' ? 'back' : 'go')
                               ->where('path_id', $Trip->path_id)
                               ->where('bus_id', $Trip->bus_id)
                               ->first();
 
             $Trip->restore();
-            $returnTrip->restore();
-
+            if($returnTrip){
+                $returnTrip->restore();
+    
+                $returnTrip->students()->withTrashed()->updateExistingPivot($returnTrip->students->pluck('id'), ['deleted_at' => null]);
+                $returnTrip->supervisors()->withTrashed()->updateExistingPivot($returnTrip->supervisors->pluck('id'), ['deleted_at' => null]);
+                $returnTrip->drivers()->withTrashed()->updateExistingPivot($returnTrip->drivers->pluck('id'), ['deleted_at' => null]);
+            }
+            
             $Trip->students()->withTrashed()->updateExistingPivot($Trip->students->pluck('id'), ['deleted_at' => null]);
             $Trip->supervisors()->withTrashed()->updateExistingPivot($Trip->supervisors->pluck('id'), ['deleted_at' => null]);
             $Trip->drivers()->withTrashed()->updateExistingPivot($Trip->drivers->pluck('id'), ['deleted_at' => null]);
-
-            $returnTrip->students()->withTrashed()->updateExistingPivot($returnTrip->students->pluck('id'), ['deleted_at' => null]);
-            $returnTrip->supervisors()->withTrashed()->updateExistingPivot($returnTrip->supervisors->pluck('id'), ['deleted_at' => null]);
-            $returnTrip->drivers()->withTrashed()->updateExistingPivot($returnTrip->drivers->pluck('id'), ['deleted_at' => null]);
+            
 
             return true;
         } catch (\Exception $e) {

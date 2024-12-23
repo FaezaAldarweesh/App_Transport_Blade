@@ -1,100 +1,135 @@
 <?php
-namespace App\Services;
 
-use Exceptoin;
+namespace App\Services\BladeServices;
+
 use App\Models\Employee;
-use Illuminate\Http\Request;
-use Illuminate\Validation\Rule;
 use Illuminate\Support\Facades\Log;
 
-
-
-class EmployeeService{
-    public function show_main_page(){
-
-        return view('employee');
+class EmployeeService {
+    /**
+     * method to view all buses 
+     * @return /Illuminate\Http\JsonResponse if have an error
+     */
+    public function get_all_employee(){
+        try {
+            $employee = Employee::all();
+            return $employee;
+        } catch (\Exception $e) {
+            Log::error('Error fetching employee: ' . $e->getMessage());
+            throw new \Exception('حدث خطأ أثناء محاولة الوصول إلى الموظفين');
+        } 
     }
-
-    public function create_employee($data){
-
-        // $incomingdata = $request -> validate([
-        //     'name' => ['required','regex:/^[a-zA-Z\s]+$/'],
-        //     'email' => ['required','email',Rule::unique('employees','email'),'email:rfc,dns'],
-        //     'em_job' => ['required','regex:/^[a-zA-Z\s]+$/'],
-        //     'age' => ['required'],
-        //     'salary' =>['string', 'regex:/^\d+(\.\d{1,2})?$/'],
-        //     'phone' => ['required','string','regex:/^09\d{8}$/']
-        // ]);
-        //Employee::create($incomingdata);
-        $new_employee = new Employee();
-        // $new_employee -> name = $request -> name;
-        // $new_employee -> email = $request -> email;
-        // $new_employee -> em_job = $request -> em_job;
-        // $new_employee -> age = $request -> age;
-        // $new_employee -> salary = $request -> salary;
-        // $new_employee -> phone = $request -> phone;
-        $new_employee -> name = $data['name'];
-        $new_employee -> em_job = $data['em_job'];
-        $new_employee -> phone = $data['phone'];
-        // $new_employee -> email = $data['email'];
-        // $new_employee -> age = $data['age'];
-        // $new_employee -> salary = $data['salary'];
-        $new_employee ->save(); 
-        return redirect() -> back();
-    }
-
-    public function show_all_employees(){
-
-        $employees = Employee::all();
-        return view('AllEmployee',compact('employees'));
-    }
+    //========================================================================================================================
+    /**
+     * method to store a new bus
+     * @param   $data
+     * @return /Illuminate\Http\JsonResponse ig have an error
+     */
+    public function create_employee($data) {
+        try {
+            $employee = new Employee(); 
+            $employee->name = $data['name'];
+            $employee->em_job = $data['em_job'];
+            $employee->phone = $data['phone'];
+            $employee->save();
     
-    public function edit_employee($id){
-        $data = Employee::find($id);
-        return view('UpdateEmployee', compact('data'));
-    }
-
-    public function update_employee($data, $id){
-
-        $employee = Employee::find($id);
-        // $employee -> name = $request -> name;
-        // $employee -> email = $request -> email;
-        // $employee -> em_job = $request -> em_job;
-        // $employee -> age = $request -> age;
-        // $employee -> salary = $request -> salary;
-        // $employee -> phone = $request -> phone;
-        $employee -> name = $data['name'];
-        $employee -> em_job = $data['em_job'];
-        $employee -> phone = $data['phone'];
-        // $employee -> email = $data['email'];
-        // $employee -> age = $data['age'];
-        // $employee -> salary = $data['salary'];
-        $employee -> save();
-        return redirect() ->back();
-    }
-
-    public function delete_employee($id){
-        $data = Employee::find($id);
-        $data -> delete();
-        if($data){
-            return redirect() -> back() -> with('employee deleted succsessfully');
+            return $employee; 
+        } catch (\Exception $e) {
+            Log::error('Error creating employee: ' . $e->getMessage());
+            throw new \Exception('حدث خطأ أثناء محاولة إضافة موظف جديد');
         }
-        else{
-            return redirect() -> back() -> with('employee not found');
+    }    
+    //========================================================================================================================
+    /**
+     * method to update bus alraedy exist
+     * @param  $data
+     * @param  $bus_id
+     * @return /Illuminate\Http\JsonResponse if have an error
+     */
+    public function update_employee($data, $employee_id){
+        try {  
+            $employee = Employee::findOrFail($employee_id);
+            $employee->name = $data['name'] ?? $employee->name;
+            $employee->em_job = $data['em_job'] ?? $employee->em_job;
+            $employee->phone = $data['phone'] ?? $employee->phone;
+
+            $employee->save(); 
+            return $employee;
+
+        } catch (\Exception $e) {
+            Log::error('Error updating employee: ' . $e->getMessage());
+            throw new \Exception('حدث خطأ أثناء محاولة التعديل على الموظف');
         }
     }
-    public function trush(){
-        
-        return Employee::onlyTrashed()->get();
-        
+    //========================================================================================================================
+    /**
+     * method to soft delete bus alraedy exist
+     * @param  $bus_id
+     * @return /Illuminate\Http\JsonResponse if have an error
+     */
+    public function delete_employee($employee_id)
+    {
+        try
+        {
+            $employee = Employee::find($employee_id);
+            // $employee->trips()->delete();
+            $employee->delete();
+            return true;
+        }    
+         catch (\Exception $e) {
+            Log::error('Error Deleting employee: '.$e->getMessage());
+            throw new \Exception('حدث خطأ أثناء محاولة حذف الموظف');
+        }
     }
-    public function restor_employee($id){
-        $employee = Employee::onlyTrashed() -> findOrFail($id);
-        $employee -> restore();
-        return $employee;
+    //========================================================================================================================
+    /**
+     * method to return all soft delete bus
+     * @return /Illuminate\Http\JsonResponse if have an error
+     */
+    public function all_trashed_employee()
+    {
+        try {  
+            return Employee::onlyTrashed()->get();
+        } catch (\Exception $e) {
+            Log::error('Error fetching trashed employee: ' . $e->getMessage());
+            throw new \Exception('حدث خطأ أثناء محاولة الوصول إلى أرشيف الموظفين');
+        }
     }
-    public function force_delete_employee($id){
-        $employee = Employee::onlyTrashed() -> findOrFail($id);
-        $employee -> forceDelete();
+    //========================================================================================================================
+    /**
+     * method to restore soft delete bus alraedy exist
+     * @param   $bus_id
+     * @return /Illuminate\Http\JsonResponse if have an error
+     */
+    public function restore_employee($employee_id)
+    {
+        try {
+            $employee = Employee::onlyTrashed()->findOrFail($employee_id);
+            // $employee->trips()->restore();
+            $employee->restore();
+            return true;
+        } catch (\Exception $e) {
+            Log::error('Error restoring employee: ' . $e->getMessage());
+            throw new \Exception('حدث خطأ أثناء محاولة إستعادة الموظف');
+        }
     }
+    //========================================================================================================================
+    /**
+     * method to force delete on bus that soft deleted before
+     * @param   $bus_id
+     * @return /Illuminate\Http\JsonResponse if have an error
+     */
+    public function forceDelete_employee($employee_id)
+    {   
+        try {
+            $employee = Employee::onlyTrashed()->findOrFail($employee_id);
+            // $employee->trips()->forceDelete();
+            return $employee->forceDelete();
+        } catch (\Exception $e) {
+            Log::error('Error force deleting employee: ' . $e->getMessage());
+            throw new \Exception('حدث خطأ أثناء محاولة حذف أرشيف الموظف');
+        }
+    }
+    //========================================================================================================================
+
 }

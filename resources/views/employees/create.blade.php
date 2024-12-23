@@ -1,7 +1,7 @@
 @extends('layouts.master')
 
 @section('title')
-إنشاء سائق
+إنشاء موظف
 @endsection
 
 @section('css')
@@ -29,7 +29,7 @@
                         </div>
                     @endif
 
-                    <form action="{{ route('driver.store') }}" method="POST">
+                    <form action="{{ route('employee.store') }}" method="POST">
                         @csrf
 
                         <div class="mb-3">
@@ -41,6 +41,14 @@
                         </div>
                         
                         <div class="mb-3">
+                            <label for="em_job" class="form-label">Employee Job</label>
+                            <input type="text" class="form-control @error('em_job') is-invalid @enderror" id="em_job" name="em_job">
+                            @error('em_job')
+                                <div class="invalid-feedback">{{ $message }}</div>
+                            @enderror
+                        </div>
+
+                        <div class="mb-3">
                             <label for="phone" class="form-label">Phone</label>
                             <input type="text" class="form-control @error('phone') is-invalid @enderror" id="phone" name="phone">
                             @error('phone')
@@ -48,17 +56,9 @@
                             @enderror
                         </div>
 
-                        <div class="mb-3">
-                            <label for="location" class="form-label">Location</label>
-                            <input type="text" class="form-control @error('location') is-invalid @enderror" id="location" name="location">
-                            @error('location')
-                                <div class="invalid-feedback">{{ $message }}</div>
-                            @enderror
-                        </div>
-
                         <div class="d-flex justify-content-end mt-4">
-                            <button type="submit" class="btn btn-primary">Add Driver</button>
-                            <a href="{{ route('driver.index') }}" class="btn btn-secondary ms-2">Back</a>
+                            <button type="submit" class="btn btn-primary">Add Employee</button>
+                            <a href="{{ route('employee.index') }}" class="btn btn-secondary ms-2">Back</a>
                         </div>
                     </form>
                 </div>
@@ -66,8 +66,4 @@
         {{-- </div> --}}
     </div>
 </div>
-@endsection
-
-@section('scripts')
-
 @endsection
