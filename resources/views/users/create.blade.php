@@ -1,7 +1,7 @@
 @extends('layouts.master')
 
 @section('title')
-إنشاء سائق
+إنشاء مستخدم
 @endsection
 
 @section('css')
@@ -29,7 +29,7 @@
                         </div>
                     @endif
 
-                    <form action="{{ route('driver.store') }}" method="POST">
+                    <form action="{{ route('user.store') }}" method="POST">
                         @csrf
 
                         <div class="mb-3">
@@ -41,24 +41,32 @@
                         </div>
                         
                         <div class="mb-3">
-                            <label for="phone" class="form-label">Phone</label>
-                            <input type="text" class="form-control @error('phone') is-invalid @enderror" id="phone" name="phone">
-                            @error('phone')
+                            <label for="email" class="form-label">Email</label>
+                            <input type="text" class="form-control @error('email') is-invalid @enderror" id="email" name="email">
+                            @error('email')
                                 <div class="invalid-feedback">{{ $message }}</div>
                             @enderror
                         </div>
 
                         <div class="mb-3">
-                            <label for="location" class="form-label">Location</label>
-                            <input type="text" class="form-control @error('location') is-invalid @enderror" id="location" name="location">
-                            @error('location')
+                            <label for="password" class="form-label">Password</label>
+                            <input type="text" class="form-control @error('password') is-invalid @enderror" id="passworrd" name="password">
+                            @error('password')
                                 <div class="invalid-feedback">{{ $message }}</div>
                             @enderror
                         </div>
 
+                        {{-- <div class="mb-3">
+                            <label for="role" class="form-label">Role</label>
+                            <input type="text" class="form-control @error('role') is-invalid @enderror" id="role" name="role">
+                            @error('role')
+                                <div class="invalid-feedback">{{ $message }}</div>
+                            @enderror
+                        </div> --}}
+
                         <div class="d-flex justify-content-end mt-4">
-                            <button type="submit" class="btn btn-primary">Add Driver</button>
-                            <a href="{{ route('driver.index') }}" class="btn btn-secondary ms-2">Back</a>
+                            <button type="submit" class="btn btn-primary">Add User</button>
+                            <a href="{{ route('user.index') }}" class="btn btn-secondary ms-2">Back</a>
                         </div>
                     </form>
                 </div>

@@ -93,8 +93,9 @@ class StudentController extends Controller
      */
     public function all_trashed_student()
     {
+        $users = User::onlyTrashed();
         $students = $this->studentservices->all_trashed_student();
-        return view('students.trashed', compact('students'));
+        return view('students.trashed', compact('students','users'));
     }
     //========================================================================================================================
     /**

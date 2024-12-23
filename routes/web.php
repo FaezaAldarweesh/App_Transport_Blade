@@ -2,13 +2,14 @@
 
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Route;
-use App\Http\Controllers\employeeController;
 use App\Http\Controllers\BladeController\BusController;
 use App\Http\Controllers\BladeController\PathController;
 use App\Http\Controllers\BladeController\TripController;
+use App\Http\Controllers\BladeController\UserController;
 use App\Http\Controllers\BladeController\DriverController;
 use App\Http\Controllers\BladeController\StationController;
 use App\Http\Controllers\BladeController\StudentController;
+use App\Http\Controllers\BladeController\EmployeeController;
 use App\Http\Controllers\BladeController\SupervisorController;
 
 /*
@@ -25,10 +26,11 @@ use App\Http\Controllers\BladeController\SupervisorController;
 Route::get('/', function () {
     return view('welcome');
 });
-Route::get('/bus', function () {
-    return view('buses.view');
+Route::get('/user', function () {
+    return view('users.view');
 });
-Auth::routes();
+
+Auth::routes(['register' => false]);
 
 Route::get('/home', [App\Http\Controllers\HomeController::class, 'index'])->name('home');
 
@@ -67,7 +69,12 @@ Route::get('all_trashed_trip', [TripController::class, 'all_trashed_trip'])->nam
 Route::get('restore_trip/{trip_id}', [TripController::class, 'restore'])->name('restore_trip');
 Route::delete('forceDelete_trip/{trip_id}', [TripController::class, 'forceDelete'])->name('forceDelete_trip');
 
-Route::resource('employee', employeeController::class); 
-Route::get('/trush',[employeeController::class,'trush']) -> name("employee.trush");
-Route::get('restor/{id}',[employeeController::class,'restor']) -> name("employee.restor");
-Route::delete('force_delete/{id}',[employeeController::class,'force_delete']) -> name("employee.force_delete");
+Route::resource('employee', EmployeeController::class); 
+Route::get('all_trashed_employee',[EmployeeController::class,'all_trashed_employee']) -> name("all_trashed_employee");
+Route::get('restor_employee/{employee_id}',[EmployeeController::class,'restore']) -> name("restore_employee");
+Route::delete('forceDelete/{employee_id}',[EmployeeController::class,'forceDelete']) -> name("forceDelete_employee");
+
+Route::resource('user', UserController::class);
+Route::get('all_trushed_user',[UserController::class,'all_trushed_user']) -> name("all_trashed_user");
+Route::get('restore_user/{user_id}',[UserController::class,'restore']) ->name('restore_user');
+Route::delete('forceDelete_user/{user_id}',[UserController::class,'forceDelete']) ->name("forceDelete_user");

@@ -28,9 +28,8 @@ class Update_User_Request extends FormRequest
         $user_id = $this->route('user');
 
         return [
-            'first_name' => 'sometimes|nullable|regex:/^[\p{L}\s]+$/u|min:2|max:50',
-            'last_name' => 'sometimes|nullable|regex:/^[\p{L}\s]+$/u|min:2|max:50',
-            'email' => ['sometimes','nullable', 'min:2','max:50', Rule::unique('users', 'username')->ignore($user_id)],
+            'name' => 'sometimes|nullable|regex:/^[\p{L}\s]+$/u|min:2|max:50',
+            'email' => ['sometimes','nullable', 'min:6','max:50','email', Rule::unique('users', 'email')->ignore($user_id)],
             'password' => 'sometimes|nullable|string|min:8',
         ];
     }
@@ -46,7 +45,7 @@ class Update_User_Request extends FormRequest
     {
         return [
             'name' => 'اسم الأب',
-            'username' => 'اسم المستخدم',
+            'email' => 'اسم المستخدم',
             'password' => 'كلمة المرور',
         ];
     }
@@ -55,12 +54,13 @@ class Update_User_Request extends FormRequest
     public function messages(): array
     {
         return [
-            'unique' => ':attribute  موجود سابقاً , يجب أن يكون :attribute غير مكرر',
             'regex' => 'يجب أن يحوي  :attribute على أحرف فقط',
-            'max' => 'الحد الأقصى لطول  :attribute هو 50 حرف',
-            'string' => 'يجب أن يكون :attribute عبارة عن سلسة نصية',
             'name.min' => 'الحد الأدنى لطول :attribute على الأقل هو 2 حرف',
-            'username.min' => 'الحد الأدنى لطول :attribute على الأقل هو 2 حرف',
+            'max' => 'الحد الأقصى لطول  :attribute هو 50 حرف',
+            'email.min' => 'الحد الأدنى لطول :attribute على الأقل هو 2 حرف',
+            'email' => 'يجب أن يكون :attribute عبارة عن  إيميل يحوي علامة @',
+            'unique' => ':attribute  موجود سابقاً , يجب أن يكون :attribute غير مكرر',
+            'string' => 'يجب أن يكون :attribute عبارة عن سلسة نصية',
             'password.min' => 'الحد الأدنى لطول :attribute على الأقل هو 8 محرف',
         ];
     }

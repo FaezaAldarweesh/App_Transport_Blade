@@ -1,11 +1,21 @@
-@extends('layouts.app')
+@extends('layouts.master')
+
+@section('title')
+أرشيف المسارات
+@endsection
+
+@section('css')
+<link rel="dns-prefetch" href="//fonts.bunny.net">
+<link href="https://fonts.bunny.net/css?family=Nunito" rel="stylesheet">
+<link href="https://cdnjs.cloudflare.com/ajax/libs/select2/4.1.0-beta.1/css/select2.min.css" rel="stylesheet">
+@endsection
 
 @section('content')
 <div class="container">
     <div class="row justify-content-center">
-        <div class="col-md-10">
+        {{-- <div class="col-md-10"> --}}
             <div class="card shadow-lg border-0">
-                <div class="card-header bg-primary text-white">{{ __('Dashboard') }}</div>
+                {{-- <div class="card-header bg-primary text-white">{{ __('Dashboard') }}</div> --}}
 
                 @if (session('success'))
                     <div class="alert alert-success alert-dismissible fade show" role="alert">
@@ -17,7 +27,7 @@
                 @endif
 
                 <div class="card-body">
-                    <h2 class="mb-4 text-center text-secondary">Trashed Path List</h2>
+                    {{-- <h2 class="mb-4 text-center text-secondary">Trashed Path List</h2> --}}
 
                     <div class="d-flex justify-content-end mb-3">
                          <a href="{{ route('path.index') }}" class="btn btn-secondary ms-2">Back</a>
@@ -62,7 +72,11 @@
                     </table>
                 </div>
             </div>
-        </div>
+        {{-- </div> --}}
     </div>
 </div>
+@endsection
+
+@section('scripts')
+
 @endsection

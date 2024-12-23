@@ -28,6 +28,7 @@ class Update_Station_Request extends FormRequest
         return [
             'name' => 'sometimes|nullable|string|min:4|max:50',
             'path_id' => 'sometimes|nullable|integer|exists:paths,id',
+            'status' => 'sometimes|nullable|string|in:0,1'
         ];
     }
     //===========================================================================================================================
@@ -43,6 +44,7 @@ class Update_Station_Request extends FormRequest
         return [
             'name' => 'اسم الشعبة',
             'path_id' => 'اسم الصف',
+            'status' => 'حالة المحطة',
         ];
     }
     //===========================================================================================================================
@@ -54,6 +56,7 @@ class Update_Station_Request extends FormRequest
             'min' => 'الحد الأدنى لطول :attribute على الأقل هو 4 حرف',
             'integer' => 'يجب أن يكون الحقل :attribute من نمط int',
             'exists' => 'يجب أن يكون :attribute موجودا مسبقا',
+            'in' => 'يجب أن تكون قيمة الحقل :attribute إحدى القيم التالية: 0,1'
         ];
     }
 }

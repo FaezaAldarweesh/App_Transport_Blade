@@ -76,17 +76,13 @@
                         </tbody>
                     </table>
 
-                    <a href="{{ route('all_trashed_driver') }}" class="btn btn-danger">
+                    {{-- <a href="{{ route('all_trashed_driver') }}" class="btn btn-danger">
                         <i class="bi bi-trash me-1"></i> Trashed Driver
-                    </a>
+                    </a> --}}
 
                 </div>
             </div>
         {{-- </div> --}}
     </div>
 </div>
-@endsection
-
-@section('scripts')
-
 @endsection

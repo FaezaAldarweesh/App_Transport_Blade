@@ -25,9 +25,8 @@ class Store_User_Request extends FormRequest
     public function rules(): array
     {
         return [
-            'first_name' => 'required|regex:/^[\p{L}\s]+$/u|min:2|max:50',
-            'last_name' => 'required|regex:/^[\p{L}\s]+$/u|min:2|max:50',
-            'email' => 'required|min:6|max:50|unique:users,username',
+            'name' => 'required|regex:/^[\p{L}\s]+$/u|min:2|max:50',
+            'email' => 'required|min:6|max:50|email|unique:users,email',
             'password' => 'required|string|min:8',
         ];
     }
@@ -43,7 +42,7 @@ class Store_User_Request extends FormRequest
     {
         return [
             'name' => 'اسم الأب',
-            'username' => 'اسم المستخدم',
+            'email' => 'اسم المستخدم',
             'password' => 'كلمة المرور',
         ];
     }
@@ -53,12 +52,13 @@ class Store_User_Request extends FormRequest
     {
         return [
             'required' => ' :attribute مطلوب',
-            'unique' => ':attribute  موجود سابقاً , يجب أن يكون :attribute غير مكرر',
             'regex' => 'يجب أن يحوي  :attribute على أحرف فقط',
-            'max' => 'الحد الأقصى لطول  :attribute هو 50 حرف',
-            'string' => 'يجب أن يكون :attribute عبارة عن سلسة نصية',
             'name.min' => 'الحد الأدنى لطول :attribute على الأقل هو 2 حرف',
-            'username.min' => 'الحد الأدنى لطول :attribute على الأقل هو 2 حرف',
+            'max' => 'الحد الأقصى لطول  :attribute هو 50 حرف',
+            'email.min' => 'الحد الأدنى لطول :attribute على الأقل هو 2 حرف',
+            'email' => 'يجب أن يكون :attribute عبارة عن  إيميل يحوي علامة @',
+            'unique' => ':attribute  موجود سابقاً , يجب أن يكون :attribute غير مكرر',
+            'string' => 'يجب أن يكون :attribute عبارة عن سلسة نصية',
             'password.min' => 'الحد الأدنى لطول :attribute على الأقل هو 8 محرف',
         ];
     }

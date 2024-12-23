@@ -1,11 +1,20 @@
-@extends('layouts.app')
+@extends('layouts.master')
 
+@section('title')
+الطلاب
+@endsection
+
+@section('css')
+<link rel="dns-prefetch" href="//fonts.bunny.net">
+<link href="https://fonts.bunny.net/css?family=Nunito" rel="stylesheet">
+<link href="https://cdnjs.cloudflare.com/ajax/libs/select2/4.1.0-beta.1/css/select2.min.css" rel="stylesheet">
+@endsection
 @section('content')
-<div class="container">
+<div class="container" style="margin-top: 70px">
     <div class="row justify-content-center">
-        <div class="col-md-10">
+        {{-- <div class="col-md-10"> --}}
             <div class="card shadow-lg border-0">
-                <div class="card-header bg-primary text-white">{{ __('Dashboard') }}</div>
+                {{-- <div class="card-header bg-primary text-white">{{ __('Dashboard') }}</div> --}}
 
                 @if (session('success'))
                     <div class="alert alert-success alert-dismissible fade show" role="alert">
@@ -17,7 +26,7 @@
                 @endif
 
                 <div class="card-body">
-                    <h2 class="mb-4 text-center text-secondary">Student List</h2>
+                    {{-- <h2 class="mb-4 text-center text-secondary">Student List</h2> --}}
 
                     <div class="d-flex justify-content-between mb-3">
                         <a href="{{ route('student.create') }}" class="btn btn-success text-white">
@@ -37,7 +46,6 @@
                                 <th>longitude</th>
                                 <th>latitude</th>
                                 <th>parent</th>
-                                <th>status</th>
                                 <th>Tools</th>
                             </tr>
                         </thead>
@@ -51,22 +59,6 @@
                                     <td>{{ $student->longitude }}</td>
                                     <td>{{ $student->latitude }}</td>
                                     <td>{{ $student->user->name }}</td>
-                                    @php
-                                        $translations = [
-                                            'attendee' => 'موجود',
-                                            'absent_all' => 'غائب تمامًا',
-                                            'absent_go' => 'غائب عن الذهاب',
-                                            'absent_back' => 'غائب عن العودة',
-                                            'transported' => 'تم نقله',
-                                        ];
-                                    @endphp
-
-                                    <td>
-                                        <span class="badge 
-                                            {{ $student->status == 'attendee' ? 'bg-success' : 'bg-warning text-dark' }}">
-                                            {{ $translations[$student->status] ?? $student->status }}
-                                        </span>
-                                    </td>
                                     <td class="text-center">
                                         <a href="{{ route('student.edit', $student->id) }}" class="btn btn-warning btn-sm text-white">
                                             <i class="bi bi-pencil-square"></i> Edit
@@ -89,9 +81,9 @@
                         </tbody>
                     </table>
 
-                    <a href="{{ route('all_trashed_student') }}" class="btn btn-danger">
+                    {{-- <a href="{{ route('all_trashed_student') }}" class="btn btn-danger">
                         <i class="bi bi-trash me-1"></i> Trashed Student
-                    </a>
+                    </a> --}}
 
                 </div>
             </div>
