@@ -143,6 +143,11 @@
                                                 <i class="bi bi-trash"></i> Delete
                                             </button>
                                         </form>
+                                        @if($user->role == 'user')
+                                        <a href="{{ route('user.show', $user->id) }}" class="btn btn-info btn-sm">
+                                            <i class="bi bi-eye"></i> View
+                                        </a>
+                                        @endif
                                 </tr>  
                             @empty
                                 <tr>

@@ -58,6 +58,12 @@ class PathController extends Controller
         return view('paths.update' , compact('path'));
     }
     //===========================================================================================================================
+    public function show($path_id)
+    {
+        $path = $this->pathservices->view_path($path_id);
+        return view('paths.show', compact('path'));
+    }
+    //===========================================================================================================================
     /**
      * method to update path alraedy exist
      * @param  Update_Path_Request $request

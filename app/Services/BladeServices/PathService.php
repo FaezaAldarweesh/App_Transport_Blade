@@ -38,7 +38,23 @@ class PathService {
             Log::error('Error creating path: ' . $e->getMessage());
             throw new \Exception('حدث خطأ أثناء محاولة إضافة مسار جديد');
         }
-    }    
+    }  
+    
+    //========================================================================================================================
+
+    public function view_path($path_id)
+    {
+        try{    
+            $path = Path::findOrFail($path_id);
+            $path->with('stations')->get();
+            return $path;
+        }
+        catch(\Exception $e)
+        {
+            Log::error('Error view path:'.$e->getMessage());
+            throw new \Exception($e->getMessage());
+        }
+    }
     //========================================================================================================================
     /**
      * method to update path alraedy exist
