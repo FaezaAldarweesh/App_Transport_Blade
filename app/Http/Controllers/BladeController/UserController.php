@@ -8,6 +8,7 @@ use App\Http\Controllers\Controller;
 use App\Services\BladeServices\UserService;
 use App\Http\Requests\User_Rqeuests\Store_User_Request;
 use App\Http\Requests\User_Rqeuests\Update_User_Request;
+use App\Models\Student;
 
 class UserController extends Controller
 {
@@ -60,6 +61,15 @@ class UserController extends Controller
         $user = User::findOrFail($user_id);
         return view('users.update' , compact('user'));
     }
+
+    //===========================================================================================================================
+
+    public function show($user_id){
+        $user = $this->userservices->view_user($user_id);
+        // $students = Student::all();
+        return view('users.show', compact('user'));
+    }
+
     //===========================================================================================================================
     /**
      * method to update user alraedy exist

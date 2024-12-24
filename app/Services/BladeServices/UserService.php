@@ -42,6 +42,21 @@ class UserService {
             throw new \Exception('حدث خطأ أثناء محاولة إضافة مستحدم جديد');
         }
     }    
+
+    //========================================================================================================================
+
+    public function view_user($user_id){
+        try{
+            $user = User::findOrFail($user_id);
+            $user->with('students')->get();
+            return $user;
+        }       
+        catch(\Exception $e){
+            Log::error('Error view user'.$e->getMessage());
+            throw new \Exception($e->getMessage());
+        } 
+    }
+    
     //========================================================================================================================
     /**
      * method to update user alraedy exist

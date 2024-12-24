@@ -22,7 +22,7 @@ class Station extends Model
 
     public function path (){
         
-        return $this->belongsTo(Path::class,'path_id','id');
+        return $this->belongsTo(Path::class,'path_id','id')->withTrashed();
 
     }
 }

@@ -23,25 +23,25 @@ class Trip extends Model
 
     public function path (){
         
-        return $this->belongsTo(Path::class);
+        return $this->belongsTo(Path::class)->withTrashed();
     }
     public function students (){
         
-        return $this->belongsToMany(Student::class);
+        return $this->belongsToMany(Student::class)->withTrashed();
     }
 
     public function supervisors (){
         
-        return $this->belongsToMany(Supervisor::class);
+        return $this->belongsToMany(Supervisor::class)->withTrashed();
     }
 
     public function drivers (){
         
-        return $this->belongsToMany(Driver::class);
+        return $this->belongsToMany(Driver::class)->withTrashed();
     }
 
     public function bus (){
         
-        return $this->belongsTo(Bus::class);
+        return $this->belongsTo(Bus::class)->withTrashed();
     }
 }

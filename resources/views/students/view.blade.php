@@ -91,3 +91,7 @@
     </div>
 </div>
 @endsection
+
+@section('scripts')
+{{-- @vite(['resources/sass/app.scss', 'resources/js/app.js']) --}}
+@endsection
