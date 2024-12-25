@@ -56,9 +56,8 @@
                                     <td>{{ $student->mather_phone }}</td>
                                     <td>{{ $student->longitude }}</td>
                                     <td>{{ $student->latitude }}</td>
-                                    @foreach ($users as $user)  
-                                        <td>{{ $student->user->name }}</td>
-                                    @endforeach
+                                    <td>{{ $student->user?$student->user->name:'N/A'}}</td>
+                                    
                                     @php
                                         $translations = [
                                             'attendee' => 'موجود',
