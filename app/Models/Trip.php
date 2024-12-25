@@ -30,9 +30,9 @@ class Trip extends Model
         return $this->belongsToMany(Student::class)->withTrashed();
     }
 
-    public function supervisors (){
+    public function users (){
         
-        return $this->belongsToMany(Supervisor::class)->withTrashed();
+        return $this->belongsToMany(User::class)->withTrashed();
     }
 
     public function drivers (){

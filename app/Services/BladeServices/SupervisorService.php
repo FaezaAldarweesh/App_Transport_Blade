@@ -2,6 +2,7 @@
 
 namespace App\Services\BladeServices;
 
+use App\Models\User;
 use App\Models\Supervisor;
 use Illuminate\Support\Facades\Log;
 
@@ -30,12 +31,18 @@ class SupervisorService {
         try {
             $Supervisor = new Supervisor();
             $Supervisor->name = $data['name'];
-            $Supervisor->username = $data['username'];
-            $Supervisor->password = $data['password'];
-            $Supervisor->location = $data['location'];
             $Supervisor->phone = $data['phone'];
+            $Supervisor->location = $data['location'];
             
             $Supervisor->save(); 
+
+            $user = new User();
+            $user->name = $data['name'];
+            $user->email = $data['email'];
+            $user->password = $data['password'];
+            $user->role = 'supervisor';
+            
+            $user->save(); 
     
             return $Supervisor; 
         } catch (\Exception $e) {
@@ -53,18 +60,21 @@ class SupervisorService {
     public function update_Supervisor($data,$Supervisor_id){
         try {  
             $Supervisor = Supervisor::findOrFail($Supervisor_id);
-            $Supervisor->name = $data['name'] ?? $Supervisor->name;
-            $Supervisor->username = $data['username'] ?? $Supervisor->username;
-            $Supervisor->password = $data['password'] ?? $Supervisor->password;  
-            $Supervisor->location = $data['location'] ?? $Supervisor->location;  
-            $Supervisor->phone = $data['phone'] ?? $Supervisor->phone;  
+            $user = User::where('name','=',$Supervisor->name)->first();
 
+            $Supervisor->name = $data['name'] ?? $Supervisor->name; 
+            $Supervisor->phone = $data['phone'] ?? $Supervisor->phone;  
+            $Supervisor->location = $data['location'] ?? $Supervisor->location;  
             $Supervisor->save();  
+
+            $user->name = $data['name'] ?? $user->name;
+            $user->save();  
+
             return $Supervisor;
             
         } catch (\Exception $e) {
             Log::error('Error updating supervisor: ' . $e->getMessage());
-            throw new \Exception('حدث خطأ أثناء محاولة التعديل على المشرف');
+            throw new \Exception($e->getMessage());
         }
     }
     //========================================================================================================================
@@ -77,7 +87,9 @@ class SupervisorService {
     {
         try {  
             $Supervisor = Supervisor::findOrFail($Supervisor_id);
+            $user = User::where('name','=',$Supervisor->name)->first();
             $Supervisor->delete();
+            $user->delete();
             return true;
         } catch (\Exception $e) {
             Log::error('Error Deleting supervisor: ' . $e->getMessage());
@@ -108,7 +120,9 @@ class SupervisorService {
     {
         try {
             $Supervisor = Supervisor::onlyTrashed()->findOrFail($Supervisor_id);
+            $user = User::onlyTrashed()->where('name','=',$Supervisor->name)->first();
             $Supervisor->restore();
+            $user->restore();
             return $Supervisor;
         } catch (\Exception $e) {
             Log::error('Error restoring supervisor: ' . $e->getMessage());
@@ -125,7 +139,9 @@ class SupervisorService {
     {   
         try {
             $Supervisor = Supervisor::onlyTrashed()->findOrFail($Supervisor_id);
+            $user = User::onlyTrashed()->where('name','=',$Supervisor->name)->first();
             $Supervisor->forceDelete();
+            $user->forceDelete();
             return true;
         } catch (\Exception $e) {
             Log::error('Error force deleting supervisor: ' . $e->getMessage());

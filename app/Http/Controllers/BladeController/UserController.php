@@ -66,7 +66,6 @@ class UserController extends Controller
 
     public function show($user_id){
         $user = $this->userservices->view_user($user_id);
-        // $students = Student::all();
         return view('users.show', compact('user'));
     }
 

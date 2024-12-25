@@ -6,9 +6,9 @@ use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Relations\Pivot;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 
-class SupervisorTrip extends Pivot
+class TripUser extends Pivot
 {
     use HasFactory;
 
-    protected $table = 'supervisor_trip';
+    protected $table = 'trip_user';
 }

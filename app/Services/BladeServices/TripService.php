@@ -12,6 +12,7 @@ use App\Models\Supervisor;
 use App\Models\StudentTrip;
 use App\Models\SupervisorTrip;
 use Illuminate\Support\Facades\Log;
+use Illuminate\Support\Facades\Auth;
 use App\Http\Traits\ApiResponseTrait;
 use App\Http\Traits\AllStudentsByTripTrait;
 
@@ -22,7 +23,11 @@ class TripService {
      */
     public function get_all_Trips(){
         try {
-            $Trips = Trip::all();
+            if(Auth::user()->role == 'supervisor'){
+                $Trips = SupervisorTrip::where('supervisor_id','=',Auth::id());
+            }else{
+                $Trips = Trip::all();
+            }
             return $Trips;
         } catch (\Exception $e) {
             Log::error('Error fetching Trip: ' . $e->getMessage());
@@ -83,6 +88,50 @@ class TripService {
                 if ($existingDriver) {
                     return redirect()->back()->withErrors(['error' => 'تم إضافة هذا السائق إلى رحلة توصيل أخرى مسبقاً']);
                 }
+
+            }elseif($data['name'] === 'school'){
+                //جلب كل الرحل المدرسية بتاريخ اليوم    
+                $existingTripsToday = Trip::where('name', 'school')
+                                          ->whereDate('created_at', now()->toDateString())
+                                          ->pluck('id');
+            
+                // التحقق من الطالب
+                $existingStudent = StudentTrip::whereIn('trip_id', $existingTripsToday)
+                                              ->where('student_id', $data['students'])
+                                              ->exists();
+                if ($existingStudent) {
+                    return redirect()->back()->withErrors(['error' => 'تم إضافة هذا الطالب إلى رحلة  مدرسية أخرى بتاريخ اليوم']);
+                }
+            
+                // التحقق من المشرف
+                $existingSupervisor = SupervisorTrip::whereIn('trip_id', $existingTripsToday)
+                                                    ->where('supervisor_id', $data['supervisors'])
+                                                    ->exists();
+                if ($existingSupervisor) {
+                    return redirect()->back()->withErrors(['error' => 'تم إضافة هذا المشرف إلى رحلة مدرسية أخرى بتاريخ اليوم']);
+                }
+            
+                // التحقق من السائق
+                $existingDriver = DriverTrip::whereIn('trip_id', $existingTripsToday)
+                                            ->where('driver_id', $data['drivers'])
+                                            ->exists();
+                if ($existingDriver) {
+                    return redirect()->back()->withErrors(['error' => 'تم إضافة هذا السائق إلى رحلة مدرسية أخرى بتاريخ اليوم']);
+                }
+
+                 // التحقق من الباص
+                $existingBus = Trip::where('name', 'school')
+                                    ->where('bus_id', $data['bus_id'])
+                                    ->whereDate('created_at', now()->toDateString())
+                                    ->exists();
+                if ($existingBus) {
+                    return redirect()->back()->withErrors(['error' => 'تم استخدام هذا الباص في رحلة مدرسية أخرى بتاريخ اليوم']);
+                }
+            }
+
+            $bus = Bus::find($data['bus_id']);
+            if (count($data['students']) > $bus->number_of_seats) {
+                return redirect()->back()->withErrors(['error' => 'عدد الطلاب يجب أن يساوي عدد مقاعد الباص ']);
             }
     
             // إنشاء رحلتي ذهاب وإياب
@@ -143,7 +192,7 @@ class TripService {
                               ->where('bus_id', $trip->bus_id)
                               ->first();
     
-            // التحقق من وجود رحلة بنفس المسار والباص
+                        // التحقق من وجود رحلة بنفس المسار والباص
             if ($data['name'] === 'delivery') {
                 $existingTripByPath = Trip::where('name', 'delivery')
                                           ->where('type', 'go')
@@ -192,6 +241,50 @@ class TripService {
                 if ($existingDriver) {
                     return redirect()->back()->withErrors(['error' => 'تم إضافة هذا السائق إلى رحلة توصيل أخرى مسبقاً']);
                 }
+            }elseif($data['name'] === 'school'){
+                //جلب كل الرحل المدرسية بتاريخ اليوم    
+                $existingTripsToday = Trip::where('name', 'school')
+                                          ->whereDate('created_at', now()->toDateString())
+                                          ->pluck('id');
+            
+                // التحقق من الطالب
+                $existingStudent = StudentTrip::whereIn('trip_id', $existingTripsToday)
+                                              ->where('student_id', $data['students'])
+                                              ->exists();
+                if ($existingStudent) {
+            return redirect()->back()->withErrors(['error' => 'تم إضافة هذا الطالب إلى رحلة  مدرسية أخرى بتاريخ اليوم']);
+                }
+            
+                // التحقق من المشرف
+                $existingSupervisor = SupervisorTrip::whereIn('trip_id', $existingTripsToday)
+                                                    ->where('supervisor_id', $data['supervisors'])
+                                                    ->exists();
+                if ($existingSupervisor) {
+            return redirect()->back()->withErrors(['error' => 'تم إضافة هذا المشرف إلى رحلة مدرسية أخرى بتاريخ اليوم']);
+                }
+            
+                // التحقق من السائق
+                $existingDriver = DriverTrip::whereIn('trip_id', $existingTripsToday)
+                                            ->where('driver_id', $data['drivers'])
+                                            ->exists();
+                if ($existingDriver) {
+            return redirect()->back()->withErrors(['error' => 'تم إضافة هذا السائق إلى رحلة مدرسية أخرى بتاريخ اليوم']);
+                }
+
+                 // التحقق من الباص
+                $existingBus = Trip::where('name', 'school')
+                                    ->where('bus_id', $data['bus_id'])
+                                    ->whereDate('created_at', now()->toDateString())
+                                    ->exists();
+                if ($existingBus) {
+            return redirect()->back()->withErrors(['error' => 'تم استخدام هذا الباص في رحلة مدرسية أخرى بتاريخ اليوم']);
+                }
+            }
+    
+            $bus = Bus::find($data['bus_id']);
+
+            if (count($data['students']) > $bus->number_of_seats) {
+                return redirect()->back()->withErrors(['error' => 'عدد الطلاب يجب أن يساوي عدد مقاعد الباص ']);
             }
     
             // تحديث معلومات رحلة الذهاب
@@ -242,6 +335,7 @@ class TripService {
                               ->where('type', $Trip->type === 'go' ? 'back' : 'go')
                               ->where('path_id', $Trip->path_id)
                               ->where('bus_id', $Trip->bus_id)
+                              ->whereDate('created_at', $Trip->created_at)
                               ->first();
             
             $Trip->students()->updateExistingPivot($Trip->students->pluck('id'), ['deleted_at' => now()]);     
@@ -290,6 +384,7 @@ class TripService {
                               ->where('type', $Trip->type === 'go' ? 'back' : 'go')
                               ->where('path_id', $Trip->path_id)
                               ->where('bus_id', $Trip->bus_id)
+                              ->whereDate('created_at', $Trip->created_at)
                               ->first();
 
             $Trip->restore();
@@ -323,10 +418,12 @@ class TripService {
         try {
             $Trip = Trip::onlyTrashed()->findOrFail($Trip_id);
 
-            $returnTrip = Trip::where('name', $Trip->name)
+            $returnTrip = Trip::withTrashed()
+                              ->where('name', $Trip->name)
                               ->where('type', $Trip->type === 'go' ? 'back' : 'go')
                               ->where('path_id', $Trip->path_id)
                               ->where('bus_id', $Trip->bus_id)
+                              ->whereDate('created_at', $Trip->created_at)
                               ->first();
 
             $Trip->forceDelete();

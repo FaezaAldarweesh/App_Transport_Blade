@@ -44,8 +44,8 @@ class Update_User_Request extends FormRequest
     public function attributes(): array
     {
         return [
-            'name' => 'اسم الأب',
-            'email' => 'اسم المستخدم',
+            'name' => 'اسم المستخدم',
+            'email' => 'ايميل المستخدم',
             'password' => 'كلمة المرور',
         ];
     }

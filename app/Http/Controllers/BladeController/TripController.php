@@ -5,11 +5,12 @@ namespace App\Http\Controllers\BladeController;
 use App\Models\Bus;
 use App\Models\Path;
 use App\Models\Trip;
+use App\Models\User;
 use App\Models\Driver;
 use App\Models\Student;
 use App\Models\Supervisor;
-use App\Services\BladeServices\TripService;
 use App\Http\Controllers\Controller;
+use App\Services\BladeServices\TripService;
 use App\Http\Requests\Trip_Request\Store_Trip_Request;
 use App\Http\Requests\Trip_Request\Update_Trip_Request;
 
@@ -42,7 +43,7 @@ class TripController extends Controller
         $paths = Path::all();
         $buses = Bus::all();
         $drivers = Driver::all();
-        $supervisors = Supervisor::all();
+        $supervisors = User::where('role', '=', 'supervisor')->get();
         $students = Student::all();
         return view('trips.create', compact('paths','buses','drivers','supervisors','students'));
     }
@@ -80,7 +81,7 @@ class TripController extends Controller
         $paths = Path::all();
         $buses = Bus::all();
         $drivers = Driver::all();
-        $supervisors = Supervisor::all();
+        $supervisors = User::where('role', '=', 'supervisor')->get();
         $students = Student::all();
         return view('trips.update' , compact('trip','paths','buses','drivers','supervisors','students'));
     }

@@ -31,7 +31,7 @@ class Store_Trip_Request extends FormRequest
             'students' => 'required|array',
             'students.*' => 'required|integer|exists:students,id',
             'supervisors' => 'required|array',
-            'supervisors.*' => 'required|integer|exists:supervisors,id',
+            'supervisors.*' => 'required|integer|exists:users,id',
             'drivers' => 'required|array',
             'drivers.*' => 'required|integer|exists:drivers,id',
         ];

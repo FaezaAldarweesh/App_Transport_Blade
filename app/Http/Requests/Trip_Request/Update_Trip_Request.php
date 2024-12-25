@@ -33,7 +33,7 @@ class Update_Trip_Request extends FormRequest
             'students' => 'sometimes|nullable|array',
             'students.*' => 'sometimes|nullable|integer|exists:students,id',
             'supervisors' => 'sometimes|nullable|array',
-            'supervisors.*' => 'sometimes|nullable|integer|exists:supervisors,id',
+            'supervisors.*' => 'sometimes|nullable|integer|exists:users,id',
             'drivers' => 'sometimes|nullable|array',
             'drivers.*' => 'sometimes|nullable|integer|exists:drivers,id',
         ];

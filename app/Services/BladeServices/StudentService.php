@@ -45,7 +45,6 @@ class StudentService
             $student->longitude = $data['longitude'] ?? $student->longitude;
             $student->latitude = $data['latitude'] ?? $student->latitude;
             $student->user_id = $data['user_id'] ?? $student->user_id;
-            $student->status = $data['status'] ?? $student->status;
 
             $student->save();
 

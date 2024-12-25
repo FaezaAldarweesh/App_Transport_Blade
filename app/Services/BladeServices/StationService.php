@@ -23,7 +23,7 @@ class StationService {
     }
     //========================================================================================================================
     /**
-     * method to store a new station
+     * method to store a new stations
      * @param   $data
      * @return /view
      */

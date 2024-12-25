@@ -26,7 +26,7 @@ class Store_Supervisor_Request extends FormRequest
     {
         return [
             'name' => 'required|regex:/^[\p{L}\s]+$/u|min:2|max:50|unique:supervisors,name',
-            'username' => 'required|min:6|max:50|unique:supervisors,username',
+            'email' => 'required|min:6|max:50|email|unique:users,email',
             'password' => 'required|string|min:8',
             'location' => 'required|string|min:5',
             'phone' => 'required|min:10|max:10|regex:/^([0-9\s\-\+\(\)]*)$/|unique:supervisors,phone',
@@ -44,7 +44,7 @@ class Store_Supervisor_Request extends FormRequest
     {
         return [
             'name' => 'اسم المشرفة',
-            'username' => 'اسم المستخدم',
+            'email' => 'ايميل المستخدم',
             'password' => 'كلمة المرور',
             'location' => 'الموقع',
             'phone' => 'رقم الهاتف',
@@ -59,8 +59,8 @@ class Store_Supervisor_Request extends FormRequest
             'name.regex' => 'يجب أن يحوي  :attribute على أحرف فقط',
             'name.min' => 'الحد الأدنى لطول :attribute على الأقل هو 2 حرف',
             'name.max' => 'الحد الأقصى لطول  :attribute هو 50 حرف',            
-            'username.min' => 'الحد الأدنى لطول :attribute على الأقل هو 6 حرف',
-            'username.max' => 'الحد الأقصى لطول :attribute على الأقل هو 50 حرف',
+            'email.min' => 'الحد الأدنى لطول :attribute على الأقل هو 6 حرف',
+            'email.max' => 'الحد الأقصى لطول :attribute على الأقل هو 50 حرف',
             'unique' => ':attribute  موجود سابقاً , يجب أن يكون :attribute غير مكرر',
             'password.min' => 'الحد الأدنى لطول :attribute على الأقل هو 8 محرف',
             'phone.max' => 'الحد الأقصى لطول  :attribute هو 10 حرف',

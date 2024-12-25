@@ -21,7 +21,6 @@ class Student extends Model
         'longitude',
         'latitude',
         'user_id',
-        'status',
     ];
 
 

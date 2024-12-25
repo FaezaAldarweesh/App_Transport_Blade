@@ -29,7 +29,7 @@ class Update_Supervisor_Request extends FormRequest
 
         return [
             'name' => ['sometimes','nullable','regex:/^[\p{L}\s]+$/u','min:2','max:50 ',Rule::unique('supervisors', 'name')->ignore($supervisor_id)],
-            'username' => ['sometimes','nullable','min:6','max:50',Rule::unique('supervisors', 'username')->ignore($supervisor_id)],
+            'username' => ['sometimes','nullable','min:6','max:50','email',Rule::unique('supervisors', 'username')->ignore($supervisor_id)],
             'password' => 'sometimes|nullable|string|min:8',
             'location' => 'sometimes|nullable|string|min:5',
             'phone' => ['sometimes','nullable','min:10','max:10','regex:/^([0-9\s\-\+\(\)]*)$/',Rule::unique('supervisors', 'phone')->ignore($supervisor_id)],
