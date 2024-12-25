@@ -118,7 +118,6 @@
                                 <th>#</th>
                                 <th>name</th>
                                 <th>email</th>
-                                {{-- <th>password</th> --}}
                                 <th>role</th>
                                 <th>Tools</th>
                             </tr>
@@ -143,7 +142,7 @@
                                                 <i class="bi bi-trash"></i> Delete
                                             </button>
                                         </form>
-                                        @if($user->role == 'user')
+                                        @if($user->role == 'parent')
                                         <a href="{{ route('user.show', $user->id) }}" class="btn btn-info btn-sm">
                                             <i class="bi bi-eye"></i> View
                                         </a>

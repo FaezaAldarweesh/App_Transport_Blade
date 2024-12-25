@@ -13,6 +13,7 @@ use App\Http\Controllers\Controller;
 use App\Services\BladeServices\TripService;
 use App\Http\Requests\Trip_Request\Store_Trip_Request;
 use App\Http\Requests\Trip_Request\Update_Trip_Request;
+use App\Http\Requests\Trip_Request\Update_Status_Trip_Request;
 
 class TripController extends Controller
 {
@@ -145,5 +146,22 @@ class TripController extends Controller
         return redirect()->route('all_trashed_trip');
     }
         
+    //========================================================================================================================
+
+
+
+    //========================================================================================================================
+    /**
+     * method to update on trip status
+     * @param   $Trip_id
+     * @return /Illuminate\Http\JsonResponse
+     */
+    public function update_trip_status($trip_id)
+    {
+        $trip = $this->Tripservices->update_trip_status($trip_id);
+        session()->flash('success', 'تمت عملية تعديل حالة الرحلة بنجاح');
+        return redirect()->route('trip.index');
+
+    }  
     //========================================================================================================================
 }

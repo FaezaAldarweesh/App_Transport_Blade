@@ -87,22 +87,6 @@
                                 <div class="invalid-feedback">{{ $message }}</div>
                             @enderror
                         </div>
-
-                        <div class="mb-3">
-                            <label for="status" class="form-label">Status</label>
-                            <select class="form-select @error('status') is-invalid @enderror" id="status" name="status">
-                                <option value="">Select Status</option>
-                                <option value="attendee" {{ old('status', $student->status) == 'attendee' ? 'selected' : '' }}>موجود</option>
-                                <option value="absent_all" {{ old('status', $student->status) == 'absent_all' ? 'selected' : '' }}>غيائب يوم كامل</option>
-                                <option value="absent_go" {{ old('status', $student->status) == 'absent_go' ? 'selected' : '' }}>غياب رحلة ذهاب</option>
-                                <option value="absent_back" {{ old('status', $student->status) == 'absent_back' ? 'selected' : '' }}>غياب رحلة إياب</option>
-                                <option value="transported" {{ old('status', $student->status) == 'transported' ? 'selected' : '' }}>تم نقله إلى باص أخر</option>
-                            </select>
-                            @error('status')
-                                <div class="invalid-feedback">{{ $message }}</div>
-                            @enderror
-                        </div>
-
                         <div class="d-flex justify-content-end mt-4">
                             <button type="submit" class="btn btn-primary">Update Student</button>
                             <a href="{{ route('student.index') }}" class="btn btn-secondary ms-2">Back</a>

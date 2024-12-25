@@ -96,6 +96,15 @@
                                         <a href="{{ route('trip.show', $trip->id) }}" class="btn btn-info btn-sm">
                                             <i class="bi bi-eye"></i> View
                                         </a>
+
+                                        <form action="{{ route('update_trip_status', $trip->id) }}" method="POST" class="d-inline-block">
+                                            @csrf
+                                            <button type="submit" class="btn btn-primary btn-sm">
+                                                <i class="bi {{ $trip->status ? 1 : 0 }}"></i> 
+                                                {{ $trip->status ? 'جارية' : 'منتهية' }}
+                                            </button>
+                                        </form>
+
                                 </tr>  
                             @empty
                                 <tr>

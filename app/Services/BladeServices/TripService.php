@@ -4,17 +4,11 @@ namespace App\Services\BladeServices;
 
 use App\Models\Bus;
 use App\Models\Trip;
-use App\Models\Driver;
-use App\Models\BusTrip;
-use App\Models\Student;
+use App\Models\TripUser;
 use App\Models\DriverTrip;
-use App\Models\Supervisor;
 use App\Models\StudentTrip;
-use App\Models\SupervisorTrip;
 use Illuminate\Support\Facades\Log;
 use Illuminate\Support\Facades\Auth;
-use App\Http\Traits\ApiResponseTrait;
-use App\Http\Traits\AllStudentsByTripTrait;
 
 class TripService {
     /**
@@ -23,8 +17,10 @@ class TripService {
      */
     public function get_all_Trips(){
         try {
-            if(Auth::user()->role == 'supervisor'){
-                $Trips = SupervisorTrip::where('supervisor_id','=',Auth::id());
+            $user = Auth::user();
+
+            if($user->role == 'supervisor'){
+                $Trips = $user->trips()->get();
             }else{
                 $Trips = Trip::all();
             }
@@ -74,8 +70,8 @@ class TripService {
                 }
     
                 // التحقق من المشرف
-                $existingSupervisor = SupervisorTrip::whereIn('trip_id', $existingTrips)
-                                                    ->where('supervisor_id', $data['supervisors'])
+                $existingSupervisor = TripUser::whereIn('trip_id', $existingTrips)
+                                                    ->where('user_id', $data['supervisors'])
                                                     ->exists();
                 if ($existingSupervisor) {
                     return redirect()->back()->withErrors(['error' => 'تم إضافة هذا المشرف إلى رحلة توصيل أخرى مسبقاً']);
@@ -104,8 +100,8 @@ class TripService {
                 }
             
                 // التحقق من المشرف
-                $existingSupervisor = SupervisorTrip::whereIn('trip_id', $existingTripsToday)
-                                                    ->where('supervisor_id', $data['supervisors'])
+                $existingSupervisor = TripUser::whereIn('trip_id', $existingTripsToday)
+                                                    ->where('user_id', $data['supervisors'])
                                                     ->exists();
                 if ($existingSupervisor) {
                     return redirect()->back()->withErrors(['error' => 'تم إضافة هذا المشرف إلى رحلة مدرسية أخرى بتاريخ اليوم']);
@@ -145,7 +141,7 @@ class TripService {
                 $trip->save();
     
                 $trip->students()->attach($data['students']);
-                $trip->supervisors()->attach($data['supervisors']);
+                $trip->users()->attach($data['supervisors']);
                 $trip->drivers()->attach($data['drivers']);
                 $trip->save();
             }
@@ -165,7 +161,7 @@ class TripService {
     public function view_Trip($Trip_id) {
         try {    
             $Trip = Trip::findOrFail($Trip_id);
-            $Trip->with('students','supervisors','drivers')->get();
+            $Trip->with('students','users','drivers')->get();
             return $Trip;
         }  catch (\Exception $e) {
             Log::error('Error view trip: ' . $e->getMessage());
@@ -227,8 +223,8 @@ class TripService {
                 }
     
                 // التحقق من المشرف
-                $existingSupervisor = SupervisorTrip::whereIn('trip_id', $existingTrips)
-                                                    ->where('supervisor_id', $data['supervisors'])
+                $existingSupervisor = TripUser::whereIn('trip_id', $existingTrips)
+                                                    ->where('user_id', $data['supervisors'])
                                                     ->exists();
                 if ($existingSupervisor) {
                     return redirect()->back()->withErrors(['error' => 'تم إضافة هذا المشرف إلى رحلة توصيل أخرى مسبقاً']);
@@ -252,15 +248,15 @@ class TripService {
                                               ->where('student_id', $data['students'])
                                               ->exists();
                 if ($existingStudent) {
-            return redirect()->back()->withErrors(['error' => 'تم إضافة هذا الطالب إلى رحلة  مدرسية أخرى بتاريخ اليوم']);
+                    return redirect()->back()->withErrors(['error' => 'تم إضافة هذا الطالب إلى رحلة  مدرسية أخرى بتاريخ اليوم']);
                 }
             
                 // التحقق من المشرف
-                $existingSupervisor = SupervisorTrip::whereIn('trip_id', $existingTripsToday)
-                                                    ->where('supervisor_id', $data['supervisors'])
+                $existingSupervisor = TripUser::whereIn('trip_id', $existingTripsToday)
+                                                    ->where('user_id', $data['supervisors'])
                                                     ->exists();
                 if ($existingSupervisor) {
-            return redirect()->back()->withErrors(['error' => 'تم إضافة هذا المشرف إلى رحلة مدرسية أخرى بتاريخ اليوم']);
+                    return redirect()->back()->withErrors(['error' => 'تم إضافة هذا المشرف إلى رحلة مدرسية أخرى بتاريخ اليوم']);
                 }
             
                 // التحقق من السائق
@@ -268,7 +264,7 @@ class TripService {
                                             ->where('driver_id', $data['drivers'])
                                             ->exists();
                 if ($existingDriver) {
-            return redirect()->back()->withErrors(['error' => 'تم إضافة هذا السائق إلى رحلة مدرسية أخرى بتاريخ اليوم']);
+                    return redirect()->back()->withErrors(['error' => 'تم إضافة هذا السائق إلى رحلة مدرسية أخرى بتاريخ اليوم']);
                 }
 
                  // التحقق من الباص
@@ -277,7 +273,7 @@ class TripService {
                                     ->whereDate('created_at', now()->toDateString())
                                     ->exists();
                 if ($existingBus) {
-            return redirect()->back()->withErrors(['error' => 'تم استخدام هذا الباص في رحلة مدرسية أخرى بتاريخ اليوم']);
+                    return redirect()->back()->withErrors(['error' => 'تم استخدام هذا الباص في رحلة مدرسية أخرى بتاريخ اليوم']);
                 }
             }
     
@@ -296,7 +292,7 @@ class TripService {
     
             // تحديث علاقات رحلة الذهاب
             $trip->students()->sync($data['students']);
-            $trip->supervisors()->sync($data['supervisors']);
+            $trip->users()->sync($data['supervisors']);
             $trip->drivers()->sync($data['drivers']);
     
             // تحديث رحلة الإياب إذا كانت موجودة
@@ -310,7 +306,7 @@ class TripService {
     
                 // تحديث علاقات رحلة الإياب
                 $returnTrip->students()->sync($data['students']);
-                $returnTrip->supervisors()->sync($data['supervisors']);
+                $returnTrip->users()->sync($data['supervisors']);
                 $returnTrip->drivers()->sync($data['drivers']);
             }
     
@@ -339,11 +335,11 @@ class TripService {
                               ->first();
             
             $Trip->students()->updateExistingPivot($Trip->students->pluck('id'), ['deleted_at' => now()]);     
-            $Trip->supervisors()->updateExistingPivot($Trip->supervisors->pluck('id'), ['deleted_at' => now()]);     
+            $Trip->users()->updateExistingPivot($Trip->users->pluck('id'), ['deleted_at' => now()]);     
             $Trip->drivers()->updateExistingPivot($Trip->drivers->pluck('id'), ['deleted_at' => now()]);  
             
             $returnTrip->students()->updateExistingPivot($returnTrip->students->pluck('id'), ['deleted_at' => now()]);     
-            $returnTrip->supervisors()->updateExistingPivot($returnTrip->supervisors->pluck('id'), ['deleted_at' => now()]);     
+            $returnTrip->users()->updateExistingPivot($returnTrip->users->pluck('id'), ['deleted_at' => now()]);     
             $returnTrip->drivers()->updateExistingPivot($returnTrip->drivers->pluck('id'), ['deleted_at' => now()]);  
 
             $Trip->delete();
@@ -392,12 +388,12 @@ class TripService {
                 $returnTrip->restore();
     
                 $returnTrip->students()->withTrashed()->updateExistingPivot($returnTrip->students->pluck('id'), ['deleted_at' => null]);
-                $returnTrip->supervisors()->withTrashed()->updateExistingPivot($returnTrip->supervisors->pluck('id'), ['deleted_at' => null]);
+                $returnTrip->users()->withTrashed()->updateExistingPivot($returnTrip->users->pluck('id'), ['deleted_at' => null]);
                 $returnTrip->drivers()->withTrashed()->updateExistingPivot($returnTrip->drivers->pluck('id'), ['deleted_at' => null]);
             }
             
             $Trip->students()->withTrashed()->updateExistingPivot($Trip->students->pluck('id'), ['deleted_at' => null]);
-            $Trip->supervisors()->withTrashed()->updateExistingPivot($Trip->supervisors->pluck('id'), ['deleted_at' => null]);
+            $Trip->users()->withTrashed()->updateExistingPivot($Trip->users->pluck('id'), ['deleted_at' => null]);
             $Trip->drivers()->withTrashed()->updateExistingPivot($Trip->drivers->pluck('id'), ['deleted_at' => null]);
             
 
@@ -432,6 +428,27 @@ class TripService {
         } catch (\Exception $e) {
             Log::error('Error Deleting trip: ' . $e->getMessage());
             throw new \Exception('حدث خطأ أثناء محاولة حذف الرحلة');
+        }
+    }
+    //========================================================================================================================
+
+
+
+
+    //========================================================================================================================
+    public function update_trip_status($trip_id)
+    {
+        try {
+            $Trip = Trip::find($trip_id);
+  
+            $Trip->status = !$Trip->status;
+            $Trip->save(); 
+
+            return $Trip;
+
+        }  catch (\Exception $e) {
+            Log::error('Error update status trip: ' . $e->getMessage());
+            throw new \Exception($e->getMessage());
         }
     }
     //========================================================================================================================

@@ -43,7 +43,6 @@
                                 <th>longitude</th>
                                 <th>latitude</th>
                                 <th>parent</th>
-                                <th>status</th>
                                 <th>Tools</th>
                             </tr>
                         </thead>
@@ -57,23 +56,6 @@
                                     <td>{{ $student->longitude }}</td>
                                     <td>{{ $student->latitude }}</td>
                                     <td>{{ $student->user?$student->user->name:'N/A'}}</td>
-                                    
-                                    @php
-                                        $translations = [
-                                            'attendee' => 'موجود',
-                                            'absent_all' => 'غائب تمامًا',
-                                            'absent_go' => 'غائب عن الذهاب',
-                                            'absent_back' => 'غائب عن العودة',
-                                            'transported' => 'تم نقله',
-                                        ];
-                                    @endphp
-
-                                    <td>
-                                        <span class="badge 
-                                            {{ $student->status == 'attendee' ? 'bg-success' : 'bg-warning text-dark' }}">
-                                            {{ $translations[$student->status] ?? $student->status }}
-                                        </span>
-                                    </td>
                                     <td class="text-center">
                                         <form action="{{ route('restore_student', $student->id) }}" method="GET" class="d-inline-block" onsubmit="return confirm('Are you sure you want to restore this student?');">
                                             @csrf

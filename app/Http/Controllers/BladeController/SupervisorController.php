@@ -2,11 +2,12 @@
 
 namespace App\Http\Controllers\BladeController;
 
-use App\Services\BladeServices\SupervisorService;
+use App\Models\User;
+use App\Models\Supervisor;
 use App\Http\Controllers\Controller;
+use App\Services\BladeServices\SupervisorService;
 use App\Http\Requests\Supervisor_Rqeuests\Store_Supervisor_Request;
 use App\Http\Requests\Supervisor_Rqeuests\Update_Supervisor_Request;
-use App\Models\Supervisor;
 
 class SupervisorController extends Controller
 {

@@ -82,10 +82,8 @@ Route::group(['middleware' => ['auth']], function () {
     Route::get('restore_user/{user_id}',[UserController::class,'restore']) ->name('restore_user');
     Route::delete('forceDelete_user/{user_id}',[UserController::class,'forceDelete']) ->name("forceDelete_user");
     
-    
-    
-    //supervisor-----------------------------------------------------------------------------------------------------------------------------------
-    Route::get('all_trips',[TripController::class,'index']) ->name('all_trips');
+
+    Route::post('update_trip_status/{trip_id}/', [TripController::class, 'update_trip_status'])->name('update_trip_status');
 
 });
 

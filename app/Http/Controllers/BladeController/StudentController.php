@@ -37,7 +37,7 @@ class StudentController extends Controller
      * method header to student create page 
      */
     public function create(){
-        $users = User::where('role', '=','user')->get();
+        $users = User::where('role', '=','parent')->get();
         return view('students.create', compact('users'));
     }
     //===========================================================================================================================
@@ -58,7 +58,7 @@ class StudentController extends Controller
     */
     public function edit($student_id){
         $student = Student::find($student_id);
-        $users = User::where('role', '=','user')->get();
+        $users = User::where('role', '=','parent')->get();
         return view('students.update' , compact('student' , 'users'));
     }
     //===========================================================================================================================

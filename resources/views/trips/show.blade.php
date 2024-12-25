@@ -52,8 +52,8 @@
                         <p class="style1"><span class="style2">drivers:</span> {{ $driver->name}}</p>
                         @endforeach
 
-                        @foreach($trip->supervisors as $supervisor)
-                            <p class="style1"><span class="style2">supervisor:</span> {{ $supervisor->name}}</p>
+                        @foreach($trip->users as $user)
+                            <p class="style1"><span class="style2">supervisor:</span> {{ $user->name}}</p>
                         @endforeach
 
                         @foreach($trip->students as $student)
