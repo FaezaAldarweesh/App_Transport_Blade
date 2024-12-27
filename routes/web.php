@@ -11,6 +11,7 @@ use App\Http\Controllers\BladeController\StationController;
 use App\Http\Controllers\BladeController\StudentController;
 use App\Http\Controllers\BladeController\EmployeeController;
 use App\Http\Controllers\BladeController\SupervisorController;
+use App\Http\Controllers\BladeController\CheckOutController;
 
 /*
 |--------------------------------------------------------------------------
@@ -84,6 +85,8 @@ Route::group(['middleware' => ['auth']], function () {
     
 
     Route::post('update_trip_status/{trip_id}/', [TripController::class, 'update_trip_status'])->name('update_trip_status');
+    Route::resource('checkout', CheckOutController::class);
+    // Route::get('create_checkout', [CheckOutController::class, 'create_checkout'])->name('create_checkout');
 
 });
 

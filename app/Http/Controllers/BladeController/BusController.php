@@ -10,7 +10,7 @@ use App\Http\Requests\Bus_Request\Update_Bus_Request;
 
 class BusController extends Controller
 {
-    protected $busservices;
+    protected $busservices; 
     /**
      * construct to inject bus Services 
      * @param BusService $busservices

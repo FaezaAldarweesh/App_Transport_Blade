@@ -104,6 +104,9 @@
                                                 {{ $trip->status ? 'جارية' : 'منتهية' }}
                                             </button>
                                         </form>
+                                        <a href="{{ route('checkout.show',$trip->id) }}" class="btn btn-warning btn-sm text-white">
+                                            <i class="bi bi-pencil-square"></i> CheckOut
+                                        </a>
 
                                 </tr>  
                             @empty
