@@ -43,7 +43,7 @@
                     <h3><span style="color: rgba(232, 18, 18, 0.868)">Trip Name:</span> {{ $trip->name }}</h3>
                     {{-- <div class="style1"> --}}
                         <p class="style1"><span class="style2">type:</span> {{ $trip->type }}</p>
-                        <p class="style1"><span class="style2">path:</span> {{ $trip->path->name }}</p>
+                        <a href="{{ route('path.show', $trip->path->id) }}"><p class="style1"><span class="style2">path: </span>{{ $trip->path->name }}</p></a>
                         <p class="style1"><span class="style2">bus: </span>{{ $trip->bus->name }}</p>
                         <p class="style1"><span class="style2">status:</span> {{ $trip->status == 0 ? 'منتهية' : 'جارية'}}</p>
                         @foreach($trip->drivers as $driver)
