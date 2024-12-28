@@ -160,9 +160,9 @@ class TripService {
      */
     public function view_Trip($Trip_id) {
         try {    
-            $Trip = Trip::findOrFail($Trip_id);
-            $Trip->with('students','users','drivers')->get();
-            return $Trip;
+            $trip = Trip::findOrFail($Trip_id);
+            $trip->with('students','users','drivers')->get();
+            return $trip;
         }  catch (\Exception $e) {
             Log::error('Error view trip: ' . $e->getMessage());
             throw new \Exception($e->getMessage());
