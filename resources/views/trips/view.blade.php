@@ -65,7 +65,7 @@
                                     <td class="text-center">{{ $loop->iteration }}</td>
                                     <td>{{ $trip->name }}</td>
                                     <td>{{ $trip->type }}</td>
-                                    <td>{{ $trip->path->name }}</td>
+                                    <td><a href="{{ route('path.show', $trip->path->id) }}">{{ $trip->path->name }}</a></td>
                                     <td>{{ $trip->bus->name }}</td>
                                     @php
                                         $translations = [
