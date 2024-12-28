@@ -27,7 +27,7 @@ class Trip extends Model
     }
     public function students (){
         
-        return $this->belongsToMany(Student::class)->withTrashed();
+        return $this->belongsToMany(Student::class) ->withPivot('status')->withTrashed();
     }
 
     public function users (){

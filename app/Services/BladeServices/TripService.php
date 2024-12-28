@@ -452,4 +452,41 @@ class TripService {
         }
     }
     //========================================================================================================================
+    public function all_student_trip($trip_id)
+    {
+        try {
+            $Trip = Trip::with('students')->find($trip_id);
+ 
+            return $Trip;
+
+        }  catch (\Exception $e) {
+            Log::error('Error update status trip: ' . $e->getMessage());
+            throw new \Exception($e->getMessage());
+        }
+    }
+    //========================================================================================================================
+    public function update_student_status($student_id)
+    {
+        try {
+            $student = StudentTrip::findOrFail($student_id);
+
+            $user = Auth::user();
+            $trip = Trip::where('id',$student->trip_id)->first();
+            
+            //منع المشرفة من إضافة تفقد في حال كانت حالة الرحلة منتهية.....تستطيع فقط أضافة تفقد في حال الرحلة حارية    
+            if($user->role == 'parent' && $trip->status == 1 ){
+                return redirect()->back()->withErrors(['error' => 'لا يمكنك تعديل حالة الطالب في حال كانت الرحلة حاليا جارية']);
+            }
+            
+            $status = $student->status == 'attendee' ? 'absent' : 'attendee';
+            $student->update(['status' => $status]); 
+
+            return $student;
+
+        }  catch (\Exception $e) {
+            Log::error('Error update status trip: ' . $e->getMessage());
+            throw new \Exception($e->getMessage());
+        }
+    }
+    //========================================================================================================================
 }

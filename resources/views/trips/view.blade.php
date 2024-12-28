@@ -73,7 +73,6 @@
                                             1 => 'جارية',
                                         ];
                                     @endphp
-
                                     <td>
                                         <span class="badge 
                                             {{ $trip->status == 0 ? 'bg-success' : 'bg-warning text-dark' }}">
@@ -104,8 +103,13 @@
                                                 {{ $trip->status ? 'جارية' : 'منتهية' }}
                                             </button>
                                         </form>
+
                                         <a href="{{ route('checkout.show',$trip->id) }}" class="btn btn-warning btn-sm text-white">
                                             <i class="bi bi-pencil-square"></i> CheckOut
+                                        </a>
+
+                                        <a href="{{ route('all_student_trip', $trip->id) }}" class="btn btn-info btn-sm">
+                                            <i class="bi bi-eye"></i> Absences/Transfer
                                         </a>
                                 </tr>  
                             @empty

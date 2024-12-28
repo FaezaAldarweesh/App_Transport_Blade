@@ -164,4 +164,28 @@ class TripController extends Controller
 
     }  
     //========================================================================================================================
+        /**
+     * method to update on trip status
+     * @param   $Trip_id
+     * @return /Illuminate\Http\JsonResponse
+     */
+    public function all_student_trip($trip_id)
+    {
+        $Trip = $this->Tripservices->all_student_trip($trip_id);
+        return view('trips.students', compact('Trip'));
+    }  
+    //========================================================================================================================
+        /**
+     * method to update on trip status
+     * @param   $Trip_id
+     * @return /Illuminate\Http\JsonResponse
+     */
+    public function update_student_status($student_id)
+    {
+        $student = $this->Tripservices->update_student_status($student_id);
+        session()->flash('success', 'تمت عملية تعديل حالة الطالب بنجاح');
+        return redirect()->back();
+
+    }  
+    //========================================================================================================================
 }

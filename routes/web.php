@@ -72,6 +72,10 @@ Route::group(['middleware' => ['auth']], function () {
     Route::get('all_trashed_trip', [TripController::class, 'all_trashed_trip'])->name('all_trashed_trip');
     Route::get('restore_trip/{trip_id}', [TripController::class, 'restore'])->name('restore_trip');
     Route::delete('forceDelete_trip/{trip_id}', [TripController::class, 'forceDelete'])->name('forceDelete_trip');
+    Route::post('update_trip_status/{trip_id}/', [TripController::class, 'update_trip_status'])->name('update_trip_status');
+    Route::get('all_student_trip/{trip_id}', [TripController::class, 'all_student_trip'])->name('all_student_trip');
+    Route::post('update_student_status/{student_id}', [TripController::class, 'update_student_status'])->name('update_student_status');    
+    Route::post('update_student_status_transport/{student_id}', [TripController::class, 'update_student_status_transport'])->name('update_student_status_transport');  
     
     Route::resource('employee', EmployeeController::class); 
     Route::get('all_trashed_employee',[EmployeeController::class,'all_trashed_employee']) -> name("all_trashed_employee");
@@ -82,12 +86,10 @@ Route::group(['middleware' => ['auth']], function () {
     Route::get('all_trushed_user',[UserController::class,'all_trushed_user']) -> name("all_trashed_user");
     Route::get('restore_user/{user_id}',[UserController::class,'restore']) ->name('restore_user');
     Route::delete('forceDelete_user/{user_id}',[UserController::class,'forceDelete']) ->name("forceDelete_user");
-    
-
-    Route::post('update_trip_status/{trip_id}/', [TripController::class, 'update_trip_status'])->name('update_trip_status');
 
     Route::resource('checkout', CheckOutController::class);
     Route::get('show_checkout/{trip_id}', [CheckOutController::class, 'show_checkout'])->name('show_checkout');
+
 
 });
 
