@@ -120,5 +120,16 @@ class StationController extends Controller
         return redirect()->route('all_trashed_station');
     }
         
-    //========================================================================================================================
+//========================================================================================================================
+    /**
+     * method to update on station status
+     * @param   $station_id
+     */
+    public function update_station_status($station_id)
+    {
+        $trip = $this->stationservices->update_station_status($station_id);
+        session()->flash('success', 'تمت عملية تعديل حالة المحطة بنجاح');
+        return redirect()->back();
+
+    }
 }

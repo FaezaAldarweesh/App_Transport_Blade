@@ -85,6 +85,8 @@ Route::group(['middleware' => ['auth']], function () {
     
 
     Route::post('update_trip_status/{trip_id}/', [TripController::class, 'update_trip_status'])->name('update_trip_status');
+    Route::post('update_station_status/{station_id}',[StationController::class,'update_station_status'])->name('update_station_status');
+
 
     Route::resource('checkout', CheckOutController::class);
     Route::get('show_checkout/{trip_id}', [CheckOutController::class, 'show_checkout'])->name('show_checkout');
