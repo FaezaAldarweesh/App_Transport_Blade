@@ -27,6 +27,7 @@
                             <th>اسم المسار</th>
                             <th>التفقد</th>
                             <th>ملاحظات</th>
+                            <th>التاريخ</th>
                         </tr>
                     </thead>
                     <tbody>
@@ -39,6 +40,7 @@
                                     <td>{{ $checkout->trip->path->name }}</td>
                                     <td>{{ $checkout->checkout == 0 ? 'غائب': 'موجود'}}</td>
                                     <td>{{ $checkout->note}}</td>
+                                    <td>{{ $checkout->created_at}}</td>
                                 </tr>
                             @endforeach
                     </tbody>

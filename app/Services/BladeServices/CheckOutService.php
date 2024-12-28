@@ -132,7 +132,7 @@ public function show_checkout($trip_id)
             
             //منع المشرفة من إضافة تفقد في حال كانت حالة الرحلة منتهية.....تستطيع فقط أضافة تفقد في حال الرحلة حارية    
             if($user->role == 'supervisor' && $trip->status == 0 ){
-                return redirect()->back()->withErrors(['error' => 'لا يمكنك حذف  حضور في حال كانت الرحلة حاليا منتهية']);
+                return redirect()->back()->withErrors(['error' => 'لا يمكنك حذف حضور في حال كانت الرحلة حاليا منتهية']);
             }
 
             $checkout->delete();

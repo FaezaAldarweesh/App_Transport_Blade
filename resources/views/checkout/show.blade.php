@@ -46,6 +46,7 @@
                             <th>اسم المسار</th>
                             <th>التفقد</th>
                             <th>ملاحظات</th>
+                            <th>التاريخ</th>
                             <th>الأدوات</th>
                         </tr>
                     </thead>
@@ -59,6 +60,7 @@
                                     <td>{{ $checkout->trip->path->name }}</td>
                                     <td>{{ $checkout->checkout == 0 ? 'غائب': 'موجود'}}</td>
                                     <td>{{ $checkout->note}}</td>
+                                    <td>{{ $checkout->created_at}}</td>
                                     <td class="text-center">
                                         <a href="{{ route('checkout.edit', $checkout->id) }}" class="btn btn-warning btn-sm text-white">
                                             <i class="bi bi-pencil-square"></i> Edit
