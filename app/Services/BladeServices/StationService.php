@@ -2,8 +2,9 @@
 
 namespace App\Services\BladeServices;
 
-use Illuminate\Support\Facades\Log;
+use App\Models\Trip;
 use App\Models\Station;
+use Illuminate\Support\Facades\Log;
 use Illuminate\Support\Facades\Request;
 
 class StationService {
@@ -125,6 +126,27 @@ class StationService {
             throw new \Exception('حدث خطأ أثناء محاولة حذف أرشيف المحطات');
         }
     }
-    //========================================================================================================================
+//========================================================================================================================
 
+    public function update_station_status($station_id)
+    {
+        try {
+            $station = Station::find($station_id);
+            $trip = Trip::where('path_id',$station->path_id)
+                    ->where('status',1)
+                    ->first();
+            if(auth()->user()->role == 'supervisor' && $trip->status !== 1){
+                return redirect()->back()->with('error','لايمكن تعديل حالة المحطة إلا إذا كانت الرحلة جارية');
+            }
+            $station->status = !$station->status;
+            $station->save(); 
+
+            return $station;
+
+        }  catch (\Exception $e) {
+            Log::error('Error update status station: ' . $e->getMessage());
+            throw new \Exception($e->getMessage());
+        }
+    }
+ //========================================================================================================================
 }

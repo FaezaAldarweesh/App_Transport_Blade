@@ -67,6 +67,7 @@ Route::group(['middleware' => ['auth']], function () {
     Route::get('all_trashed_station', [StationController::class, 'all_trashed_station'])->name('all_trashed_station');
     Route::get('restore_station/{station_id}', [StationController::class, 'restore'])->name('restore_station');
     Route::delete('forceDelete_station/{station_id}', [StationController::class, 'forceDelete'])->name('forceDelete_station');
+    Route::post('update_station_status/{station_id}',[StationController::class,'update_station_status'])->name('update_station_status');
     
     Route::Resource('trip',TripController::class); 
     Route::get('all_trashed_trip', [TripController::class, 'all_trashed_trip'])->name('all_trashed_trip');

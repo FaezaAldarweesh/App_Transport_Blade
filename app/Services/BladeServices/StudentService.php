@@ -2,15 +2,26 @@
 
 namespace App\Services\BladeServices;
 
+use App\Models\Trip;
 use App\Models\Student;
+use App\Models\StudentTrip;
 use Illuminate\Support\Facades\Log;
+use Illuminate\Support\Facades\Auth;
 
 class StudentService
 {
     public function get_all_Students()
     {
+        $user = Auth::user();
         try {
-            return Student::all();
+            if($user->role == 'parent')
+            {
+                $students = Student::where('user_id', $user->id)->get();            }
+            else
+            {
+                $students = Student::all();
+            }
+            return $students;
         } catch (\Exception $e) {
             Log::error('Error fetching students: ' . $e->getMessage());
             throw new \Exception('حدث خطأ أثناء محاولة الوصول إلى الطلاب');
@@ -101,4 +112,19 @@ class StudentService
         }
     }
 //===========================================================================================================================
+    public function view_student($student_id)
+    {
+        try
+        {
+            $student = StudentTrip::findOrFail($student_id);
+            $trip = Trip::where('id',$student->trip_id)->get();
+            return $trip;
+        }
+        catch(\Exception $e)
+        {
+            Log::error('Error show student information'.$e->getMessage());
+            throw new \Exception('حدث خطأ أثناء عرض بيانات الطالب');
+        }
+    }
+
 }

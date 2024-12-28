@@ -61,6 +61,12 @@ class StudentController extends Controller
         $users = User::where('role', '=','parent')->get();
         return view('students.update' , compact('student' , 'users'));
     }
+//===========================================================================================================================
+    public function show($student_id)
+    {
+        $student_trip = $this->studentservices->view_student($student_id);
+        return view('students.show', compact('student_trip'));
+    }
     //===========================================================================================================================
     /**
      * method to update student alraedy exist

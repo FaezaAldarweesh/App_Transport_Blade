@@ -59,7 +59,13 @@
                                             1 => 'تم االوصول إليها'
                                         ]   
                                     @endphp
-                                    <td>{{ $translation[$station->status]?? $station->status }}</td>
+                                    <td>
+                                        {{-- {{ $translation[$station->status]?? $station->status }} --}}
+                                        <span class="badge 
+                                            {{ $station->status == 0 ? 'bg-success' : 'bg-warning text-dark' }}">
+                                            {{ $translation[$station->status] ?? $station->status }}
+                                        </span>
+                                    </td>
 
                                     <td class="text-center">
                                         <a href="{{ route('station.edit', $station->id) }}" class="btn btn-warning btn-sm text-white">
@@ -71,6 +77,13 @@
                                             @method('DELETE')
                                             <button type="submit" class="btn btn-danger btn-sm">
                                                 <i class="bi bi-trash"></i> Delete
+                                            </button>
+                                        </form>
+                                        <form action="{{ route('update_station_status', $station->id) }}" method="POST" class="d-inline-block">
+                                            @csrf
+                                            <button type="submit" class="btn btn-primary btn-sm">
+                                                <i class="bi {{ $station->status ? 1 : 0 }}"></i> 
+                                                {{ $station->status ? 'تم الوصول إليها' : 'لم يتم الوصول إليها بعد' }}
                                             </button>
                                         </form>
                                 </tr>  
