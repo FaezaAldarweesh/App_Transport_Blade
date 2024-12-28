@@ -12,6 +12,16 @@
 <div class="container" style="margin-top: 70px">
     <div class="row justify-content-center">
         <div class="card shadow-lg border-0">
+            @if ($errors->any())
+                <div class="alert alert-danger">
+                    <ul>
+                        @foreach ($errors->all() as $error)
+                            <li>{{ $error }}</li>
+                        @endforeach
+                    </ul>
+                </div>
+            @endif
+
             @if (session('success'))
                 <div class="alert alert-success alert-dismissible fade show" role="alert">
                     <strong>{{ session('success') }}</strong> 
@@ -23,10 +33,10 @@
 
             <div class="card-body">
                 <div class="d-flex justify-content-between mb-3">
-                    <a href="{{ route('checkout.index') }}" class="btn btn-success text-white">
+                    <a href="{{ route('show_checkout',$trip->id) }}" class="btn btn-success text-white">
                         <i class="bi bi-plus-circle"></i> show checkout
                     </a>
-                    <a href="{{ route('trip.index') }}" class="btn btn-secondary">Back</a>
+                    <a href="{{ route('trip.index',$trip->id) }}" class="btn btn-secondary">Back</a>
                 </div>
 
                 <table class="table table-hover table-bordered">
@@ -37,46 +47,35 @@
                             <th>Status</th>
                             <th>Note</th>
                             <th>Submit</th>
-                            <th>Tool</th>
                         </tr>
                     </thead>
                     <tbody>
-                        {{-- @foreach($trip as $trip) --}}
-                            @foreach ($trip->students as $student)
-                                <tr>
-                                    <td class="text-center">{{ $loop->iteration }}</td>
-                                    <td>{{ $student->name }}</td>
-                                    <td>
-                                        <form action="{{ route('checkout.store') }}" method="POST">
-                                            @csrf
-                                            <div class="mb-3">
-                                                {{-- <label for="student_presence" class="form-label">حالة الطالب</label> --}}
-                                                {{-- <select class="form-select" id="student_presence" name="student_presence"  required> --}}
-                                                <select class="form-select" id="checkout" name="checkout" required onchange="submitForm()">
-                                                    <option value="" disabled selected>اختر الحالة</option>
-                                                    <option value = 1>موجود</option>
-                                                    <option value = 0>غير موجود</option>
-                                                </select>
-                                            </div>
-                                            <td><textarea class="form-control" id="note" name="note" rows="1" placeholder="أدخل ملاحظاتك هنا..."></textarea></td>
-                                            <input type="hidden" name="trip_id" value="{{ $trip->id }}">
-                                            <input type="hidden" name="student_id" value="{{ $student->id }}">
-                                            <td>
-                                                <div class="d-flex justify-content-between">
-                                                    <button type="submit" class="btn btn-success" style="margin-top:5px">تسجيل</button>
-                                                </div>
-                                            </td>
-                                        </form>
-                                    </td>
-                                    <td></td>
-                                </tr>
-                            @endforeach
-                        {{-- @endforeach --}}
-                        {{-- @if($checkouts->isEmpty())
+                        @foreach ($trip->students as $student)
                             <tr>
-                                <td colspan="2" class="text-center text-muted">No checkouts available.</td>
+                                <td class="text-center">{{ $loop->iteration }}</td>
+                                <td>{{ $student->name }}</td>
+                                <td>
+                                    <form action="{{ route('checkout.store') }}" method="POST">
+                                        @csrf
+                                        <div class="mb-3">
+                                            <select class="form-select" id="checkout" name="checkout" required onchange="submitForm()">
+                                                <option value="" disabled selected>اختر الحالة</option>
+                                                <option value = 1>موجود</option>
+                                                <option value = 0>غير موجود</option>
+                                            </select>
+                                        </div>
+                                        <td><textarea class="form-control" id="note" name="note" rows="1" placeholder="أدخل ملاحظاتك هنا..."></textarea></td>
+                                        <input type="hidden" name="trip_id" value="{{ $trip->id }}">
+                                        <input type="hidden" name="student_id" value="{{ $student->id }}">
+                                        <td>
+                                            <div class="d-flex justify-content-between">
+                                                <button type="submit" class="btn btn-success" style="margin-top:5px">تسجيل</button>
+                                            </div>
+                                        </td>
+                                    </form>
+                                </td>
                             </tr>
-                        @endif --}}
+                        @endforeach
                     </tbody>
                 </table>
             </div>

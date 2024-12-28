@@ -107,7 +107,6 @@
                                         <a href="{{ route('checkout.show',$trip->id) }}" class="btn btn-warning btn-sm text-white">
                                             <i class="bi bi-pencil-square"></i> CheckOut
                                         </a>
-
                                 </tr>  
                             @empty
                                 <tr>
@@ -117,14 +116,8 @@
 
                         </tbody>
                     </table>
-
-                    {{-- <a href="{{ route('all_trashed_trip') }}" class="btn btn-danger">
-                        <i class="bi bi-trash me-1"></i> Trashed Trip
-                    </a> --}}
-
                 </div>
             </div>
-        {{-- </div> --}}
     </div>
 </div>
 @endsection

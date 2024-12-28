@@ -1,14 +1,12 @@
 <?php
 
-namespace App\Http\Requests\CheckOut_Request;
+namespace App\Http\Requests\Checkout_Request;
 
 use Illuminate\Support\Facades\Log;
 use Illuminate\Foundation\Http\FormRequest;
-use Illuminate\Contracts\Validation\Validator;
-use Illuminate\Http\Exceptions\HttpResponseException;
 
 class Store_Checkout_Request extends FormRequest
-{ 
+{
     /**
      * Determine if the user is authorized to make this request.
      */
@@ -25,18 +23,10 @@ class Store_Checkout_Request extends FormRequest
     public function rules(): array
     {
         return [
-            'trip_id' => 'required|integer|exists:trips,id',
-            'student_id' => 'required|integer|exists:students,id',
-            'checkout' => 'required|string|boolean',
+            'trip_id' => 'required|exists:trips,id',
+            'student_id' => 'required|exists:students,id',
+            'checkout' => 'required|in:1,0',
             'note' => 'sometimes|nullable|string|min:5|max:50',
-        ];
-    }
-    //===========================================================================================================================
-    protected function failedValidation(Validator $validator){
-        [
-            'status' => 'error 422',
-            'message' => 'فشل التحقق يرجى التأكد من المدخلات',
-            'errors' => $validator->errors(),
         ];
     }
     //===========================================================================================================================

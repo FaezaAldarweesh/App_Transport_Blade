@@ -85,8 +85,9 @@ Route::group(['middleware' => ['auth']], function () {
     
 
     Route::post('update_trip_status/{trip_id}/', [TripController::class, 'update_trip_status'])->name('update_trip_status');
+
     Route::resource('checkout', CheckOutController::class);
-    // Route::get('create_checkout', [CheckOutController::class, 'create_checkout'])->name('create_checkout');
+    Route::get('show_checkout/{trip_id}', [CheckOutController::class, 'show_checkout'])->name('show_checkout');
 
 });
 
