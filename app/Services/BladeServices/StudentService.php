@@ -116,14 +116,14 @@ class StudentService
     {
         try
         {
-            $student = StudentTrip::findOrFail($student_id);
-            $trip = Trip::where('id',$student->trip_id)->get();
-            return $trip;
+            $tripIds = StudentTrip::where('student_id', $student_id)->pluck('trip_id');
+            $trips = Trip::whereIn('id', $tripIds)->get();
+            return $trips;
         }
         catch(\Exception $e)
         {
             Log::error('Error show student information'.$e->getMessage());
-            throw new \Exception('حدث خطأ أثناء عرض بيانات الطالب');
+            throw new \Exception($e->getMessage());
         }
     }
 

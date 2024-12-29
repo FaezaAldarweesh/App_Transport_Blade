@@ -43,6 +43,7 @@
                                 <th>mather_phone</th>
                                 <th>longitude</th>
                                 <th>latitude</th>
+                                <th>Tools</th>
                             </tr>
                         </thead>
                         <tbody>
@@ -54,6 +55,11 @@
                                     <td>{{ $student->mather_phone }}</td>
                                     <td>{{ $student->longitude }}</td>
                                     <td>{{ $student->latitude }}</td>
+                                    <td>
+                                        <a href="{{ route('student.show', $student->id) }}" class="btn btn-info btn-sm">
+                                            <i class="bi bi-eye"></i> View
+                                        </a>
+                                    </td> 
                                 </tr>  
                             @empty
                                 <tr>
