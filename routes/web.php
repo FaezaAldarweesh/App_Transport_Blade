@@ -75,7 +75,7 @@ Route::group(['middleware' => ['auth']], function () {
     Route::delete('forceDelete_trip/{trip_id}', [TripController::class, 'forceDelete'])->name('forceDelete_trip');
     Route::post('update_trip_status/{trip_id}/', [TripController::class, 'update_trip_status'])->name('update_trip_status');
     Route::get('all_student_trip/{trip_id}', [TripController::class, 'all_student_trip'])->name('all_student_trip');
-    Route::post('update_student_status/{student_id}', [TripController::class, 'update_student_status'])->name('update_student_status');    
+    Route::post('update_student_status/{student_id}/{trip_id}', [TripController::class, 'update_student_status'])->name('update_student_status');    
     Route::post('update_student_status_transport/{student_id}', [TripController::class, 'update_student_status_transport'])->name('update_student_status_transport');  
     
     Route::resource('employee', EmployeeController::class); 

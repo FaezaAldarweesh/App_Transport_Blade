@@ -8,12 +8,12 @@ use App\Models\Trip;
 use App\Models\User;
 use App\Models\Driver;
 use App\Models\Student;
-use App\Models\Supervisor;
+use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Log;
 use App\Http\Controllers\Controller;
 use App\Services\BladeServices\TripService;
 use App\Http\Requests\Trip_Request\Store_Trip_Request;
 use App\Http\Requests\Trip_Request\Update_Trip_Request;
-use App\Http\Requests\Trip_Request\Update_Status_Trip_Request;
 
 class TripController extends Controller
 {
@@ -172,7 +172,8 @@ class TripController extends Controller
     public function all_student_trip($trip_id)
     {
         $Trip = $this->Tripservices->all_student_trip($trip_id);
-        return view('trips.students', compact('Trip'));
+        $trips = Trip::where('name','delivery')->get();
+        return view('trips.students', compact('Trip','trips'));
     }  
     //========================================================================================================================
         /**
@@ -180,12 +181,25 @@ class TripController extends Controller
      * @param   $Trip_id
      * @return /Illuminate\Http\JsonResponse
      */
-    public function update_student_status($student_id)
+    public function update_student_status($student_id,$trip_id)
     {
-        $student = $this->Tripservices->update_student_status($student_id);
+        $student = $this->Tripservices->update_student_status($student_id,$trip_id);
         session()->flash('success', 'تمت عملية تعديل حالة الطالب بنجاح');
         return redirect()->back();
 
     }  
+    //========================================================================================================================
+    /**
+     * method to update on trip status
+     * @param   $Trip_id
+     * @return /Illuminate\Http\JsonResponse
+     */
+    public function update_student_status_transport(Request $request, $student_id)
+    {
+        $student = $this->Tripservices->update_student_status_transport($request,$student_id);
+        session()->flash('success', 'تمت عملية نقل الطالب بنجاح');
+        return redirect()->back();
+    }
+    
     //========================================================================================================================
 }

@@ -91,7 +91,7 @@
                             <label for="supervisors">Supervisors</label>
                             <select id="supervisors" name="supervisors[]" class="form-control select2" multiple="multiple" required>
                                 @foreach($supervisors as $supervisor)
-                                    <option value="{{ $supervisor->id }}" {{ in_array($supervisor->id, $trip->supervisors->pluck('id')->toArray()) ? 'selected' : '' }}>{{ $supervisor->name }}</option>
+                                    <option value="{{ $supervisor->id }}" {{ in_array($supervisor->id, $trip->users->pluck('id')->toArray()) ? 'selected' : '' }}>{{ $supervisor->name }}</option>
                                 @endforeach
                             </select>
                             @error('supervisors')

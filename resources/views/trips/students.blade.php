@@ -49,7 +49,9 @@
                                 <th>#</th>
                                 <th>name</th>
                                 <th>status</th>
-                                <th>Tools</th>
+                                <th>غياب/حضور</th>
+                                <th>الرحل</th>
+                                <th>نقل</th>
                             </tr>
                         </thead>
                         <tbody>
@@ -63,7 +65,7 @@
                                             'absent' => 'غائب',
                                             'Moved_to' => 'مَنقول',
                                             'Transferred_from' => 'نُقل',
-                                        ];
+                                        ];  
                                     @endphp
                                     <td>
                                         <span class="badge 
@@ -71,15 +73,32 @@
                                             {{ $translations[$student->pivot->status] ?? $student->pivot->status }}
                                         </span>
                                     </td>
-
                                     <td class="text-center">
-                                    <form action="{{ route('update_student_status', $student->id) }}" method="POST" class="d-inline-block">
+                                    <form action="{{ route('update_student_status', [$student->pivot->student_id,$student->pivot->trip_id]) }}" method="POST" class="d-inline-block">
                                         @csrf
                                         <button type="submit" class="btn btn-primary btn-sm">
                                             <i class="bi bi-pencil-square"></i> تحديث الحالة
                                         </button>
                                     </form>
-                                 
+
+                                    <td>
+                                    <form action="{{ route('update_student_status_transport',$student->id) }}" method="POST" class="d-inline-block">
+                                    @csrf    
+                                        <select name="trip_id" class="form-control">
+                                            <option value="">اختر رحلة جديدة</option>
+                                            @foreach ($trips as $trip)
+                                            <option value="{{ $trip->id }}">
+                                                    {{ $trip->name }} ({{ $trip->type }}) ({{ $trip->path->name }})
+                                                </option>
+                                            @endforeach
+                                        </select>
+                                        </td>
+                                        <td class="text-center">
+                                            <button type="submit" class="btn btn-primary btn-sm">
+                                                <i class="bi bi-arrow-right"></i> نقل
+                                            </button>
+                                        </td>
+                                    </form>
                                 </tr>  
                             @empty
                                 <tr>

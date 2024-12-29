@@ -4,9 +4,11 @@ namespace App\Services\BladeServices;
 
 use App\Models\Bus;
 use App\Models\Trip;
+use App\Models\Student;
 use App\Models\TripUser;
 use App\Models\DriverTrip;
 use App\Models\StudentTrip;
+use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Log;
 use Illuminate\Support\Facades\Auth;
 
@@ -442,6 +444,19 @@ class TripService {
             $Trip = Trip::find($trip_id);
   
             $Trip->status = !$Trip->status;
+
+            if($Trip->status == 0){
+                // جلب الطلاب المرتبطين بالرحلة مع حالة غياب أو منقول
+                $Trip->students()
+                     ->wherePivotIn('status', ['absent', 'Moved_to'])
+                     ->each(function ($student) use ($Trip) {
+                        $Trip->students()->updateExistingPivot($student->id, ['status' => 'attendee']);
+                    });
+
+                // حذف الطلاب المرتبطين بالرحلة مع حالة نقل
+                $Trip->students()->wherePivot('status', 'Transferred_from')
+                    ->detach();
+            }
             $Trip->save(); 
 
             return $Trip;
@@ -456,7 +471,7 @@ class TripService {
     {
         try {
             $Trip = Trip::with('students')->find($trip_id);
- 
+            
             return $Trip;
 
         }  catch (\Exception $e) {
@@ -465,15 +480,14 @@ class TripService {
         }
     }
     //========================================================================================================================
-    public function update_student_status($student_id)
+    public function update_student_status($student_id,$trip_id)
     {
         try {
-            $student = StudentTrip::findOrFail($student_id);
+            $student = StudentTrip::where('student_id',$student_id)->where('trip_id',$trip_id)->first();
 
             $user = Auth::user();
             $trip = Trip::where('id',$student->trip_id)->first();
             
-            //منع المشرفة من إضافة تفقد في حال كانت حالة الرحلة منتهية.....تستطيع فقط أضافة تفقد في حال الرحلة حارية    
             if($user->role == 'parent' && $trip->status == 1 ){
                 return redirect()->back()->withErrors(['error' => 'لا يمكنك تعديل حالة الطالب في حال كانت الرحلة حاليا جارية']);
             }
@@ -486,6 +500,35 @@ class TripService {
         }  catch (\Exception $e) {
             Log::error('Error update status trip: ' . $e->getMessage());
             throw new \Exception($e->getMessage());
+        }
+    }
+    //========================================================================================================================
+    public function update_student_status_transport(Request $request,$student_id)
+    {
+        try {
+            $request->validate([
+                'trip_id' => 'required|exists:trips,id',
+            ]);
+    
+            $student = Student::findOrFail($student_id);
+            $trip_id = $request->input('trip_id'); 
+            $trip = Trip::findOrFail($trip_id);
+                        
+            $existingTrip = $student->trips()->wherePivot('status', 'attendee')->first();
+
+            $student->trips()->updateExistingPivot(
+                 $existingTrip->id, 
+                [
+                    'status' => 'Moved_to',
+                ]
+            );
+            $student->trips()->attach($trip->id, ['status' => 'Transferred_from']);
+    
+            return true;
+    
+        } catch (\Exception $e) {
+            Log::error('Error update status trip: ' . $e->getMessage());
+            return redirect()->back()->withErrors('فشلت عملية النقل: ' . $e->getMessage());
         }
     }
     //========================================================================================================================
