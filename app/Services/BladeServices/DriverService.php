@@ -2,8 +2,10 @@
 
 namespace App\Services\BladeServices;
 
-use Illuminate\Support\Facades\Log;
+use App\Models\Trip;
 use App\Models\driver;
+use App\Models\DriverTrip;
+use Illuminate\Support\Facades\Log;
 use Illuminate\Support\Facades\Request;
 
 class DriverService {
@@ -128,5 +130,18 @@ class DriverService {
         }
     }
     //========================================================================================================================
-
+    public function view_driver($driver_id)
+    {
+        try
+        {
+            $tripIds = DriverTrip::where('driver_id', $driver_id)->pluck('trip_id');
+            $trips = Trip::whereIn('id', $tripIds)->get();
+            return $trips;
+        }
+        catch(\Exception $e)
+        {
+            Log::error('Error show student information'.$e->getMessage());
+            throw new \Exception($e->getMessage());
+        }
+    }
 }

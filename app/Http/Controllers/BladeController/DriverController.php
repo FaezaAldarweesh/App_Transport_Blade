@@ -118,4 +118,10 @@ class DriverController extends Controller
     }
         
     //========================================================================================================================
+    public function show($driver_id)
+    {
+        $driver_trip = $this->driverservices->view_driver($driver_id);
+        return view('drivers.show', compact('driver_trip'));
+    }
+    //===========================================================================================================================
 }
