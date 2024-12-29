@@ -31,6 +31,7 @@
                                 <th>#</th>
                                 <th>name</th>
                                 <th>ٍStatus</th>
+                                <th>tool</th>
                             </tr>
                         </thead>
                         <tbody>
@@ -44,7 +45,20 @@
                                             1 => 'تم االوصول إليها'
                                         ]   
                                     @endphp
-                                    <td>{{ $translation[$station->status]?? $station->status }}</td>
+                                    <td>
+                                        <span class="badge 
+                                            {{ $station->status == 0 ? 'bg-success' : 'bg-warning text-dark' }}">
+                                            {{ $translation[$station->status] ?? $station->status }}
+                                        </span>
+                                    </td>
+                                    <td class="text-center">
+                                    <form action="{{ route('update_station_status', $station->id) }}" method="POST" class="d-inline-block">
+                                        @csrf
+                                        <button type="submit" class="btn btn-primary btn-sm">
+                                            <i class="bi {{ $station->status ? 1 : 0 }}"></i> 
+                                            {{ $station->status ? 'تم الوصول إليها' : 'لم يتم الوصول إليها بعد' }}
+                                        </button>
+                                    </form>
                                 </tr>  
                             @empty
                                 <tr>

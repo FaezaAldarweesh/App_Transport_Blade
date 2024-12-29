@@ -5,6 +5,7 @@ namespace App\Services\BladeServices;
 use Carbon\Carbon;
 use App\Models\Trip;
 use App\Models\Checkout;
+use App\Models\StudentTrip;
 use Illuminate\Support\Facades\Log;
 use Illuminate\Support\Facades\Auth;
 
@@ -18,6 +19,9 @@ class CheckOutService
             if($user->role == 'supervisor'){
                 $trip = $user->trips()->pluck('trip_id');
                 $checkout = Checkout::whereIn('trip_id', $trip)->get();
+            }elseif($user->role == 'parent'){
+                $students = $user->students()->pluck('id');
+                $checkout = Checkout::whereIn('student_id', $students)->get();
             }else{
                 $checkout = Checkout::all();
             }

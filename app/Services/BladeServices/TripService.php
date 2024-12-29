@@ -456,6 +456,8 @@ class TripService {
                 // حذف الطلاب المرتبطين بالرحلة مع حالة نقل
                 $Trip->students()->wherePivot('status', 'Transferred_from')
                     ->detach();
+                
+                $Trip->path->stations()->update(['status' => 0]);
             }
             $Trip->save(); 
 
@@ -513,6 +515,10 @@ class TripService {
             $student = Student::findOrFail($student_id);
             $trip_id = $request->input('trip_id'); 
             $trip = Trip::findOrFail($trip_id);
+
+            if (count($trip->students)+1 > $trip->bus->number_of_seats) {
+                return redirect()->back()->withErrors(['error' => 'لا يوجد مكان فارغ ضمن هذه الرحلة']);
+            }
                         
             $existingTrip = $student->trips()->wherePivot('status', 'attendee')->first();
 

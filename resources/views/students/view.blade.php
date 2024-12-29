@@ -75,6 +75,10 @@
                                         <a href="{{ route('student.show', $student->id) }}" class="btn btn-info btn-sm">
                                             <i class="bi bi-eye"></i> View
                                         </a>
+
+                                        <a href="{{ route('checkout.index') }}" class="btn btn-warning btn-sm text-white">
+                                            <i class="bi bi-pencil-square"></i> CheckOut
+                                        </a>
                                 </tr>  
                             @empty
                                 <tr>

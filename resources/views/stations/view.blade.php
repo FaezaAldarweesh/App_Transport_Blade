@@ -60,7 +60,6 @@
                                         ]   
                                     @endphp
                                     <td>
-                                        {{-- {{ $translation[$station->status]?? $station->status }} --}}
                                         <span class="badge 
                                             {{ $station->status == 0 ? 'bg-success' : 'bg-warning text-dark' }}">
                                             {{ $translation[$station->status] ?? $station->status }}
@@ -79,6 +78,7 @@
                                                 <i class="bi bi-trash"></i> Delete
                                             </button>
                                         </form>
+
                                         <form action="{{ route('update_station_status', $station->id) }}" method="POST" class="d-inline-block">
                                             @csrf
                                             <button type="submit" class="btn btn-primary btn-sm">
