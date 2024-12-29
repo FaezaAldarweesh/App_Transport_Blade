@@ -3,6 +3,7 @@
 namespace App\Services\BladeServices;
 
 use App\Models\Bus;
+use App\Models\Trip;
 use Illuminate\Support\Facades\Log;
 
 class BusService {
@@ -128,5 +129,18 @@ class BusService {
         }
     }
     //========================================================================================================================
+    public function view_bus($bus_id)
+    {
+        try
+        {
+            $trips = Trip::where('bus_id', $bus_id)->get();
+            return $trips;
+        }
+        catch(\Exception $e)
+        {
+            Log::error('Error show student information'.$e->getMessage());
+            throw new \Exception($e->getMessage());
+        }
+    }
 
 }

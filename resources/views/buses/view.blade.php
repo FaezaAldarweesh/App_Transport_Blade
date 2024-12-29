@@ -64,6 +64,10 @@
                                                 <i class="bi bi-trash"></i> Delete
                                             </button>
                                         </form>
+
+                                        <a href="{{ route('bus.show', $bus->id) }}" class="btn btn-info btn-sm">
+                                            <i class="bi bi-eye"></i> View
+                                        </a>
                                 </tr>  
                             @empty
                                 <tr>
