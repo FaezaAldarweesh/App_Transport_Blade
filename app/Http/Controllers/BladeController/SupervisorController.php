@@ -120,4 +120,10 @@ class SupervisorController extends Controller
     }
         
     //========================================================================================================================
+    public function show($supervisor_id)
+    {
+        $supervisor_trip = $this->supervisorservices->view_supervisor($supervisor_id);
+        return view('supervisors.show', compact('supervisor_trip'));
+    }
+    //===========================================================================================================================
 }

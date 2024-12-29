@@ -2,7 +2,9 @@
 
 namespace App\Services\BladeServices;
 
+use App\Models\Trip;
 use App\Models\User;
+use App\Models\TripUser;
 use App\Models\Supervisor;
 use Illuminate\Support\Facades\Log;
 
@@ -149,5 +151,21 @@ class SupervisorService {
         }
     }
     //========================================================================================================================
+    public function view_Supervisor($Supervisor_id)
+    {
+        try
+        {
+            $Supervisor = Supervisor::where('id',$Supervisor_id)->first();
+            $user = User::where('name',$Supervisor->name)->first();
+            $tripIds = TripUser::where('user_id', $user->id)->pluck('trip_id');
+            $trips = Trip::whereIn('id', $tripIds)->get();
+            return $trips;
+        }
+        catch(\Exception $e)
+        {
+            Log::error('Error show student information'.$e->getMessage());
+            throw new \Exception($e->getMessage());
+        }
+    }
 
 }
