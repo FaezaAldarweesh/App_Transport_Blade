@@ -49,7 +49,7 @@
             <h4 class="text-section">Components</h4>
           </li>
 
-          @can('users')
+        @can('users')
           <li class="nav-item">
             <a data-bs-toggle="collapse" href="#base">
               <i class="fas fa-layer-group"></i>
@@ -72,7 +72,7 @@
               </ul>
             </div>
           </li>
-          @endcan
+        @endcan
 
           <li class="nav-item">
             <a data-bs-toggle="collapse" href="#sidebarLayouts">
@@ -111,7 +111,7 @@
                     <span class="sub-item">All Students</span>
                   </a>
                 </li>
-                @canend
+                @endcan
                 @can('trashed student management')
                 <li>
                   <a href="{{ route('all_trashed_student') }}">
@@ -280,14 +280,14 @@
                     <span class="sub-item"> All Trips</span>
                   </a>
                 </li>
-                @canend
+                @endcan
                 @can('trashed trip management')
                 <li>
                   <a href="{{ route('all_trashed_trip') }}">
                     <span class="sub-item"> Trashed Trips</span>
                   </a>
                 </li>
-                @canend
+                @endcan
               </ul>
             </div>
            </li> 
@@ -329,17 +329,19 @@
                     <span class="sub-item"> All users</span>
                   </a>
                 </li>
+                @endcan
                 @can('role management')
                 <li>
                   <a href="{{ route('roles.index') }}">
                     <span class="sub-item"> All Role</span>
                   </a>
                 </li>
+                @endcan
               </ul>
             </div>
            </li> 
-          @endcan
           </li>
+          @endcan
         </ul>
       </div>
     </div>
