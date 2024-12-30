@@ -19,14 +19,14 @@ class SupervisorController extends Controller
     public function __construct(SupervisorService $supervisorservices)
     {
         $this->supervisorservices = $supervisorservices;
-        // $this->middleware(['role:Admin', 'permission:supervisors'])->only('index');
-        // $this->middleware(['role:Admin', 'permission:show supervisor'])->only('show');
-        // $this->middleware(['role:Admin', 'permission:add supervisor'])->only(['store', 'create']);
-        // $this->middleware(['role:Admin', 'permission:update supervisor'])->only(['edit', 'update']);
-        // $this->middleware(['role:Admin', 'permission:destroy supervisor'])->only('destroy');
-        // $this->middleware(['role:Admin', 'permission:all trashed supervisor'])->only('all_trashed_bus');
-        // $this->middleware(['role:Admin', 'permission:restore supervisor'])->only('restore');
-        // $this->middleware(['role:Admin', 'permission:forceDelete supervisor'])->only('forceDelete');
+        $this->middleware(['role:Admin', 'permission:supervisors|supervisor management'])->only('index');
+        $this->middleware(['role:Admin', 'permission:show supervisor trip'])->only('show');
+        $this->middleware(['role:Admin', 'permission:add supervisor'])->only(['store', 'create']);
+        $this->middleware(['role:Admin', 'permission:update supervisor'])->only(['edit', 'update']);
+        $this->middleware(['role:Admin', 'permission:destroy supervisor'])->only('destroy');
+        $this->middleware(['role:Admin', 'permission:trashed supervisor management'])->only('all_trashed_bus');
+        $this->middleware(['role:Admin', 'permission:restore supervisor'])->only('restore');
+        $this->middleware(['role:Admin', 'permission:forceDelete supervisor'])->only('forceDelete');
     }
     //===========================================================================================================================
     /**

@@ -18,14 +18,14 @@ class DriverController extends Controller
     public function __construct(DriverService $driverservices)
     {
         $this->driverservices = $driverservices;
-        // $this->middleware(['role:Admin', 'permission:drivers'])->only('index');
-        // $this->middleware(['role:Admin', 'permission:show driver'])->only('show');
-        // $this->middleware(['role:Admin', 'permission:add driver'])->only(['store', 'create']);
-        // $this->middleware(['role:Admin', 'permission:update driver'])->only(['edit', 'update']);
-        // $this->middleware(['role:Admin', 'permission:destroy driver'])->only('destroy');
-        // $this->middleware(['role:Admin', 'permission:all trashed driver'])->only('all_trashed_bus');
-        // $this->middleware(['role:Admin', 'permission:restore driver'])->only('restore');
-        // $this->middleware(['role:Admin', 'permission:forceDelete driver'])->only('forceDelete');
+        $this->middleware(['role:Admin', 'permission:drivers|driver management'])->only('index');
+        $this->middleware(['role:Admin', 'permission:show driver trip'])->only('show');
+        $this->middleware(['role:Admin', 'permission:add driver'])->only(['store', 'create']);
+        $this->middleware(['role:Admin', 'permission:update driver'])->only(['edit', 'update']);
+        $this->middleware(['role:Admin', 'permission:destroy driver'])->only('destroy');
+        $this->middleware(['role:Admin', 'permission:trashed driver management'])->only('all_trashed_bus');
+        $this->middleware(['role:Admin', 'permission:restore driver'])->only('restore');
+        $this->middleware(['role:Admin', 'permission:forceDelete driver'])->only('forceDelete');
     }
     //===========================================================================================================================
     /**

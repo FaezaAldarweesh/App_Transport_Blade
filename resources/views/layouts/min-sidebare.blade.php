@@ -49,6 +49,7 @@
             <h4 class="text-section">Components</h4>
           </li>
 
+          @can('users')
           <li class="nav-item">
             <a data-bs-toggle="collapse" href="#base">
               <i class="fas fa-layer-group"></i>
@@ -57,11 +58,13 @@
             </a>
             <div class="collapse" id="base">
               <ul class="nav nav-collapse">
+                @can('user management')
                 <li>
                   <a href="{{ route('user.index') }}">
                     <span class="sub-item">All Users</span>
                   </a>
                 </li>
+                @endcan
                 <li>
                     <span class="sub-item">Trashed Users</span>
                   </a>
@@ -69,6 +72,7 @@
               </ul>
             </div>
           </li>
+          @endcan
 
           <li class="nav-item">
             <a data-bs-toggle="collapse" href="#sidebarLayouts">
@@ -92,6 +96,7 @@
             </div>
           </li>
 
+          @can('students')
           <li class="nav-item">
             <a data-bs-toggle="collapse" href="#forms">
               <i class="fas fa-pen-square"></i>
@@ -100,20 +105,26 @@
             </a>
             <div class="collapse" id="forms">
               <ul class="nav nav-collapse">
+                @can('student management')
                 <li>
                   <a href="{{ route('student.index') }}">
                     <span class="sub-item">All Students</span>
                   </a>
                 </li>
+                @canend
+                @can('trashed student management')
                 <li>
                   <a href="{{ route('all_trashed_student') }}">
                     <span class="sub-item">Trashed Students</span>
                   </a>
                 </li>
+                @endcan
               </ul>
             </div>
           </li>
+          @endcan
 
+          @can('drivers')
           <li class="nav-item">
             <a data-bs-toggle="collapse" href="#tables">
               <i class="fas fa-table"></i>
@@ -122,20 +133,26 @@
             </a>
             <div class="collapse" id="tables">
               <ul class="nav nav-collapse">
+                @can('driver management')
                 <li>
                   <a href="{{ route('driver.index') }}">
                     <span class="sub-item">Show All Driver</span>
                   </a>
                 </li>
+                @endcan
+                @can('trashed driver management')
                 <li>
                   <a href="{{ route('all_trashed_driver') }}">
                     <span class="sub-item">Trashed Driver</span>
                   </a>
                 </li>
+                @endcan
               </ul>
             </div>
           </li>
+          @endcan
 
+          @can('supervisors')
           <li class="nav-item">
             <a data-bs-toggle="collapse" href="#maps">
               <i class="fas fa-map-marker-alt"></i>
@@ -144,20 +161,26 @@
             </a>
             <div class="collapse" id="maps">
               <ul class="nav nav-collapse">
+                @can('supervisor management')
                 <li>
                   <a href="{{ route('supervisor.index') }}">
                     <span class="sub-item">All Supervisor</span>
                   </a>
                 </li>
+                @endcan
+                @can('trashed supervisor management')
                 <li>
                   <a href="{{ route('all_trashed_supervisor') }}">
                     <span class="sub-item">Trashed Supervisor</span>
                   </a>
                 </li>
+                @endcan
               </ul>
             </div>
           </li>
+          @endcan
 
+          @can('buses')
           <li class="nav-item">
             <a data-bs-toggle="collapse" href="#charts">
               <i class="far fa-chart-bar"></i>
@@ -166,20 +189,26 @@
             </a>
             <div class="collapse" id="charts">
               <ul class="nav nav-collapse">
+                @can('bus management')
                 <li>
                   <a href="{{ route('bus.index') }}">
                     <span class="sub-item"> Busses</span>
                   </a>
                 </li>
+                @endcan
+                @can('trashed bus management')
                 <li>
                   <a href="{{ route('all_trashed_bus') }}">
                     <span class="sub-item"> Trashed Busses</span>
                   </a>
                 </li>
+                @endcan
               </ul>
             </div>
           </li>
+          @endcan
 
+          @can('paths')
           <li class="nav-item">
             <a data-bs-toggle="collapse" href="#charts1">
               <i class="far fa-chart-bar"></i>
@@ -188,22 +217,26 @@
             </a>
             <div class="collapse" id="charts1">
               <ul class="nav nav-collapse">
+                @can('path management')
                 <li>
                   <a href="{{ route('path.index') }}">
                     <span class="sub-item">All Paths</span>
-                    {{-- <span class="caret"></span> --}}
                   </a>
                 </li>
+                @endcan
+                @can('trashed path management')
                 <li>
                   <a href="{{ route('all_trashed_path') }}">
                     <span class="sub-item">Trushed Paths</span>
-                    {{-- <span class="caret"></span> --}}
                   </a>
                 </li>
+                @endcan
               </ul>
             </div>
           </li>
+          @endcan
 
+          @can('stations')
           <li class="nav-item">
             <a data-bs-toggle="collapse" href="#charts2">
               <i class="far fa-chart-bar"></i>
@@ -212,21 +245,27 @@
             </a>
             <div class="collapse" id="charts2">
               <ul class="nav nav-collapse">
+                @can('station management')
                 <li>
                   <a href="{{ route('station.index') }}">
                     <span class="sub-item"> All Stations</span>
                   </a>
                 </li>
+                @endcan
+                @can('trashed station management')
                 <li>
                   <a href="{{ route('all_trashed_station') }}">
                     <span class="sub-item"> Trashed Stations</span>
                   </a>
                 </li>
+                @endcan
               </ul>
             </div>
            </li> 
           </li>
+          @endcan
 
+          @can('trips')
           <li class="nav-item">
             <a data-bs-toggle="collapse" href="#charts3">
               <i class="far fa-chart-bar"></i>
@@ -235,20 +274,26 @@
             </a>
             <div class="collapse" id="charts3">
               <ul class="nav nav-collapse">
+                @can('trip management')
                 <li>
                   <a href="{{ route('trip.index') }}">
                     <span class="sub-item"> All Trips</span>
                   </a>
                 </li>
+                @canend
+                @can('trashed trip management')
                 <li>
                   <a href="{{ route('all_trashed_trip') }}">
                     <span class="sub-item"> Trashed Trips</span>
                   </a>
                 </li>
+                @canend
               </ul>
             </div>
            </li> 
+          @endcan
 
+          @can('checkouts')
            <li class="nav-item">
             <a data-bs-toggle="collapse" href="#charts4">
               <i class="far fa-chart-bar"></i>
@@ -257,15 +302,19 @@
             </a>
             <div class="collapse" id="charts4">
               <ul class="nav nav-collapse">
+                @can('checkout management')
                 <li>
                   <a href="{{ route('checkout.index') }}">
                     <span class="sub-item"> All Checkout</span>
                   </a>
                 </li>
+                @endcan
               </ul>
             </div>
            </li> 
+          @endcan
 
+          @can('users')
            <li class="nav-item">
             <a data-bs-toggle="collapse" href="#charts5">
               <i class="far fa-chart-bar"></i>
@@ -274,11 +323,13 @@
             </a>
             <div class="collapse" id="charts5">
               <ul class="nav nav-collapse">
+                @can('user management')
                 <li>
                   <a href="{{ route('user.index') }}">
                     <span class="sub-item"> All users</span>
                   </a>
                 </li>
+                @can('role management')
                 <li>
                   <a href="{{ route('roles.index') }}">
                     <span class="sub-item"> All Role</span>
@@ -287,7 +338,7 @@
               </ul>
             </div>
            </li> 
-
+          @endcan
           </li>
         </ul>
       </div>

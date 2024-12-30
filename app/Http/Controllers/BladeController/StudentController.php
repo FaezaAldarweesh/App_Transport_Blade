@@ -19,14 +19,14 @@ class StudentController extends Controller
     public function __construct(StudentService $studentservices)
     {
         $this->studentservices = $studentservices;
-        // $this->middleware(['role:Admin', 'permission:students'])->only('index');
-        // $this->middleware(['role:Admin', 'permission:show student'])->only('show');
-        // $this->middleware(['role:Admin', 'permission:add student'])->only(['store', 'create']);
-        // $this->middleware(['role:Admin', 'permission:update student'])->only(['edit', 'update']);
-        // $this->middleware(['role:Admin', 'permission:destroy student'])->only('destroy');
-        // $this->middleware(['role:Admin', 'permission:all trashed student'])->only('all_trashed_bus');
-        // $this->middleware(['role:Admin', 'permission:restore student'])->only('restore');
-        // $this->middleware(['role:Admin', 'permission:forceDelete student'])->only('forceDelete');
+        $this->middleware(['permission:students|student management'])->only('index');
+        $this->middleware(['permission:show student trip'])->only('show');
+        $this->middleware(['role:Admin', 'permission:add student'])->only(['store', 'create']);
+        $this->middleware(['role:Admin', 'permission:update student'])->only(['edit', 'update']);
+        $this->middleware(['role:Admin', 'permission:destroy student'])->only('destroy');
+        $this->middleware(['role:Admin', 'permission:trashed student management'])->only('all_trashed_bus');
+        $this->middleware(['role:Admin', 'permission:restore student'])->only('restore');
+        $this->middleware(['role:Admin', 'permission:forceDelete student'])->only('forceDelete');
     }
     //===========================================================================================================================
     /**

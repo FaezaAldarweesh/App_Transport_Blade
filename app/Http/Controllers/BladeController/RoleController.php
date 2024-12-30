@@ -18,11 +18,11 @@ class RoleController extends Controller
 
     public function __construct()
     {
-        // $this->middleware(['role:Admin', 'permission:roles'])->only('index');
-        // $this->middleware(['role:Admin', 'permission:show role'])->only('show');
-        // $this->middleware(['role:Admin', 'permission:add role'])->only(['store', 'create']);
-        // $this->middleware(['role:Admin', 'permission:update role'])->only(['edit', 'update']);
-        // $this->middleware(['role:Admin', 'permission:destroy role'])->only('destroy');
+        $this->middleware(['role:Admin', 'permission:role management'])->only('index');
+        $this->middleware(['role:Admin', 'permission:show role'])->only('show');
+        $this->middleware(['role:Admin', 'permission:add role'])->only(['store', 'create']);
+        $this->middleware(['role:Admin', 'permission:update role'])->only(['edit', 'update']);
+        $this->middleware(['role:Admin', 'permission:destroy role'])->only('destroy');
     }
     
 //========================================================================================================================

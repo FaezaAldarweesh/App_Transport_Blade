@@ -87,13 +87,14 @@ class PermissionSeeder extends Seeder
             'restore path',
             'forceDelete path',
             
-            'roles',
+            'role management',
             'show role',
             'add role',
             'update role',
             'destroy role',
 
             'users',
+            'user management',
             'show user',
             'add user',
             'update user',

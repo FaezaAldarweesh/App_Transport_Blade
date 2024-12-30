@@ -24,11 +24,11 @@ class UserController extends Controller
 
     public function __construct()
     {
-        // $this->middleware(['role:Admin', 'permission:users'])->only('index');
-        // $this->middleware(['role:Admin', 'permission:show user'])->only('show');
-        // $this->middleware(['role:Admin', 'permission:add user'])->only(['store', 'create']);
-        // $this->middleware(['role:Admin', 'permission:update user'])->only(['edit', 'update']);
-        // $this->middleware(['role:Admin', 'permission:destroy user'])->only('destroy');
+        $this->middleware(['role:Admin', 'permission:users|user management'])->only('index');
+        $this->middleware(['role:Admin', 'permission:show user'])->only('show');
+        $this->middleware(['role:Admin', 'permission:add user'])->only(['store', 'create']);
+        $this->middleware(['role:Admin', 'permission:update user'])->only(['edit', 'update']);
+        $this->middleware(['role:Admin', 'permission:destroy user'])->only('destroy');
     }
 
 //========================================================================================================================

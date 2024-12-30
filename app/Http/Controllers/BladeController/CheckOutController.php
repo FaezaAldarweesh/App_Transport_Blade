@@ -16,12 +16,12 @@ class CheckOutController extends Controller
     public function __construct(CheckOutService $checkoutservice)
     {
         $this->checkoutservice = $checkoutservice;
-        // $this->middleware(['role:Admin', 'permission:checkouts'])->only('index');
-        // $this->middleware(['role:Admin', 'permission:show checkout'])->only('show');
-        // $this->middleware(['role:Admin', 'permission:show trip checkout'])->only('show_checkout');
-        // $this->middleware(['role:Admin', 'permission:add checkout'])->only(['store', 'create']);
-        // $this->middleware(['role:Admin', 'permission:update checkout'])->only(['edit', 'update']);
-        // $this->middleware(['role:Admin', 'permission:destroy checkout'])->only('destroy');
+        $this->middleware(['permission:checkouts|checkout management'])->only('index');
+        $this->middleware(['permission:show checkout'])->only('show');
+        $this->middleware(['permission:show student checkout'])->only('show_checkout');
+        $this->middleware(['permission:add checkout'])->only(['store', 'create']);
+        $this->middleware(['permission:update checkout'])->only(['edit', 'update']);
+        $this->middleware(['permission:destroy checkout'])->only('destroy');
     }
     /**
      * Display a listing of the resource.
