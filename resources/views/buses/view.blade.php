@@ -55,13 +55,10 @@
                                     <td>{{ $bus->number_of_seats }}</td>
                                     <td class="text-center">
 
-                                        @can('update bus')
                                         <a href="{{ route('bus.edit', $bus->id) }}" class="btn btn-warning btn-sm text-white">
                                             <i class="bi bi-pencil-square"></i> Edit
                                         </a>
-                                        @endcan
 
-                                        @can('destroy bus')
                                         <form action="{{ route('bus.destroy', $bus->id) }}" method="POST" class="d-inline-block" onsubmit="return confirm('Are you sure you want to delete this bus?');">
                                             @csrf
                                             @method('DELETE')
@@ -69,9 +66,7 @@
                                                 <i class="bi bi-trash"></i> Delete
                                             </button>
                                         </form>
-                                        @endcan
 
-                                        @can('show bus')
                                         <a href="{{ route('bus.show', $bus->id) }}" class="btn btn-info btn-sm">
                                             <i class="bi bi-eye"></i> View
                                         </a>

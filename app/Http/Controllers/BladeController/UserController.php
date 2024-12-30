@@ -37,7 +37,7 @@ class UserController extends Controller
     {
         try {
             $users = $this->getAllUsers();
-            return view('Admin.users.index', compact('users'));
+            return view('   users.index', compact('users'));
         } catch (\Throwable $th) {
             Log::error($th);
             return redirect()->back()->with('error', $th->getMessage());
@@ -50,7 +50,7 @@ class UserController extends Controller
     {
         try {
             $roles = $this->getRoles();
-            return view('Admin.users.add', compact('roles'));
+            return view('   users.add', compact('roles'));
         } catch (\Throwable $th) {
             Log::error($th);
             return redirect()->back()->with('error', $th->getMessage());
@@ -81,7 +81,7 @@ class UserController extends Controller
             $user = $data['user'];
             $roles = $data['roles'];
             $userRole = $data['userRole'];
-            return view('Admin.users.edit', compact('user', 'roles', 'userRole'));
+            return view('   users.edit', compact('user', 'roles', 'userRole'));
         } catch (\Throwable $th) {
             Log::error($th);
             return redirect()->back()->with('error', 'Unable to retrieve user or roles at this time. Please try again later.');

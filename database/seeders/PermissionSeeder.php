@@ -16,111 +16,105 @@ class PermissionSeeder extends Seeder
     {
 
         $permissions = [
-            //Admin==========================================
-            'buses',
-            'show bus',
-            'add bus',
-            'update bus',
-            'destroy bus',
-            'all trashed bus',
-            'restore bus',
-            'forceDelete bus',
-            
+//Admin======================================================
+            //parent(1,13)=========================================
+            'students',
+            'student management',
+            'show student trip',
+            'show student checkout',
+            'absences / transfar',
+            'update student status',
+            'update student status transport',
+    //supservisor(8,20)=============================================
+            'show path stations',
+            'checkouts',
+            'checkout management',
+            'trips',
+            'trip management',
+            'show trip',
+            //parent==========================================
+            'update trip status',
+            'all student trip',
+            'add checkout',
+            'show checkout',
+            'update checkout',
+            'destroy checkout',
+            'update station status',
+    //supservisor=============================================
+            'add student',
+            'update student',
+            'destroy student',
+            'trashed student management',
+            'restore student',
+            'forceDelete student',
+
             'drivers',
-            'show driver',
+            'driver management',
             'add driver',
             'update driver',
             'destroy driver',
-            'all trashed driver',
+            'show driver trip',
+            'trashed driver management',
             'restore driver',
             'forceDelete driver',
-            
-            'employees',
-            'show employee',
-            'add employee',
-            'update employee',
-            'destroy employee',
-            'all trashed employee',
-            'restore employee',
-            'forceDelete employee',
+
+            'supervisors',
+            'supervisor management',
+            'add supervisor',
+            'update supervisor',
+            'destroy supervisor',
+            'show supervisor trip',
+            'trashed supervisor management',
+            'restore supervisor',
+            'forceDelete supervisor',
+
+            'buses',
+            'buse management',
+            'add bus',
+            'update bus',
+            'destroy bus',
+            'show bus trip',
+            'trashed bus management',
+            'restore bus',
+            'forceDelete bus',    
+         
+            'paths',
+            'path management',
+            'add path',
+            'update path',
+            'destroy path',
+            'trashed path management',
+            'restore path',
+            'forceDelete path',
             
             'roles',
             'show role',
             'add role',
             'update role',
             'destroy role',
-            
-            'students',
-            'show student',
-            'add student',
-            'update student',
-            'destroy student',
-            'all trashed student',
-            'restore student',
-            'forceDelete student',
 
-            'supervisors',
-            'show supervisor',
-            'add supervisor',
-            'update supervisor',
-            'destroy supervisor',
-            'all trashed supervisor',
-            'restore supervisor',
-            'forceDelete supervisor',
-            
             'users',
             'show user',
             'add user',
             'update user',
             'destroy user',
-
-            'paths',
-            'show path',
-            'add path',
-            'update path',
-            'destroy path',
-            'all trashed path',
-            'restore path',
-            'forceDelete path',
-
+       
+            'stations',
+            'station management',
             'add station',
             'update station',
             'destroy station',
-            'all trashed station',
+            'trashed station management',
             'restore station',
             'forceDelete station',
-            
+         
             'add trip',
             'update trip',
             'destroy trip',
-            'all trashed trip',
+            'trashed trip management',
             'restore trip',
             'forceDelete trip',
-            
-            //Supervisor========================================
-
-            'checkouts',
-            'show checkout',
-            'show trip checkout',
-            'add checkout',
-            'update checkout',
-            'destroy checkout',
-            
-            'stations',
-            'show station',
-            'update station status',
-            
-            'trips',
-            'show trip',
-            'update trip status',
-            'all student trip',
-            
-            //endSupervisor=====================================
-            
-            'update student status',
-            'update student status transport',
-
-            //endAdmin==========================================
+//Admin==========================================================
         ];
 
         foreach ($permissions as $permission) {

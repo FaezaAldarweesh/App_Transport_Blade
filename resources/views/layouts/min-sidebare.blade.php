@@ -267,12 +267,12 @@
            </li> 
 
            <li class="nav-item">
-            <a data-bs-toggle="collapse" href="#charts3">
+            <a data-bs-toggle="collapse" href="#charts5">
               <i class="far fa-chart-bar"></i>
               <p>users</p>
               <span class="caret"></span>
             </a>
-            <div class="collapse" id="charts3">
+            <div class="collapse" id="charts5">
               <ul class="nav nav-collapse">
                 <li>
                   <a href="{{ route('user.index') }}">

@@ -30,11 +30,11 @@ class AdminSeeder extends Seeder
         $userAdmin->assignRole($roleAdmin->id);
 
         $roleSupervisor = Role::create(['name' => 'supervisor']);
-        $permissionsSupervisor = Permission::whereBetween('id', [71, 83])->pluck('id')->all();
+        $permissionsSupervisor = Permission::whereBetween('id', [8, 20])->pluck('id')->all();
         $roleSupervisor->syncPermissions($permissionsSupervisor);
 
         $roleParent = Role::create(['name' => 'parent']);
-        $permissionsParent = Permission::whereBetween('id', [84, 85])->pluck('id')->all();
+        $permissionsParent = Permission::whereBetween('id', [1, 13])->pluck('id')->all();
         $roleParent->syncPermissions($permissionsParent);
     }
 }

@@ -31,7 +31,7 @@ class RoleController extends Controller
     {
         try {
             $roles = Role::all();
-            return view('Admin.roles.index', compact('roles'));
+            return view('roles.index', compact('roles'));
         } catch (\Throwable $th) {
             Log::error($th);
             return redirect()->back()->with('error', 'Unable to retrieve roles at this time. Please try again later.');
@@ -44,7 +44,7 @@ class RoleController extends Controller
     {
         try {
             $permissions = Permission::all();
-            return view('Admin.roles.add', compact('permissions'));
+            return view('roles.add', compact('permissions'));
         } catch (\Throwable $th) {
             Log::error($th);
             return redirect()->back()->with('error', 'Unable to retrieve permissions at this time. Please try again later.');
@@ -74,7 +74,7 @@ class RoleController extends Controller
             $role = $data['role'];
             $rolePermissions = $data['rolePermissions'];
 
-            return view('Admin.roles.show', compact('role', 'rolePermissions'));
+            return view('roles.show', compact('role', 'rolePermissions'));
         } catch (\Throwable $th) {
             Log::error($th);
             return redirect()->back()->with('error', 'Unable to retrieve role details at this time. Please try again later.');
@@ -90,7 +90,7 @@ class RoleController extends Controller
         $rolePermissions = DB::table("role_has_permissions")->where("role_has_permissions.role_id", $id)
             ->pluck('role_has_permissions.permission_id', 'role_has_permissions.permission_id')
             ->all();
-        return view('Admin.roles.edit', compact('role', 'permission', 'rolePermissions'));
+        return view('roles.edit', compact('role', 'permission', 'rolePermissions'));
     }
 
 //========================================================================================================================
