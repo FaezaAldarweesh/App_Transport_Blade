@@ -4,14 +4,15 @@ use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\BladeController\BusController;
 use App\Http\Controllers\BladeController\PathController;
+use App\Http\Controllers\BladeController\RoleController;
 use App\Http\Controllers\BladeController\TripController;
 use App\Http\Controllers\BladeController\UserController;
 use App\Http\Controllers\BladeController\DriverController;
 use App\Http\Controllers\BladeController\StationController;
 use App\Http\Controllers\BladeController\StudentController;
+use App\Http\Controllers\BladeController\CheckOutController;
 use App\Http\Controllers\BladeController\EmployeeController;
 use App\Http\Controllers\BladeController\SupervisorController;
-use App\Http\Controllers\BladeController\CheckOutController;
 
 /*
 |--------------------------------------------------------------------------
@@ -83,15 +84,16 @@ Route::group(['middleware' => ['auth']], function () {
     Route::get('restor_employee/{employee_id}',[EmployeeController::class,'restore']) -> name("restore_employee");
     Route::delete('forceDelete/{employee_id}',[EmployeeController::class,'forceDelete']) -> name("forceDelete_employee");
     
-    Route::resource('user', UserController::class);
-    Route::get('all_trushed_user',[UserController::class,'all_trushed_user']) -> name("all_trashed_user");
-    Route::get('restore_user/{user_id}',[UserController::class,'restore']) ->name('restore_user');
-    Route::delete('forceDelete_user/{user_id}',[UserController::class,'forceDelete']) ->name("forceDelete_user");
+    // Route::resource('user', UserController::class);
+    // Route::get('all_trushed_user',[UserController::class,'all_trushed_user']) -> name("all_trashed_user");
+    // Route::get('restore_user/{user_id}',[UserController::class,'restore']) ->name('restore_user');
+    // Route::delete('forceDelete_user/{user_id}',[UserController::class,'forceDelete']) ->name("forceDelete_user");
 
     Route::resource('checkout', CheckOutController::class);
     Route::get('show_checkout/{trip_id}', [CheckOutController::class, 'show_checkout'])->name('show_checkout');
 
-
+    Route::resource('roles', RoleController::class);
+    Route::resource('user', UserController::class);
 });
 
 

@@ -25,6 +25,18 @@ class TripController extends Controller
     public function __construct(TripService $Tripservices)
     {
         $this->Tripservices = $Tripservices;
+        // $this->middleware(['role:Admin', 'permission:trips'])->only('index');
+        // $this->middleware(['role:Admin', 'permission:show trip'])->only('show');
+        // $this->middleware(['role:Admin', 'permission:add trip'])->only(['store', 'create']);
+        // $this->middleware(['role:Admin', 'permission:update trip'])->only(['edit', 'update']);
+        // $this->middleware(['role:Admin', 'permission:destroy trip'])->only('destroy');
+        // $this->middleware(['role:Admin', 'permission:all trashed trip'])->only('all_trashed_bus');
+        // $this->middleware(['role:Admin', 'permission:restore trip'])->only('restore');
+        // $this->middleware(['role:Admin', 'permission:forceDelete trip'])->only('forceDelete');
+        // $this->middleware(['role:Admin', 'permission:update trip status'])->only(methods: 'update_trip_status');
+        // $this->middleware(['role:Admin', 'permission:all student trip'])->only('all_student_trip');
+        // $this->middleware(['role:Admin', 'permission:update student status'])->only('update_student_status');
+        // $this->middleware(['role:Admin', 'permission:update student status transport'])->only('update_student_status_transport');
     }
     //===========================================================================================================================
     /**

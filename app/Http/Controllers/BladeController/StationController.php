@@ -19,6 +19,15 @@ class StationController extends Controller
     public function __construct(StationService $stationservices)
     {
         $this->stationservices = $stationservices;
+        // $this->middleware(['role:Admin', 'permission:stations'])->only('index');
+        // $this->middleware(['role:Admin', 'permission:show station'])->only('show');
+        // $this->middleware(['role:Admin', 'permission:add station'])->only(['store', 'create']);
+        // $this->middleware(['role:Admin', 'permission:update station'])->only(['edit', 'update']);
+        // $this->middleware(['role:Admin', 'permission:destroy station'])->only('destroy');
+        // $this->middleware(['role:Admin', 'permission:all trashed station'])->only('all_trashed_bus');
+        // $this->middleware(['role:Admin', 'permission:restore station'])->only('restore');
+        // $this->middleware(['role:Admin', 'permission:forceDelete station'])->only('forceDelete');
+        // $this->middleware(['role:Admin', 'permission:update station status'])->only('update_station_status');
     }
     //===========================================================================================================================
     /**

@@ -2,132 +2,119 @@
 
 namespace App\Http\Controllers\BladeController;
 
-use App\Models\User;
-use Illuminate\Http\Request;
 use App\Http\Controllers\Controller;
-use App\Services\BladeServices\UserService;
 use App\Http\Requests\User_Rqeuests\Store_User_Request;
 use App\Http\Requests\User_Rqeuests\Update_User_Request;
-use App\Models\Student;
+use Illuminate\Http\Request;
+use App\Http\Requests\UserReq;
+use App\Models\Table;
+use app\Models\User;
+use Spatie\Permission\Models\Role;
+use Hash;
+use Illuminate\Support\Arr;
+use DB;
+use illuminate\Support\Facades\Log;
+use App\Http\Requests\UserRequest;
+use App\Http\Traits\UserManagementTrait;
+use Illuminate\Support\Facades\Auth;
 
 class UserController extends Controller
 {
-    protected $userservices;
-    /**
-     * construct to inject User Services 
-     * @param UserService $userservices
-     */
-    public function __construct(UserService $userservices)
+    use UserManagementTrait;
+
+    public function __construct()
     {
-        $this->userservices = $userservices;
+        // $this->middleware(['role:Admin', 'permission:users'])->only('index');
+        // $this->middleware(['role:Admin', 'permission:show user'])->only('show');
+        // $this->middleware(['role:Admin', 'permission:add user'])->only(['store', 'create']);
+        // $this->middleware(['role:Admin', 'permission:update user'])->only(['edit', 'update']);
+        // $this->middleware(['role:Admin', 'permission:destroy user'])->only('destroy');
     }
-    //===========================================================================================================================
-    /**
-     * method to view all users with a filter on role
-     * @param   Request $request
-     * @return /Illuminate\Http\JsonResponse
-     * UserResources to customize the return responses.
-     */
-    public function index(Request $request)
-    {  
-        $users = $this->userservices->get_all_Users($request->input('role'));
-        return view('users.view', compact('users'));
+
+//========================================================================================================================
+
+    public function index()
+    {
+        try {
+            $users = $this->getAllUsers();
+            return view('Admin.users.index', compact('users'));
+        } catch (\Throwable $th) {
+            Log::error($th);
+            return redirect()->back()->with('error', $th->getMessage());
+        }
     }
-    //===========================================================================================================================
-    /**
-     * method header to driver create page 
-     */
-    public function create(){
-        return view('users.create');
+
+//========================================================================================================================
+
+    public function create()
+    {
+        try {
+            $roles = $this->getRoles();
+            return view('Admin.users.add', compact('roles'));
+        } catch (\Throwable $th) {
+            Log::error($th);
+            return redirect()->back()->with('error', $th->getMessage());
+        }
     }
-    //===========================================================================================================================
-    /**
-     * method to store a new user
-     * @param   Store_User_Request $request
-     * @return /Illuminate\Http\JsonResponse
-     */
+
+//========================================================================================================================
+
     public function store(Store_User_Request $request)
     {
-        $user = $this->userservices->create_User($request->validated());
-        session()->flash('success', 'تمت عملية إضافة المستخدم بنجاح');
-        return redirect()->route('user.index');
-    }
-    
-    //===========================================================================================================================
-    /**
-    * method header bus to edit page
-    */
-    public function edit($user_id){
-        $user = User::findOrFail($user_id);
-        return view('users.update' , compact('user'));
+        try {
+            $validatedData = $request->validated();
+            $this->createUser($validatedData);
+            return redirect()->route('users.index')
+                ->with('success', 'User created successfully');
+        } catch (\Throwable $th) {
+            Log::error($th);
+            return redirect()->back()->withInput()->with('error', 'Unable to create user at this time. Please try again later.');
+        }
     }
 
-    //===========================================================================================================================
+//========================================================================================================================
 
-    public function show($user_id){
-        $user = $this->userservices->view_user($user_id);
-        return view('users.show', compact('user'));
+    public function edit(string $id)
+    {
+        try {
+            $data = $this->getUserWithRoles($id);
+            $user = $data['user'];
+            $roles = $data['roles'];
+            $userRole = $data['userRole'];
+            return view('Admin.users.edit', compact('user', 'roles', 'userRole'));
+        } catch (\Throwable $th) {
+            Log::error($th);
+            return redirect()->back()->with('error', 'Unable to retrieve user or roles at this time. Please try again later.');
+        }
     }
 
-    //===========================================================================================================================
-    /**
-     * method to update user alraedy exist
-     * @param  Update_User_Request $request
-     * @param  $user_id
-     * @return /Illuminate\Http\JsonResponse
-     */
-    public function update(Update_User_Request $request, User $user)
+//========================================================================================================================
+
+    public function update(Update_User_Request $request, string $id)
     {
-        $user = $this->userservices->update_User($request->validated(), $user); 
-        session()->flash('success', 'تمت عملية التعديل على المستخدم بنجاح');
-        return redirect()->route('user.index');
+        try {
+            $validatedData = $request->validated();
+            $this->updateUser($validatedData, $id);
+
+            return redirect()->route('users.index')->with('success', 'User updated successfully');
+        } catch (\Throwable $th) {
+            Log::error($th);
+            return redirect()->back()->withInput()->with('error', 'Unable to update user at this time. Please try again later.');
+        }
     }
-    //===========================================================================================================================
-    /**
-     * method to soft delete user alraedy exist
-     * @param  $user_id
-     * @return /Illuminate\Http\JsonResponse
-     */
-    public function destroy(User $user)
+
+//========================================================================================================================
+
+    public function destroy(string $id)
     {
-        $user = $this->userservices->delete_user($user);
-        session()->flash('success', 'تمت عملية إضافة المستخدم للأرشيف بنجاح');
-        return redirect()->route('user.index');
+        try {
+            $this->deleteUser($id);
+            return redirect()->route('users.index')->with('success', 'User deleted successfully');
+        } catch (\Throwable $th) {
+            Log::error($th);
+            return redirect()->back()->with('error', $th->getMessage());
+        }
     }
-    //========================================================================================================================
-    /**
-     * method to return all soft deleted users
-     * @return /Illuminate\Http\JsonResponse if have an error
-     */
-    public function all_trushed_user()
-    {
-        $users = $this->userservices->all_trashed_user();
-        return view('users.trush', compact('users'));
-    }
-    //========================================================================================================================
-    /**
-     * method to restore soft deleted user alraedy exist
-     * @param   $user_id
-     * @return /Illuminate\Http\JsonResponse
-     */
-    public function restore($user_id)
-    {
-        $delete = $this->userservices->restore_user($user_id);
-        session()->flash('success', 'تمت عملية استعادة المستخدم بنجاح');
-        return redirect()->route('all_trashed_user');
-    }
-    //========================================================================================================================
-    /**
-     * method to force delete on user that soft deleted before
-     * @param   $user_id
-     * @return /Illuminate\Http\JsonResponse
-     */
-    public function forceDelete($user_id)
-    {
-        $delete = $this->userservices->forceDelete_user($user_id);
-        session()->flash('success', 'تمت عملية حذف المستحدم بنجاح');
-        return redirect()->route('all_trashed_user');
-    }
-        
-    //========================================================================================================================
+//========================================================================================================================
+
 }

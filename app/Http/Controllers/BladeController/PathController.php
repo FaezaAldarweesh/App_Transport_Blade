@@ -18,6 +18,14 @@ class PathController extends Controller
     public function __construct(PathService $pathservices)
     {
         $this->pathservices = $pathservices;
+        // $this->middleware(['role:Admin', 'permission:paths'])->only('index');
+        // $this->middleware(['role:Admin', 'permission:show path'])->only('show');
+        // $this->middleware(['role:Admin', 'permission:add path'])->only(['store', 'create']);
+        // $this->middleware(['role:Admin', 'permission:update path'])->only(['edit', 'update']);
+        // $this->middleware(['role:Admin', 'permission:destroy path'])->only('destroy');
+        // $this->middleware(['role:Admin', 'permission:all trashed path'])->only('all_trashed_bus');
+        // $this->middleware(['role:Admin', 'permission:restore path'])->only('restore');
+        // $this->middleware(['role:Admin', 'permission:forceDelete path'])->only('forceDelete');
     }
     //===========================================================================================================================
     /**

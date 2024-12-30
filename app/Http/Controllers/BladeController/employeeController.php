@@ -18,6 +18,14 @@ class EmployeeController extends Controller
     public function __construct(EmployeeService $employeesevices)
     {
         $this->employeesevices = $employeesevices;
+        // $this->middleware(['role:Admin', 'permission:employees'])->only('index');
+        // $this->middleware(['role:Admin', 'permission:show employee'])->only('show');
+        // $this->middleware(['role:Admin', 'permission:add employee'])->only(['store', 'create']);
+        // $this->middleware(['role:Admin', 'permission:update employee'])->only(['edit', 'update']);
+        // $this->middleware(['role:Admin', 'permission:destroy employee'])->only('destroy');
+        // $this->middleware(['role:Admin', 'permission:all trashed employee'])->only('all_trashed_bus');
+        // $this->middleware(['role:Admin', 'permission:restore employee'])->only('restore');
+        // $this->middleware(['role:Admin', 'permission:forceDelete employee'])->only('forceDelete');
     }
     //===========================================================================================================================
     /**
@@ -39,7 +47,7 @@ class EmployeeController extends Controller
     //===========================================================================================================================
     /**
      * method to store a new bus
-     * @param   Store_Bus_Request $request
+     * @param   Employee_Request $request
      * @return /view
      */
     public function store(Employee_Request $request)
@@ -60,7 +68,7 @@ class EmployeeController extends Controller
     //===========================================================================================================================
     /**
      * method to update bus alraedy exist
-     * @param  Update_Bus_Request $request
+     * @param  Employee_Request $request
      * @param  $bus_id
      * @return /view
      */

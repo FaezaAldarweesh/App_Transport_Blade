@@ -18,6 +18,14 @@ class BusController extends Controller
     public function __construct(BusService $busservices)
     {
         $this->busservices = $busservices;
+        // $this->middleware(['role:Admin', 'permission:all buses'])->only('index');
+        // $this->middleware(['role:Admin', 'permission:show bus'])->only('show');
+        // $this->middleware(['role:Admin', 'permission:add bus'])->only(['store', 'create']);
+        // $this->middleware(['role:Admin', 'permission:update bus'])->only(['edit', 'update']);
+        // $this->middleware(['role:Admin', 'permission:destroy bus'])->only('destroy');
+        // $this->middleware(['role:Admin', 'permission:all trashed bus'])->only('all_trashed_bus');
+        // $this->middleware(['role:Admin', 'permission:restore bus'])->only('restore');
+        // $this->middleware(['role:Admin', 'permission:forceDelete bus'])->only('forceDelete');
     }
     //===========================================================================================================================
     /**

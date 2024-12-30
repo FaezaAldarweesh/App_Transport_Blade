@@ -48,6 +48,7 @@
             </span>
             <h4 class="text-section">Components</h4>
           </li>
+
           <li class="nav-item">
             <a data-bs-toggle="collapse" href="#base">
               <i class="fas fa-layer-group"></i>
@@ -62,13 +63,13 @@
                   </a>
                 </li>
                 <li>
-                  <a href="{{ route('all_trashed_user') }}">
                     <span class="sub-item">Trashed Users</span>
                   </a>
                 </li>
               </ul>
             </div>
           </li>
+
           <li class="nav-item">
             <a data-bs-toggle="collapse" href="#sidebarLayouts">
               <i class="fas fa-th-list"></i>
@@ -90,6 +91,7 @@
               </ul>
             </div>
           </li>
+
           <li class="nav-item">
             <a data-bs-toggle="collapse" href="#forms">
               <i class="fas fa-pen-square"></i>
@@ -111,6 +113,7 @@
               </ul>
             </div>
           </li>
+
           <li class="nav-item">
             <a data-bs-toggle="collapse" href="#tables">
               <i class="fas fa-table"></i>
@@ -132,6 +135,7 @@
               </ul>
             </div>
           </li>
+
           <li class="nav-item">
             <a data-bs-toggle="collapse" href="#maps">
               <i class="fas fa-map-marker-alt"></i>
@@ -153,6 +157,7 @@
               </ul>
             </div>
           </li>
+
           <li class="nav-item">
             <a data-bs-toggle="collapse" href="#charts">
               <i class="far fa-chart-bar"></i>
@@ -174,6 +179,7 @@
               </ul>
             </div>
           </li>
+
           <li class="nav-item">
             <a data-bs-toggle="collapse" href="#charts1">
               <i class="far fa-chart-bar"></i>
@@ -197,6 +203,7 @@
               </ul>
             </div>
           </li>
+
           <li class="nav-item">
             <a data-bs-toggle="collapse" href="#charts2">
               <i class="far fa-chart-bar"></i>
@@ -258,6 +265,29 @@
               </ul>
             </div>
            </li> 
+
+           <li class="nav-item">
+            <a data-bs-toggle="collapse" href="#charts3">
+              <i class="far fa-chart-bar"></i>
+              <p>users</p>
+              <span class="caret"></span>
+            </a>
+            <div class="collapse" id="charts3">
+              <ul class="nav nav-collapse">
+                <li>
+                  <a href="{{ route('user.index') }}">
+                    <span class="sub-item"> All users</span>
+                  </a>
+                </li>
+                <li>
+                  <a href="{{ route('roles.index') }}">
+                    <span class="sub-item"> All Role</span>
+                  </a>
+                </li>
+              </ul>
+            </div>
+           </li> 
+
           </li>
         </ul>
       </div>
