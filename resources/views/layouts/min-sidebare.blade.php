@@ -189,10 +189,10 @@
             </a>
             <div class="collapse" id="charts">
               <ul class="nav nav-collapse">
-                @can('bus management')
+                @can('buse management')
                 <li>
                   <a href="{{ route('bus.index') }}">
-                    <span class="sub-item"> Busses</span>
+                    <span class="sub-item"> all Buses</span>
                   </a>
                 </li>
                 @endcan

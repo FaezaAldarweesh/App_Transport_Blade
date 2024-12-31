@@ -100,7 +100,7 @@ public function create_Checkout($data) {
     {
         try
         { 
-            $trip = Trip::findOrFail($trip_id);
+             $trip = Trip::findOrFail($trip_id);
             $trip->with('students')->get();
             return $trip;
         }

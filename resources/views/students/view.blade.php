@@ -29,8 +29,8 @@
                     {{-- <h2 class="mb-4 text-center text-secondary">Student List</h2> --}}
 
                     <div class="d-flex justify-content-between mb-3">
-                        @can('add trip')
-                        <a href="{{ route('add student') }}" class="btn btn-success text-white">
+                        @can('add student')
+                        <a href="{{ route('student.create') }}" class="btn btn-success text-white">
                             <i class="bi bi-plus-circle"></i> Create New Student
                         </a>
                         @endcan
@@ -80,12 +80,6 @@
                                         @can('show student trip')
                                         <a href="{{ route('student.show', $student->id) }}" class="btn btn-info btn-sm">
                                             <i class="bi bi-eye"></i> View
-                                        </a>
-                                        @endcan
-
-                                        @can('show student checkout')
-                                        <a href="{{ route('checkout.index') }}" class="btn btn-warning btn-sm text-white">
-                                            <i class="bi bi-pencil-square"></i> CheckOut
                                         </a>
                                         @endcan
                                 </tr>  

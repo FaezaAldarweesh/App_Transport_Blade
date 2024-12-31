@@ -90,7 +90,7 @@ Route::group(['middleware' => ['auth']], function () {
     Route::delete('forceDelete_user/{user_id}',[UserController::class,'forceDelete']) ->name("forceDelete_user");
 
     Route::resource('checkout', CheckOutController::class);
-    Route::get('show_checkout/{trip_id}', [CheckOutController::class, 'show_checkout'])->name('show_checkout');
+    Route::get('show_checkout/{student_id}', [CheckOutController::class, 'show_checkout'])->name('show_checkout');
 
     Route::resource('roles', RoleController::class);
     Route::resource('users', UserController::class);
