@@ -57,12 +57,15 @@
                                     <td>{{ $student->latitude }}</td>
                                     <td>{{ $student->user?$student->user->name:'N/A'}}</td>
                                     <td class="text-center">
+                                        @can('restore student')
                                         <form action="{{ route('restore_student', $student->id) }}" method="GET" class="d-inline-block" onsubmit="return confirm('Are you sure you want to restore this student?');">
                                             @csrf
                                             <button type="submit" class="btn btn-warning btn-sm text-white">
                                                 <i class="bi bi-arrow-clockwise"></i> Restore
                                             </button>
                                         </form>
+                                        @endcan
+                                        @can('forceDelete student')
                                         <form action="{{ route('forceDelete_student', $student->id) }}" method="POST" class="d-inline-block ms-2" onsubmit="return confirm('Are you sure you want to permanently delete this student?');">
                                             @csrf
                                             @method('DELETE')
@@ -70,6 +73,7 @@
                                                 <i class="bi bi-trash"></i> Force Delete
                                             </button>
                                         </form>
+                                        @endcan
                                     </td>
                                 </tr>  
                             @empty

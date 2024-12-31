@@ -11,7 +11,7 @@
 @endsection
 
 @section('content')
-<div class="container" style="margin-top: 70px>
+<div class="container" style="margin-top: 70px">
     <div class="row justify-content-center">
         {{-- <div class="col-md-10"> --}}
             <div class="card shadow-lg border-0">
@@ -54,12 +54,15 @@
                                     <td>{{ $supervisor->phone }}</td>
                                    
                                     <td class="text-center">
+                                        @can('restore supervisor')
                                         <form action="{{ route('restore_supervisor', $supervisor->id) }}" method="GET" class="d-inline-block" onsubmit="return confirm('Are you sure you want to restore this supervisor?');">
                                             @csrf
                                             <button type="submit" class="btn btn-warning btn-sm text-white">
                                                 <i class="bi bi-arrow-clockwise"></i> Restore
                                             </button>
                                         </form>
+                                        @endcan
+                                        @can('forceDelete supervisor')
                                         <form action="{{ route('forceDelete_supervisor', $supervisor->id) }}" method="POST" class="d-inline-block ms-2" onsubmit="return confirm('Are you sure you want to permanently delete this supervisor?');">
                                             @csrf
                                             @method('DELETE')
@@ -67,6 +70,7 @@
                                                 <i class="bi bi-trash"></i> Force Delete
                                             </button>
                                         </form>
+                                        @endcan
                                     </td>
                                 </tr>  
                             @empty

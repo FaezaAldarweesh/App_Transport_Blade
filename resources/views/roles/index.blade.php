@@ -79,27 +79,22 @@
                                     <td>{{ $loop->iteration }}</td>
                                     <td>{{ $role->name }}</td>
                                     <td>
-                                            @can('عرض صلاحية')
+                                            @can('add role')
                                             <a class="btn btn-success btn-sm"
                                                 href="{{ route('roles.show', $role->id) }}">عرض</a>
                                             @endcan
-                                            
-                                            @if($role->name!=='Admin' && $role->name!=='Customer')
                                             <a class="btn btn-primary btn-sm"
-                                            @can('تعديل صلاحية')
+                                            @can( 'update role')
                                                 href="{{ route('roles.edit', $role->id) }}">تعديل</a>
                                             @endcan
-                                            @endif
                                            
-                                            @if($role->name!=='Admin' && $role->name!=='Customer')
-                                            @can('حذف صلاحية')
+                                            @can('destroy role')
                                             <button type="button" class="btn btn-danger btn-sm" data-toggle="modal" 
                                             data-target="#deleteRoleModal" data-role_id="{{ $role->id }}" 
                                             data-rolename="{{ $role->name }}" title="حذف">
                                             <i class="las la-trash"></i>
                                             </button>
                                             @endcan
-                                            @endif
                                             
                                     </td>
                                     

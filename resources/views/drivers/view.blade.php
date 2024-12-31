@@ -30,9 +30,11 @@
                     {{-- <h2 class="mb-4 text-center text-secondary">Driver List</h2> --}}
 
                     <div class="d-flex justify-content-between mb-3">
+                        @can('add driver')
                         <a href="{{ route('driver.create') }}" class="btn btn-success text-white">
                             <i class="bi bi-plus-circle"></i> Create New Driver
                         </a>
+                        @endcan
                         
                         <a href="{{ route('home') }}" class="btn btn-secondary">Back</a>
                     </div>
@@ -55,10 +57,13 @@
                                     <td>{{ $driver->phone }}</td>
                                     <td>{{ $driver->location }}</td>
                                     <td class="text-center">
+                                        @can('update driver')
                                         <a href="{{ route('driver.edit', $driver->id) }}" class="btn btn-warning btn-sm text-white">
                                             <i class="bi bi-pencil-square"></i> Edit
                                         </a>
+                                        @endcan
 
+                                        @can('destroy driver')
                                         <form action="{{ route('driver.destroy', $driver->id) }}" method="POST" class="d-inline-block" onsubmit="return confirm('Are you sure you want to delete this driver?');">
                                             @csrf
                                             @method('DELETE')
@@ -66,10 +71,13 @@
                                                 <i class="bi bi-trash"></i> Delete
                                             </button>
                                         </form>
+                                        @endcan
 
+                                        @can('show driver trip')
                                         <a href="{{ route('driver.show', $driver->id) }}" class="btn btn-info btn-sm">
                                             <i class="bi bi-eye"></i> View
                                         </a>
+                                        @endcan
                                 </tr>  
                             @empty
                                 <tr>

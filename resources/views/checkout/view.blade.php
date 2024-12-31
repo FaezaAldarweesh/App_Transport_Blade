@@ -33,9 +33,11 @@
 
             <div class="card-body">
                 <div class="d-flex justify-content-between mb-3">
+                    @can('show checkout')
                     <a href="{{ route('show_checkout',$trip->id) }}" class="btn btn-success text-white">
                         <i class="bi bi-plus-circle"></i> show checkout
                     </a>
+                    @endcan
                     <a href="{{ route('trip.index',$trip->id) }}" class="btn btn-secondary">Back</a>
                 </div>
 
@@ -55,6 +57,7 @@
                                 <td class="text-center">{{ $loop->iteration }}</td>
                                 <td>{{ $student->name }}</td>
                                 <td>
+                                    @can('add checkout')
                                     <form action="{{ route('checkout.store') }}" method="POST">
                                         @csrf
                                         <div class="mb-3">
@@ -73,6 +76,7 @@
                                             </div>
                                         </td>
                                     </form>
+                                    @endcan
                                 </td>
                             </tr>
                         @endforeach

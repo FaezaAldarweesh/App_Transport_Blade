@@ -52,12 +52,15 @@
                                     <td>{{ $driver->location }}</td>
                                    
                                     <td class="text-center">
+                                        @can('restore driver')
                                         <form action="{{ route('restore_driver', $driver->id) }}" method="GET" class="d-inline-block" onsubmit="return confirm('Are you sure you want to restore this driver?');">
                                             @csrf
                                             <button type="submit" class="btn btn-warning btn-sm text-white">
                                                 <i class="bi bi-arrow-clockwise"></i> Restore
                                             </button>
                                         </form>
+                                        @endcan
+                                        @can('forceDelete driver')
                                         <form action="{{ route('forceDelete_driver', $driver->id) }}" method="POST" class="d-inline-block ms-2" onsubmit="return confirm('Are you sure you want to permanently delete this driver?');">
                                             @csrf
                                             @method('DELETE')
@@ -65,6 +68,7 @@
                                                 <i class="bi bi-trash"></i> Force Delete
                                             </button>
                                         </form>
+                                        @endcan
                                     </td>
                                 </tr>  
                             @empty

@@ -62,10 +62,12 @@
                                     <td>{{ $checkout->note}}</td>
                                     <td>{{ $checkout->created_at}}</td>
                                     <td class="text-center">
+                                        @can('update checkout')
                                         <a href="{{ route('checkout.edit', $checkout->id) }}" class="btn btn-warning btn-sm text-white">
                                             <i class="bi bi-pencil-square"></i> Edit
                                         </a>
-
+                                        @endcan
+                                        @can('destroy checkout')
                                         <form action="{{ route('checkout.destroy', $checkout->id) }}" method="POST" class="d-inline-block" onsubmit="return confirm('Are you sure you want to delete this checkout?');">
                                             @csrf
                                             @method('DELETE')
@@ -73,6 +75,7 @@
                                                 <i class="bi bi-trash"></i> Delete
                                             </button>
                                         </form>
+                                        @endcan
                                 </tr>
                             @endforeach
                     </tbody>

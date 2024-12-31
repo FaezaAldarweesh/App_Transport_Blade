@@ -30,10 +30,12 @@
                     {{-- <h2 class="mb-4 text-center text-secondary">Station List</h2> --}}
 
                     <div class="d-flex justify-content-between mb-3">
+                        @can('add station')
                         <a href="{{ route('station.create') }}" class="btn btn-success text-white">
                             <i class="bi bi-plus-circle"></i> Create New Station
                         </a>
-                        
+                        @endcan
+
                         <a href="{{ route('home') }}" class="btn btn-secondary">Back</a>
                     </div>
 
@@ -65,12 +67,14 @@
                                             {{ $translation[$station->status] ?? $station->status }}
                                         </span>
                                     </td>
-
                                     <td class="text-center">
+                                        @can('update station')
                                         <a href="{{ route('station.edit', $station->id) }}" class="btn btn-warning btn-sm text-white">
                                             <i class="bi bi-pencil-square"></i> Edit
                                         </a>
+                                        @endcan
 
+                                        @can('destroy station')
                                         <form action="{{ route('station.destroy', $station->id) }}" method="POST" class="d-inline-block" onsubmit="return confirm('Are you sure you want to delete this station?');">
                                             @csrf
                                             @method('DELETE')
@@ -78,7 +82,9 @@
                                                 <i class="bi bi-trash"></i> Delete
                                             </button>
                                         </form>
+                                        @endcan
 
+                                        @can('update station status')
                                         <form action="{{ route('update_station_status', $station->id) }}" method="POST" class="d-inline-block">
                                             @csrf
                                             <button type="submit" class="btn btn-primary btn-sm">
@@ -86,6 +92,7 @@
                                                 {{ $station->status ? 'تم الوصول إليها' : 'لم يتم الوصول إليها بعد' }}
                                             </button>
                                         </form>
+                                        @endcan
                                 </tr>  
                             @empty
                                 <tr>

@@ -40,9 +40,11 @@
                     {{-- <h2 class="mb-4 text-center text-secondary">Trip List</h2> --}}
 
                     <div class="d-flex justify-content-between mb-3">
+                        @can('add trip')
                         <a href="{{ route('trip.create') }}" class="btn btn-success text-white">
                             <i class="bi bi-plus-circle"></i> Create New Trip
                         </a>
+                        @endcan
                         
                         <a href="{{ route('home') }}" class="btn btn-secondary">Back</a>
                     </div>
@@ -80,10 +82,13 @@
                                         </span>
                                     </td>
                                     <td class="text-center">
+                                        @can('update trip')
                                         <a href="{{ route('trip.edit', $trip->id) }}" class="btn btn-warning btn-sm text-white">
                                             <i class="bi bi-pencil-square"></i> Edit
                                         </a>
+                                        @endcan
 
+                                        @can('destroy trip')
                                         <form action="{{ route('trip.destroy', $trip->id) }}" method="POST" class="d-inline-block" onsubmit="return confirm('Are you sure you want to delete this trip?');">
                                             @csrf
                                             @method('DELETE')
@@ -91,11 +96,15 @@
                                                 <i class="bi bi-trash"></i> Delete
                                             </button>
                                         </form>
+                                        @endcan
 
+                                        @can('show trip')
                                         <a href="{{ route('trip.show', $trip->id) }}" class="btn btn-info btn-sm">
                                             <i class="bi bi-eye"></i> View
                                         </a>
+                                        @endcan
 
+                                        @can('update trip status')
                                         <form action="{{ route('update_trip_status', $trip->id) }}" method="POST" class="d-inline-block">
                                             @csrf
                                             <button type="submit" class="btn btn-primary btn-sm">
@@ -103,14 +112,19 @@
                                                 {{ $trip->status ? 'جارية' : 'منتهية' }}
                                             </button>
                                         </form>
+                                        @endcan
 
+                                        @can('all student trip')
                                         <a href="{{ route('checkout.show',$trip->id) }}" class="btn btn-warning btn-sm text-white">
                                             <i class="bi bi-pencil-square"></i> CheckOut
                                         </a>
+                                        @endcan
 
+                                        @can('absences / transfar')
                                         <a href="{{ route('all_student_trip', $trip->id) }}" class="btn btn-info btn-sm">
                                             <i class="bi bi-eye"></i> Absences/Transfer
                                         </a>
+                                        @endcan
                                 </tr>  
                             @empty
                                 <tr>

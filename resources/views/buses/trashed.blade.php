@@ -49,12 +49,15 @@
                                     <td>{{ $bus->name }}</td>
                                     <td>{{ $bus->number_of_seats }}</td>                                   
                                     <td class="text-center">
+                                        @can('restore bus')
                                         <form action="{{ route('restore_bus', $bus->id) }}" method="GET" class="d-inline-block" onsubmit="return confirm('Are you sure you want to restore this bus?');">
                                             @csrf
                                             <button type="submit" class="btn btn-warning btn-sm text-white">
                                                 <i class="bi bi-arrow-clockwise"></i> Restore
                                             </button>
                                         </form>
+                                        @endcan
+                                        @can('forceDelete bus')
                                         <form action="{{ route('forceDelete_bus', $bus->id) }}" method="POST" class="d-inline-block ms-2" onsubmit="return confirm('Are you sure you want to permanently delete this bus?');">
                                             @csrf
                                             @method('DELETE')
@@ -62,6 +65,7 @@
                                                 <i class="bi bi-trash"></i> Force Delete
                                             </button>
                                         </form>
+                                        @endcan
                                     </td>
                                 </tr>  
                             @empty

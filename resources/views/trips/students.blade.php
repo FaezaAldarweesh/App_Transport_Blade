@@ -74,14 +74,17 @@
                                         </span>
                                     </td>
                                     <td class="text-center">
+                                    @can('update student status')
                                     <form action="{{ route('update_student_status', [$student->pivot->student_id,$student->pivot->trip_id]) }}" method="POST" class="d-inline-block">
                                         @csrf
                                         <button type="submit" class="btn btn-primary btn-sm">
                                             <i class="bi bi-pencil-square"></i> تحديث الحالة
                                         </button>
                                     </form>
+                                    @endcan
 
                                     <td>
+                                    @can('update student status transport')
                                     <form action="{{ route('update_student_status_transport',$student->id) }}" method="POST" class="d-inline-block">
                                     @csrf    
                                         <select name="trip_id" class="form-control">
@@ -99,6 +102,7 @@
                                             </button>
                                         </td>
                                     </form>
+                                    @endcan
                                 </tr>  
                             @empty
                                 <tr>

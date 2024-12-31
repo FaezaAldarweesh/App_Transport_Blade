@@ -30,9 +30,11 @@
                     {{-- <h2 class="mb-4 text-center text-secondary">Supervisor List</h2> --}}
 
                     <div class="d-flex justify-content-between mb-3">
+                        @can('add supervisor')
                         <a href="{{ route('supervisor.create') }}" class="btn btn-success text-white">
                             <i class="bi bi-plus-circle"></i> Create New Supervisor
                         </a>
+                        @endcan
                         
                         <a href="{{ route('home') }}" class="btn btn-secondary">Back</a>
                     </div>
@@ -55,10 +57,13 @@
                                     <td>{{ $supervisor->location }}</td>
                                     <td>{{ $supervisor->phone }}</td>
                                     <td class="text-center">
+                                        @can('update supervisor')
                                         <a href="{{ route('supervisor.edit', $supervisor->id) }}" class="btn btn-warning btn-sm text-white">
                                             <i class="bi bi-pencil-square"></i> Edit
                                         </a>
+                                        @endcan
 
+                                        @can('destroy supervisor')
                                         <form action="{{ route('supervisor.destroy', $supervisor->id) }}" method="POST" class="d-inline-block" onsubmit="return confirm('Are you sure you want to delete this supervisor?');">
                                             @csrf
                                             @method('DELETE')
@@ -66,10 +71,13 @@
                                                 <i class="bi bi-trash"></i> Delete
                                             </button>
                                         </form>
+                                        @endcan
 
+                                        @can('show supervisor trip')
                                         <a href="{{ route('supervisor.show', $supervisor->id) }}" class="btn btn-info btn-sm">
                                             <i class="bi bi-eye"></i> View
                                         </a>
+                                        @endcan
                                 </tr>  
                             @empty
                                 <tr>

@@ -29,9 +29,11 @@
                     {{-- <h2 class="mb-4 text-center text-secondary">Student List</h2> --}}
 
                     <div class="d-flex justify-content-between mb-3">
-                        <a href="{{ route('student.create') }}" class="btn btn-success text-white">
+                        @can('add trip')
+                        <a href="{{ route('add student') }}" class="btn btn-success text-white">
                             <i class="bi bi-plus-circle"></i> Create New Student
                         </a>
+                        @endcan
                         
                         <a href="{{ route('home') }}" class="btn btn-secondary">Back</a>
                     </div>
@@ -60,10 +62,12 @@
                                     <td>{{ $student->latitude }}</td>
                                     <td>{{ $student->user->name }}</td>
                                     <td class="text-center">
+                                        @can('update student')
                                         <a href="{{ route('student.edit', $student->id) }}" class="btn btn-warning btn-sm text-white">
                                             <i class="bi bi-pencil-square"></i> Edit
                                         </a>
-
+                                        @endcan
+                                        @can('destroy student')
                                         <form action="{{ route('student.destroy', $student->id) }}" method="POST" class="d-inline-block" onsubmit="return confirm('Are you sure you want to delete this student?');">
                                             @csrf
                                             @method('DELETE')
@@ -71,14 +75,19 @@
                                                 <i class="bi bi-trash"></i> Delete
                                             </button>
                                         </form>
+                                        @endcan
 
+                                        @can('show student trip')
                                         <a href="{{ route('student.show', $student->id) }}" class="btn btn-info btn-sm">
                                             <i class="bi bi-eye"></i> View
                                         </a>
+                                        @endcan
 
+                                        @can('show student checkout')
                                         <a href="{{ route('checkout.index') }}" class="btn btn-warning btn-sm text-white">
                                             <i class="bi bi-pencil-square"></i> CheckOut
                                         </a>
+                                        @endcan
                                 </tr>  
                             @empty
                                 <tr>
