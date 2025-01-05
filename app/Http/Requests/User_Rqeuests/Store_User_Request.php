@@ -28,6 +28,7 @@ class Store_User_Request extends FormRequest
             'name' => 'required|regex:/^[\p{L}\s]+$/u|min:2|max:50',
             'email' => 'required|min:6|max:50|email|unique:users,email',
             'password' => 'required|string|min:8',
+            'role' => 'required'
         ];
     }
     //===========================================================================================================================
@@ -44,6 +45,7 @@ class Store_User_Request extends FormRequest
             'name' => 'اسم المستخدم',
             'email' => 'ايميل المستخدم',
             'password' => 'كلمة المرور',
+            'role' => 'دور المستخدم'
         ];
     }
     //===========================================================================================================================

@@ -305,6 +305,11 @@
                   </a>
                 </li>
                 @endcan
+                <li>
+                  <a href="{{ route('all_trashed_user') }}">
+                    <span class="sub-item"> All trashed users</span>
+                  </a>
+                </li>
                 @can('role management')
                 <li>
                   <a href="{{ route('roles.index') }}">

@@ -31,6 +31,7 @@ class Update_User_Request extends FormRequest
             'name' => 'sometimes|nullable|regex:/^[\p{L}\s]+$/u|min:2|max:50',
             'email' => ['sometimes','nullable', 'min:6','max:50','email', Rule::unique('users', 'email')->ignore($user_id)],
             'password' => 'sometimes|nullable|string|min:8',
+            'role' => 'required'
         ];
     }
     //===========================================================================================================================
@@ -47,6 +48,7 @@ class Update_User_Request extends FormRequest
             'name' => 'اسم المستخدم',
             'email' => 'ايميل المستخدم',
             'password' => 'كلمة المرور',
+            'role' => 'دور المستخدم'
         ];
     }
     //===========================================================================================================================

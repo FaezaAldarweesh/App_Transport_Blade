@@ -13,23 +13,21 @@
 @section('content')
 <div class="container" style="margin-top: 70px">
     <div class="row justify-content-center">
-        {{-- <div class="col-md-8"> --}}
             <div class="card shadow-sm">
-                {{-- <div class="card-header">{{ __('Edit driver') }}</div> --}}
 
                 <div class="card-body">
 
-                    @if ($errors->any())
-                        <div class="alert alert-danger">
-                            <ul>
-                                @foreach ($errors->all() as $error)
-                                    <li>{{ $error }}</li>
-                                @endforeach
-                            </ul>
-                        </div>
-                    @endif
+                @if ($errors->any())
+                    <div class="alert alert-danger">
+                        <ul>
+                            @foreach ($errors->all() as $error)
+                                <li>{{ $error }}</li>
+                            @endforeach
+                        </ul>
+                    </div>
+                @endif
 
-                    <form action="{{ route('user.update', $user->id) }}" method="POST">
+                    <form action="{{ route('users.update', $user->id) }}" method="POST">
                         @csrf
                         @method('PUT')
 
@@ -51,22 +49,26 @@
 
                         <div class="mb-3">
                             <label for="password" class="form-label">Password</label>
-                            <input type="text" class="form-control @error('password') is-invalid @enderror" id="password" name="password" value="{{ old('password', $user->password) }}">
+                            <input type="password" class="form-control @error('password') is-invalid @enderror" id="password" name="password" value="{{ old('password', $user->password) }}">
                             @error('password')
                                 <div class="invalid-feedback">{{ $message }}</div>
                             @enderror
                         </div>
-                        {{-- <div class="mb-3">
-                            <label for="role" class="form-label">role</label>
-                            <input type="text" class="form-control @error('role') is-invalid @enderror" id="role" name="role" value="{{ old('role', $user->role) }}">
-                            @error('role')
-                                <div class="invalid-feedback">{{ $message }}</div>
-                            @enderror
-                        </div> --}}
-                        
+                        <div class="mb-3">
+                            <label for="password_confirmation" class="form-label">password confirmation</label>
+                            <input type="password" class="form-control" id="password" name="password_confirmation" value="{{$user->password}}">
+                        </div>
+                        <div class="mb-3">
+                        <label for="exampleInputEmail1">Role</label>
+                            <select name="role" class="form-control" multiple>
+                                @foreach($roles as $id => $role)
+                                    <option value="{{ $id }}" {{ in_array($id, $userRole) ? 'selected' : '' }}>{{ $role }}</option>
+                                @endforeach
+                            </select>
+                        </div> 
                         <div class="d-flex justify-content-end mt-4">
                             <button type="submit" class="btn btn-primary">Update User</button>
-                            <a href="{{ route('user.index') }}" class="btn btn-secondary ms-2">Back</a>
+                            <a href="{{ route('users.index') }}" class="btn btn-secondary ms-2">Back</a>
                         </div>
                     </form>
                 </div>

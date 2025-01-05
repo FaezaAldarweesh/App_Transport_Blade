@@ -2,11 +2,12 @@
 namespace App\Http\Traits;
 
 use App\Models\User;
-use Illuminate\Support\Facades\Log;
-use Spatie\Permission\Models\Role;
-use Illuminate\Support\Facades\Hash;
+use App\Models\Student;
 use Illuminate\Support\Arr;
 use Illuminate\Support\Facades\DB;
+use Spatie\Permission\Models\Role;
+use Illuminate\Support\Facades\Log;
+use Illuminate\Support\Facades\Hash;
 
 trait UserManagementTrait
 {
@@ -65,27 +66,31 @@ trait UserManagementTrait
     {
         try {
             $user = User::findOrFail($id);
+    
             if (!empty($data['password'])) {
-                $data['password'] = Hash::make($data['password']);
+                $data['password'] = $data['password'];
             } else {
                 $data = Arr::except($data, ['password']);
             }
-            
+    
             $user->update($data);
-            DB::table('model_has_roles')->where('model_id', $id)->delete();
-            $user->assignRole($data['role']);
-
+    
+            // إعادة تعيين الأدوار باستخدام syncRoles
+            $user->syncRoles($data['role']);
+    
             return $user;
         } catch (\Throwable $th) {
             Log::error($th);
             throw new \Exception('Unable to update user at this time. Please try again later.');
         }
     }
+    
 
     public function deleteUser(string $id)
     {
         try {
             $user = User::findOrFail($id);
+            $students = Student::where('user_id',$id)->delete();
             $user->delete();
 
             return true;
@@ -95,5 +100,44 @@ trait UserManagementTrait
         }
     }
 
+    public function view_user($user_id){
+        try{
+            $user = User::findOrFail($user_id);
+            $user->with('students')->get();
+            return $user;
+        }       
+        catch(\Exception $e){
+            Log::error('Error view user'.$e->getMessage());
+            throw new \Exception($e->getMessage());
+        } 
+    }
 
+
+//===========================================================================================================================
+    public function restore_user($user_id)
+    {
+        try {
+            $user = User::onlyTrashed()->findOrFail($user_id);
+            $user->restore();
+            $students = Student::onlyTrashed()->where('user_id',$user_id)->restore();
+            return $user;
+        } catch (\Exception $e) {
+            Log::error('Error restoring student: ' . $e->getMessage());
+            throw new \Exception('حدث خطأ أثناء محاولة استعادة المستخدم');
+        }
+    }
+//===========================================================================================================================
+    public function forceDelete_user($user_id)
+    {
+        try {
+            $user = User::onlyTrashed()->findOrFail($user_id);
+            $user->forceDelete();
+            $students = Student::onlyTrashed()->where('user_id',$user_id)->forceDelete();
+            return true;
+        } catch (\Exception $e) {
+            Log::error('Error force deleting student: ' . $e->getMessage());
+            throw new \Exception('حدث خطأ أثناء محاولة حذف أرشيف المستخدم');
+        }
+    }
+//===========================================================================================================================
 }

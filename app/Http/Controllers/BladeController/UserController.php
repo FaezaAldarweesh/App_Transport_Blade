@@ -29,6 +29,9 @@ class UserController extends Controller
         $this->middleware(['role:Admin', 'permission:add user'])->only(['store', 'create']);
         $this->middleware(['role:Admin', 'permission:update user'])->only(['edit', 'update']);
         $this->middleware(['role:Admin', 'permission:destroy user'])->only('destroy');
+        // $this->middleware(['role:Admin', 'permission:trashed user management'])->only('all_trashed_user');
+        // $this->middleware(['role:Admin', 'permission:restore user'])->only('restore');
+        // $this->middleware(['role:Admin', 'permission:forceDelete user'])->only('forceDelete');
     }
 
 //========================================================================================================================
@@ -37,7 +40,7 @@ class UserController extends Controller
     {
         try {
             $users = $this->getAllUsers();
-            return view('users.index', compact('users'));
+            return view('users.view', compact('users'));
         } catch (\Throwable $th) {
             Log::error($th);
             return redirect()->back()->with('error', $th->getMessage());
@@ -50,7 +53,7 @@ class UserController extends Controller
     {
         try {
             $roles = $this->getRoles();
-            return view('   users.add', compact('roles'));
+            return view('users.create', compact('roles'));
         } catch (\Throwable $th) {
             Log::error($th);
             return redirect()->back()->with('error', $th->getMessage());
@@ -81,7 +84,7 @@ class UserController extends Controller
             $user = $data['user'];
             $roles = $data['roles'];
             $userRole = $data['userRole'];
-            return view('   users.edit', compact('user', 'roles', 'userRole'));
+            return view('   users.update', compact('user', 'roles', 'userRole'));
         } catch (\Throwable $th) {
             Log::error($th);
             return redirect()->back()->with('error', 'Unable to retrieve user or roles at this time. Please try again later.');
@@ -99,7 +102,7 @@ class UserController extends Controller
             return redirect()->route('users.index')->with('success', 'User updated successfully');
         } catch (\Throwable $th) {
             Log::error($th);
-            return redirect()->back()->withInput()->with('error', 'Unable to update user at this time. Please try again later.');
+            return redirect()->back()->with('error', 'Unable to update user at this time. Please try again later.');
         }
     }
 
@@ -109,12 +112,53 @@ class UserController extends Controller
     {
         try {
             $this->deleteUser($id);
-            return redirect()->route('users.index')->with('success', 'User deleted successfully');
+            return redirect()->route('users.view')->with('success', 'User deleted successfully');
         } catch (\Throwable $th) {
             Log::error($th);
             return redirect()->back()->with('error', $th->getMessage());
         }
     }
 //========================================================================================================================
+
+    public function show($user_id){
+        $user = $this->view_user($user_id);
+        return view('users.show', compact('user'));
+    }
+//========================================================================================================================
+    /**
+     * method to return all soft deleted usesr
+     * @return /view
+     */
+    public function all_trushed_user()
+    {
+        $users = User::onlyTrashed()->get();
+        return view('users.trush', compact('users'));
+    }
+    //========================================================================================================================
+    /**
+     * method to restore soft deleted users alraedy exist
+     * @param   $student_id
+     * @return /view
+     */
+    public function restore($user_id)
+    {
+        $restore = $this->restore_user($user_id);
+        session()->flash('success', 'تمت عملية استعادة المستخدم بنجاح');
+        return redirect()->route('all_trashed_user');
+    }
+    //========================================================================================================================
+    /**
+     * method to force delete on user that soft deleted before
+     * @param   $student_id
+     * @return /view
+     */
+    public function forceDelete($user_id)
+    {
+        $delete = $this->forceDelete_user($user_id);
+        session()->flash('success', 'تمت عملية حذف المستخدم بنجاح');
+        return redirect()->route('all_trashed_user');
+    }
+        
+    //========================================================================================================================
 
 }

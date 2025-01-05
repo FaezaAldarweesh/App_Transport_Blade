@@ -31,7 +31,7 @@
                     <div class="d-flex justify-content-between mb-3">
                        
                         
-                        <a href="{{ route('user.index') }}" class="btn btn-secondary">Back</a>
+                        <a href="{{ route('users.index') }}" class="btn btn-secondary">Back</a>
                     </div>
 
                     <table class="table table-hover table-bordered">

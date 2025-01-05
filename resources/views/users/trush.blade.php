@@ -30,7 +30,7 @@
                     {{-- <h2 class="mb-4 text-center text-secondary">Trashed Driver List</h2> --}}
 
                     <div class="d-flex justify-content-end mb-3">
-                         <a href="{{ route('user.index') }}" class="btn btn-secondary ms-2">Back</a>
+                         <a href="{{ route('users.index') }}" class="btn btn-secondary ms-2">Back</a>
                     </div>
 
                     <table class="table table-hover table-bordered">
