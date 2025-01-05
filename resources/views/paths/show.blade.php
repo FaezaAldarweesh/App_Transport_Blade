@@ -19,6 +19,20 @@
 
                 <div class="card-body">
                     {{-- <h2 class="mb-4 text-center text-secondary">Station List</h2> --}}
+                    @if (session('custom_error'))
+                        <div class="alert alert-danger">
+                            {{ session('custom_error') }}
+                        </div>
+                    @endif
+
+                    @if (session('success'))
+                    <div class="alert alert-success alert-dismissible fade show" role="alert">
+                        <strong>{{ session('success') }}</strong> 
+                        <button type="button" class="close" data-dismiss="alert" aria-label="Close">
+                            <span aria-hidden="true">&times;</span>
+                        </button>
+                    </div>
+                    @endif
 
                     <div class="d-flex justify-content-between mb-3">
                         
@@ -31,7 +45,9 @@
                                 <th>#</th>
                                 <th>name</th>
                                 <th>ٍStatus</th>
+                                @can('update station status')
                                 <th>tool</th>
+                                @endcan
                             </tr>
                         </thead>
                         <tbody>
@@ -52,6 +68,7 @@
                                         </span>
                                     </td>
                                     <td class="text-center">
+                                    @can('update station status')
                                     <form action="{{ route('update_station_status', $station->id) }}" method="POST" class="d-inline-block">
                                         @csrf
                                         <button type="submit" class="btn btn-primary btn-sm">
@@ -59,6 +76,7 @@
                                             {{ $station->status ? 'تم الوصول إليها' : 'لم يتم الوصول إليها بعد' }}
                                         </button>
                                     </form>
+                                    @endcan
                                 </tr>  
                             @empty
                                 <tr>

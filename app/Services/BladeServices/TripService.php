@@ -516,6 +516,12 @@ class TripService {
             $trip_id = $request->input('trip_id'); 
             $trip = Trip::findOrFail($trip_id);
 
+            $user = Auth::user();
+
+            if ($user->role === 'parent' && $trip->status === 1) {
+                return redirect()->back()->withErrors(['error' => 'لا يمكنك نقل الطالب إذا كانت الرحلة جارية.']);
+            }
+
             if (count($trip->students)+1 > $trip->bus->number_of_seats) {
                 return redirect()->back()->withErrors(['error' => 'لا يوجد مكان فارغ ضمن هذه الرحلة']);
             }

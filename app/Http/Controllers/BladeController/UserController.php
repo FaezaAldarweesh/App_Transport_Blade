@@ -37,7 +37,7 @@ class UserController extends Controller
     {
         try {
             $users = $this->getAllUsers();
-            return view('   users.index', compact('users'));
+            return view('users.index', compact('users'));
         } catch (\Throwable $th) {
             Log::error($th);
             return redirect()->back()->with('error', $th->getMessage());

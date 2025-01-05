@@ -26,7 +26,7 @@ class StationController extends Controller
         $this->middleware(['role:Admin', 'permission:trashed station management'])->only('all_trashed_bus');
         $this->middleware(['role:Admin', 'permission:restore station'])->only('restore');
         $this->middleware(['role:Admin', 'permission:forceDelete station'])->only('forceDelete');
-        $this->middleware(['role:Admin', 'permission:update station status'])->only('update_station_status');
+        $this->middleware(['permission:update station status'])->only('update_station_status');
     }
     //===========================================================================================================================
     /**
@@ -135,9 +135,8 @@ class StationController extends Controller
      */
     public function update_station_status($station_id)
     {
-        $trip = $this->stationservices->update_station_status($station_id);
+        $station = $this->stationservices->update_station_status($station_id);
         session()->flash('success', 'تمت عملية تعديل حالة المحطة بنجاح');
         return redirect()->back();
-
     }
 }

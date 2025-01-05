@@ -135,8 +135,10 @@ class StationService {
             $trip = Trip::where('path_id',$station->path_id)
                     ->where('status',1)
                     ->first();
-            if(auth()->user()->role == 'supervisor' && $trip->status !== 1){
-                return redirect()->back()->with('error','لايمكن تعديل حالة المحطة إلا إذا كانت الرحلة جارية');
+            if(auth()->user()->role == 'supervisor' && !$trip){
+             //   return redirect()->back()->withErrors('error','لايمكن تعديل حالة المحطة إلا إذا كانت الرحلة جارية');
+                return  session()->flash('custom_error', 'لا يمكن تعديل حالة المحطة إلا إذا كانت الرحلة جارية');
+                
             }
             $station->status = !$station->status;
             $station->save(); 

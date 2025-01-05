@@ -49,31 +49,6 @@
             <h4 class="text-section">Components</h4>
           </li>
 
-        @can('users')
-          <li class="nav-item">
-            <a data-bs-toggle="collapse" href="#base">
-              <i class="fas fa-layer-group"></i>
-              <p>Users</p>
-              <span class="caret"></span>
-            </a>
-            <div class="collapse" id="base">
-              <ul class="nav nav-collapse">
-                @can('user management')
-                <li>
-                  <a href="{{ route('user.index') }}">
-                    <span class="sub-item">All Users</span>
-                  </a>
-                </li>
-                @endcan
-                <li>
-                    <span class="sub-item">Trashed Users</span>
-                  </a>
-                </li>
-              </ul>
-            </div>
-          </li>
-        @endcan
-
           <li class="nav-item">
             <a data-bs-toggle="collapse" href="#sidebarLayouts">
               <i class="fas fa-th-list"></i>
@@ -325,7 +300,7 @@
               <ul class="nav nav-collapse">
                 @can('user management')
                 <li>
-                  <a href="{{ route('user.index') }}">
+                  <a href="{{ route('users.index') }}">
                     <span class="sub-item"> All users</span>
                   </a>
                 </li>

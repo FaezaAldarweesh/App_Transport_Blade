@@ -26,7 +26,7 @@ class PermissionSeeder extends Seeder
             'update student status',
             'update student status transport',
     //supservisor(8,20)=============================================
-            'show path stations',
+            'show path stations',//
             'checkouts',
             'checkout management',
             'trips',

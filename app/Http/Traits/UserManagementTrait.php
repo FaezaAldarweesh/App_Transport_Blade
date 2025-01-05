@@ -70,7 +70,7 @@ trait UserManagementTrait
             } else {
                 $data = Arr::except($data, ['password']);
             }
-
+            
             $user->update($data);
             DB::table('model_has_roles')->where('model_id', $id)->delete();
             $user->assignRole($data['role']);
