@@ -42,7 +42,7 @@ class SupervisorService {
             $user->name = $data['name'];
             $user->email = $data['email'];
             $user->password = $data['password'];
-            $user->role = 'supervisor';
+            $user->assignRole('supervisor');
             
             $user->save(); 
     
