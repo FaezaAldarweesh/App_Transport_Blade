@@ -1,161 +1,86 @@
 @extends('layouts.master')
-@section('css')
-    <!--Internal   Notify -->
-    <link href="{{ URL::asset('assets/plugins/notify/css/notifIt.css') }}" rel="stylesheet" />
+
 @section('title')
-    صلاحيات المستخدمين    
-@stop
-
-
+Roles
 @endsection
-@section('page-header')
-<!-- breadcrumb -->
-<div class="breadcrumb-header justify-content-between">
-    <div class="my-auto">
-        <div class="d-flex">
-            <h4 class="content-title mb-0 my-auto">المستخدمين</h4><span class="text-muted mt-1 tx-13 mr-2 mb-0"> /
-                صلاحيات المستخدمين</span>
-        </div>
-    </div>
-</div>
-<!-- breadcrumb -->
+
+@section('css')
+<link rel="dns-prefetch" href="//fonts.bunny.net">
+<link href="https://fonts.bunny.net/css?family=Nunito" rel="stylesheet">
+<link href="https://cdnjs.cloudflare.com/ajax/libs/select2/4.1.0-beta.1/css/select2.min.css" rel="stylesheet">
 @endsection
+
 @section('content')
+<div class="container" style="margin-top: 70px">
+    <div class="row justify-content-center">
+        {{-- <div class="col-md-10"> --}}
+            <div class="card shadow-lg border-0">
+                {{-- <div class="card-header bg-primary text-white">{{ __('Dashboard') }}</div> --}}
 
-
- <!-- Display session errors -->
- @if (session('error'))
- <div class="alert alert-danger alert-dismissible fade show" role="alert">
-     <strong>{{ session('error') }}</strong>
-     <button type="button" class="close" data-dismiss="alert" aria-label="Close">
-         <span aria-hidden="true">&times;</span>
-     </button>
- </div>
-@endif
-
-<!-- Display Restore,ForceDelet  -->
-@if (session('success'))
-<div class="alert alert-danger alert-dismissible fade show" role="alert">
-   <strong>{{ session('success') }}</strong>
-   <button type="button" class="close" data-dismiss="alert" aria-label="Close">
-       <span aria-hidden="true">&times;</span>
-   </button>
-</div>
-@endif   
-
-
-
-
-<!-- row -->
-<div class="row row-sm">
-    <div class="col-xl-12">
-        <div class="card">
-            <div class="card-header pb-0">
-                <div class="d-flex justify-content-between">
-                    <div class="col-lg-12 margin-tb">
-                        <div class="pull-right">
-                                @can('اضافة صلاحية')
-                                <a class="btn ripple btn-warning" href="{{ route('roles.create') }}">اضافة دور</a>
-                                @endcan
-                        </div>
+                @if (session('success'))
+                    <div class="alert alert-success alert-dismissible fade show" role="alert">
+                        <strong>{{ session('success') }}</strong> 
+                        <button type="button" class="close" data-dismiss="alert" aria-label="Close">
+                            <span aria-hidden="true">&times;</span>
+                        </button>
                     </div>
-                    <br>
-                </div>
+                @endif
 
-            </div>
-            <div class="card-body">
-                <div class="table-responsive">
-                    <table class="table mg-b-0 text-md-nowrap table-hover ">
-                        <thead>
+                <div class="card-body">
+                    <div class="d-flex justify-content-between mb-3">
+                        @can('add role')
+                        <a href="{{ route('roles.create') }}" class="btn btn-success text-white">
+                            <i class="bi bi-plus-circle"></i> Create New Role
+                        </a>
+                        @endcan
+                        <a href="{{ route('home') }}" class="btn btn-secondary">Back</a>
+                    </div>   
+                    <table class="table table-hover table-bordered">
+                        <thead class="table-primary text-center">
                             <tr>
                                 <th>#</th>
-                                <th>الاسم</th>
-                                <th>العمليات</th>
+                                <th>name</th>
+                                <th>Tools</th>
                             </tr>
                         </thead>
                         <tbody>
-                            @foreach ($roles as $role)
+                            @forelse ($roles as $role)
                                 <tr>
-                                    <td>{{ $loop->iteration }}</td>
+                                    <td class="text-center">{{ $loop->iteration }}</td>
                                     <td>{{ $role->name }}</td>
-                                    <td>
-                                            @can('add role')
-                                            <a class="btn btn-success btn-sm"
-                                                href="{{ route('roles.show', $role->id) }}">عرض</a>
-                                            @endcan
-                                            <a class="btn btn-primary btn-sm"
-                                            @can( 'update role')
-                                                href="{{ route('roles.edit', $role->id) }}">تعديل</a>
-                                            @endcan
-                                           
-                                            @can('destroy role')
-                                            <button type="button" class="btn btn-danger btn-sm" data-toggle="modal" 
-                                            data-target="#deleteRoleModal" data-role_id="{{ $role->id }}" 
-                                            data-rolename="{{ $role->name }}" title="حذف">
-                                            <i class="las la-trash"></i>
+                                    <td class="text-center">
+                                         
+                                        @can('update role')
+                                        <a href="{{ route('roles.edit', $role->id) }}" class="btn btn-warning btn-sm text-white">
+                                            <i class="bi bi-pencil-square"></i> Edit
+                                        </a>
+                                        @endcan
+
+                                        @can('destroy role')
+                                        <form action="{{ route('roles.destroy', $role->id) }}" method="POST" class="d-inline-block" onsubmit="return confirm('Are you sure you want to delete this role?');">
+                                            @csrf
+                                            @method('DELETE')
+                                            <button type="submit" class="btn btn-danger btn-sm">
+                                                <i class="bi bi-trash"></i> Delete
                                             </button>
-                                            @endcan
-                                            
-                                    </td>
-                                    
+                                        </form>
+                                        @endcan
+                                </tr>  
+                            @empty
+                                <tr>
+                                    <td colspan="6" class="text-center text-muted">No Role available.</td>
                                 </tr>
-                            @endforeach
+                            @endforelse
                         </tbody>
                     </table>
                 </div>
             </div>
-        </div>
+        {{-- </div> --}}
     </div>
-    <!--/div-->
+    {{-- @vite(['resources/sass/app.scss', 'resources/js/app.js']) --}}
 </div>
-<!-- row closed -->
-</div>
-<!-- Container closed -->
-</div>
-<div class="modal fade" id="deleteRoleModal" tabindex="-1" role="dialog" 
-     aria-labelledby="deleteRoleModalLabel" aria-hidden="true">
-    <div class="modal-dialog" role="document">
-        <div class="modal-content">
-            <form id="deleteRoleForm" method="POST">
-                {{ method_field('DELETE') }}
-                {{ csrf_field() }}
-                <div class="modal-body">
-                    <p>هل انت متأكد من عملية الحذف؟</p><br>
-                    <input type="hidden" name="role_id" id="role_id" value="">
-                    <input class="form-control" name="rolename" id="rolename" type="text" readonly>
-                </div>
-                <div class="modal-footer">
-                    <button type="button" class="btn btn-secondary" data-dismiss="modal">الغاء</button>
-                    <button type="submit" class="btn btn-danger">تاكيد</button>
-                </div>
-            </form>
-        </div>
-    </div>
-</div>
-<!-- main-content closed -->
 @endsection
-@section('js')
-<!--Internal  Notify js -->
-<script src="{{ URL::asset('assets/plugins/notify/js/notifIt.js') }}"></script>
-<script src="{{ URL::asset('assets/plugins/notify/js/notifit-custom.js') }}"></script>
 
-<script>
-    $(document).ready(function(){
-        $('#deleteRoleModal').on('show.bs.modal', function (event) {
-            var button = $(event.relatedTarget); 
-            var role_id = button.data('role_id'); 
-            var rolename = button.data('rolename'); 
-
-            var modal = $(this);
-            modal.find('.modal-body #role_id').val(role_id);
-            modal.find('.modal-body #rolename').val(rolename);
-
-            // Update the form action
-            var formAction = "{{ route('roles.destroy', ':id') }}";
-            formAction = formAction.replace(':id', role_id);
-            modal.find('#deleteRoleForm').attr('action', formAction);
-        });
-    });
-</script>
+@section('scripts')
 
 @endsection

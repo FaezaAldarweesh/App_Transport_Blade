@@ -1,124 +1,75 @@
 @extends('layouts.master')
-@section('css')
-<!--Internal  Font Awesome -->
-<link href="{{URL::asset('assets/plugins/fontawesome-free/css/all.min.css')}}" rel="stylesheet">
-<!--Internal  treeview -->
-<link href="{{URL::asset('assets/plugins/treeview/treeview-rtl.css')}}" rel="stylesheet" type="text/css" />
+
 @section('title')
-اضافة الصلاحيات
-@stop
-
+Roles
 @endsection
-@section('page-header')
-<!-- breadcrumb -->
-<div class="breadcrumb-header justify-content-between">
-    <div class="my-auto">
-        <div class="d-flex">
-            <h4 class="content-title mb-0 my-auto">الصلاحيات</h4><span class="text-muted mt-1 tx-13 mr-2 mb-0">/ اضافة
-                نوع مستخدم</span>
-        </div>
-    </div>
-</div>
- <!-- Display session errors -->
- @if (session('error'))
- <div class="alert alert-danger alert-dismissible fade show" role="alert">
-     <strong>{{ session('error') }}</strong>
-     <button type="button" class="close" data-dismiss="alert" aria-label="Close">
-         <span aria-hidden="true">&times;</span>
-     </button>
- </div>
-@endif
 
-<!-- Display Restore,ForceDelet  -->
-@if (session('success'))
-<div class="alert alert-danger alert-dismissible fade show" role="alert">
-   <strong>{{ session('success') }}</strong>
-   <button type="button" class="close" data-dismiss="alert" aria-label="Close">
-       <span aria-hidden="true">&times;</span>
-   </button>
-</div>
-@endif   
-<!-- breadcrumb -->
+@section('css')
+<link rel="dns-prefetch" href="//fonts.bunny.net">
+<link href="https://fonts.bunny.net/css?family=Nunito" rel="stylesheet">
+<link href="https://cdnjs.cloudflare.com/ajax/libs/select2/4.1.0-beta.1/css/select2.min.css" rel="stylesheet">
 @endsection
 
 @section('content')
-
-@if (count($errors) > 0)
-<div class="alert alert-danger">
-    <button aria-label="Close" class="close" data-dismiss="alert" type="button">
-        <span aria-hidden="true">&times;</span>
-    </button>
-    <strong>خطا</strong>
-    <ul>
-        @foreach ($errors->all() as $error)
-        <li>{{ $error }}</li>
-        @endforeach
-    </ul>
-</div>
-@endif
-
-
-<div class="card">
-    <div class="card-body">
-        <div class="col-lg-12 margin-tb">
-            <div class="pull-right">
-                <a class="btn btn-primary btn-sm" href="{{ route('roles.index') }}">رجوع</a>
-            </div>
-        </div><br>
-        <form class="parsley-style-1" id="selectForm2" autocomplete="off" name="selectForm2"
-            action="{{route('roles.store','test')}}" method="post">
-            {{csrf_field()}}
-
-            <div class="">
-
-                <div class="row mg-b-20">
-                    <div class="parsley-input col-md-6" id="fnWrapper">
-                        <label>اسم الصلاحية :</label>
-                        <input class="form-control form-control-sm mg-b-20"
-                            data-parsley-class-handler="#lnWrapper" name="name" required="" type="text">
-                    </div>
+<div class="container" style="margin-top: 70px">
+    <div class="row justify-content-center">
+        <div class="card shadow-lg border-0">
+            {{-- عرض رسالة النجاح --}}
+            @if (session('success'))
+                <div class="alert alert-success alert-dismissible fade show" role="alert">
+                    <strong>{{ session('success') }}</strong> 
+                    <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
                 </div>
+            @endif
 
-                <div class="col-lg-4" style="display: block">
-                        <ul id="treeview1">
-                            <li><a href="#">الصلاحيات</a>
-                                <ul>
-                                    <li>
-                                        @foreach($permissions as $permission)
-                                        <div>
-                                        <input type="checkbox" name="permission[]" value="{{ $permission->name }}" class="name">
-                                        <label for="permission[]">{{ $permission->name }}</label>
-                                        </div>
-                                        @endforeach
-                                    </li>
-                                </ul>
-                            </li>
-                        </ul>
+            <div class="card-body">
+                <div class="d-flex justify-content-between mb-3">
+                    <a href="{{ route('home') }}" class="btn btn-secondary">Back</a>
+                </div>   
+
+                {{-- بداية الفورم --}}
+                <form action="{{ route('roles.store') }}" method="POST">
+                    @csrf
+                    <div class="row mb-3">
+                        <div class="col-md-6">
+                            <label for="name" class="form-label">اسم الصلاحية:</label>
+                            <input type="text" name="name" class="form-control @error('name') is-invalid @enderror" required>
+                            @error('name')
+                                <div class="invalid-feedback">{{ $message }}</div>
+                            @enderror
+                        </div>
                     </div>
-                    
-                   
-                </div>
 
+                    <div class="mb-3">
+                        <label for="permissions" class="form-label">الصلاحيات:</label>
+                        <div class="row">
+                            @foreach($permissions as $permission)
+                                <div class="col-md-4">
+                                    <div class="form-check">
+                                        <input class="form-check-input" type="checkbox" name="permission[]" value="{{ $permission->name }}" id="permission_{{ $permission->id }}">
+                                        <label class="form-check-label" for="permission_{{ $permission->id }}">{{ $permission->name }}</label>
+                                    </div>
+                                </div>
+                            @endforeach
+                        </div>
+                    </div>
+
+                    <div class="d-flex justify-content-end">
+                        <button type="submit" class="btn btn-primary">Save Role</button>
+                    </div>
+                </form>
+                {{-- نهاية الفورم --}}
             </div>
-            <div class="col-xs-12 col-sm-12 col-md-12 text-center">
-                <button class="btn btn-main-primary pd-x-20" type="submit">تاكيد</button>
-            </div>
-        </form>
+        </div>
     </div>
 </div>
-
-
-<!-- row -->
-
-<!-- row closed -->
-</div>
-<!-- Container closed -->
-</div>
-<!-- main-content closed -->
-
-
 @endsection
-@section('js')
-<!-- Internal Treeview js -->
-<script src="{{URL::asset('assets/plugins/treeview/treeview.js')}}"></script>
+
+@section('scripts')
+<script src="https://cdnjs.cloudflare.com/ajax/libs/select2/4.1.0-beta.1/js/select2.min.js"></script>
+<script>
+    $(document).ready(function() {
+        $('.select2').select2();
+    });
+</script>
 @endsection
