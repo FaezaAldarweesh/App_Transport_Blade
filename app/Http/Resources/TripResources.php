@@ -21,6 +21,8 @@ class TripResources extends JsonResource
             'trip path' => $this->path->name,
             'trip bus' => $this->bus->name,
             'trip status' => $this->status == 0 ? 'منتهية' : 'جارية',
+            'trip start_date' => $this->start_date,
+            'trip end_date' => $this->end_date,
             'students' =>StudentResources::collection($this->whenLoaded('students')),
             'supervisors' => UserResources::collection($this->whenLoaded('users')),
             'drivers' => DriverResources::collection($this->whenLoaded('drivers')),
