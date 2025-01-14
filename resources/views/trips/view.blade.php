@@ -57,6 +57,9 @@
                                 <th>type</th>
                                 <th>path</th>
                                 <th>bus</th>
+                                <th>start date</th>
+                                <th>end date</th>
+                                <th>level</th>
                                 <th>status</th>
                                 <th>Tools</th>
                             </tr>
@@ -65,10 +68,30 @@
                             @forelse($trips as $trip)
                                 <tr>
                                     <td class="text-center">{{ $loop->iteration }}</td>
-                                    <td>{{ $trip->name }}</td>
-                                    <td>{{ $trip->type }}</td>
+                                    @php
+                                        $names = [
+                                            'delivery' => 'توصيل',
+                                            'school' => 'مدرسية',
+                                        ];
+
+                                        $types = [
+                                            'go' => 'ذهاب',
+                                            'back' => 'عودة',
+                                        ];
+
+                                        $levels = [
+                                            'primary' => 'ابتدائي',
+                                            'mid' => 'إعدادي',
+                                            'secoundary' => 'ثانوي',
+                                        ];
+                                    @endphp
+                                    <td>{{ $names[$trip->name] }}</td>
+                                    <td>{{ $types[$trip->type] }}</td>
                                     <td><a href="{{ route('path.show', $trip->path->id) }}">{{ $trip->path->name }}</a></td>
                                     <td>{{ $trip->bus->name }}</td>
+                                    <td>{{ $trip->start_date }}</td>
+                                    <td>{{ $trip->end_date }}</td>
+                                    <td>{{ $levels[$trip->level] }}</td>
                                     @php
                                         $translations = [
                                             0 => 'منتهية',

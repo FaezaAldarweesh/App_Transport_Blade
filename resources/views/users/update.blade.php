@@ -40,6 +40,30 @@
                         </div>
 
                         <div class="mb-3">
+                            <label for="first_phone" class="form-label">first phone</label>
+                            <input type="text" class="form-control @error('first_phone') is-invalid @enderror" id="first_phone" name="first_phone" value="{{ old('first_phone', $user->first_phone) }}">
+                            @error('first_phone')
+                                <div class="invalid-feedback">{{ $message }}</div>
+                            @enderror
+                        </div>
+
+                        <div class="mb-3">
+                            <label for="secound_phone" class="form-label">secound phone</label>
+                            <input type="text" class="form-control @error('secound_phone') is-invalid @enderror" id="secound_phone" name="secound_phone" value="{{ old('secound_phone', $user->secound_phone) }}">
+                            @error('secound_phone')
+                                <div class="invalid-feedback">{{ $message }}</div>
+                            @enderror
+                        </div>
+
+                        <div class="mb-3">
+                            <label for="location" class="form-label">location</label>
+                            <input type="text" class="form-control @error('location') is-invalid @enderror" id="location" name="location" value="{{ old('location', $user->location) }}">
+                            @error('location')
+                                <div class="invalid-feedback">{{ $message }}</div>
+                            @enderror
+                        </div>
+
+                        <div class="mb-3">
                             <label for="email" class="form-label">Email</label>
                             <input type="text" class="form-control @error('email') is-invalid @enderror" id="email" name="email" value="{{ old('email', $user->email) }}">
                             @error('email')
@@ -60,7 +84,7 @@
                         </div>
                         <div class="mb-3">
                         <label for="exampleInputEmail1">Role</label>
-                            <select name="role" class="form-control" multiple>
+                            <select name="role" class="form-control">
                                 @foreach($roles as $id => $role)
                                     <option value="{{ $id }}" {{ in_array($id, $userRole) ? 'selected' : '' }}>{{ $role }}</option>
                                 @endforeach

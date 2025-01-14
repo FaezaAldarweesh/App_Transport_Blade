@@ -26,10 +26,6 @@ class Store_Student_Request extends FormRequest
     {
         return [
             'name' => 'required|unique:students,name|regex:/^[\p{L}\s]+$/u|min:2|max:50',
-            'father_phone' => 'required|min:10|max:10|string',
-            'mather_phone' => 'required|min:10|max:10|string',
-            'longitude'   => 'required|numeric|between:-180,180',
-            'latitude'    => 'required|numeric|between:-90,90',
             'user_id' => 'required|integer|exists:users,id',
         ];
     }
@@ -45,10 +41,6 @@ class Store_Student_Request extends FormRequest
     {
         return [
             'name' => 'اسم الطالب',
-            'father_phone' => 'رقم الأب',
-            'mather_phone' => 'رقم الأم',
-            'longitude' => 'خط الطول',
-            'latitude' => 'خط العرض',
             'user_id' => 'اسم الأب',
         ];
     }
@@ -62,13 +54,7 @@ class Store_Student_Request extends FormRequest
             'name.regex' => 'يجب أن يحوي  :attribute على أحرف فقط',
             'name.max' => 'الحد الأقصى لطول  :attribute هو 50 حرف',
             'name.min' => 'الحد الأدنى لطول :attribute على الأقل هو 2 حرف',
-            'max' => 'الحد الأقصى لطول  :attribute هو 10 حرف',
-            'min' => 'الحد الأدنى لطول :attribute على الأقل هو 10 حرف',
             'integer' => 'يجب أن يكون الحقل :attribute من نمط int',
-            'exists' => 'يجب أن يكون :attribute موجودا مسبقا',
-            'numeric' => 'يجب أن يكون :attribute رقماً',
-            'latitude.between'  => ':attribute يجب أن يكون بين -90 و 90',
-            'longitude.between'  => ':attribute يجب أن يكون بين -180 و 180',
         ];
     }
 }

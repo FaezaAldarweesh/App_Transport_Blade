@@ -26,8 +26,12 @@ class Store_Trip_Request extends FormRequest
     {
         return [
             'name' => 'required|string|in:delivery,school',
+            'type' => 'required|string|in:go,back',
             'path_id' => 'required|integer|exists:paths,id',
             'bus_id' => 'required|integer|exists:buses,id',
+            'start_date' => 'sometimes|nullable|date_format:H:i',
+            'end_date' => 'sometimes|nullable|date_format:H:i',
+            'level' => 'required|string|in:primary,mid,secoundary',
             'students' => 'required|array',
             'students.*' => 'required|integer|exists:students,id',
             'supervisors' => 'required|array',
@@ -55,6 +59,7 @@ class Store_Trip_Request extends FormRequest
             'student' => 'اسم الطالب',
             'supervisor' => 'اسم المشرفة',
             'driver' => 'اسم السائق',
+            'level' => 'اسم المرحلة',
         ];
     }
     //===========================================================================================================================
@@ -75,6 +80,7 @@ class Store_Trip_Request extends FormRequest
             'students.*.id.exists' => 'يجب أن يكون :attribute موجودا مسبقا',
             'supervisors.*.id.exists' => 'يجب أن يكون :attribute موجودا مسبقا',
             'drivers.*.id.exists' => 'يجب أن يكون :attribute موجودا مسبقا',
+            'level.in' => 'يأخذ الحقل :attribute فقط القيم إما ( primary أو mid أو secoundary)',
         ];
     }
 }

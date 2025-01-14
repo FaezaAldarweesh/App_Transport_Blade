@@ -16,6 +16,7 @@ return new class extends Migration
             $table->string('name');
             $table->foreignId('path_id')->constrained()->onDelete('cascade');
             $table->boolean('status')->default(0);
+            $table->time('time_arrive')->default('00:00:00');
             $table->timestamps();
             $table->softDeletes();
         });

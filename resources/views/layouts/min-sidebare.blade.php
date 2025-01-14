@@ -127,34 +127,6 @@
           </li>
           @endcan
 
-          @can('supervisors')
-          <li class="nav-item">
-            <a data-bs-toggle="collapse" href="#maps">
-              <i class="fas fa-map-marker-alt"></i>
-              <p>Supervisor</p>
-              <span class="caret"></span>
-            </a>
-            <div class="collapse" id="maps">
-              <ul class="nav nav-collapse">
-                @can('supervisor management')
-                <li>
-                  <a href="{{ route('supervisor.index') }}">
-                    <span class="sub-item">All Supervisor</span>
-                  </a>
-                </li>
-                @endcan
-                @can('trashed supervisor management')
-                <li>
-                  <a href="{{ route('all_trashed_supervisor') }}">
-                    <span class="sub-item">Trashed Supervisor</span>
-                  </a>
-                </li>
-                @endcan
-              </ul>
-            </div>
-          </li>
-          @endcan
-
           @can('buses')
           <li class="nav-item">
             <a data-bs-toggle="collapse" href="#charts">

@@ -18,6 +18,9 @@ class Trip extends Model
         'type',
         'path_id',
         'bus_id',
+        'start_date',
+        'end_date',
+        'level',
         'status',
     ];
 
@@ -27,7 +30,7 @@ class Trip extends Model
     }
     public function students (){
         
-        return $this->belongsToMany(Student::class) ->withPivot('status')->withTrashed();
+        return $this->belongsToMany(Student::class) ->withPivot('status')->withPivot('time_arrive')->withTrashed();
     }
 
     public function users (){

@@ -1,69 +1,155 @@
 @extends('layouts.master')
 
 @section('title')
-عرض محطات المسار
+    عرض محطات المسار
 @endsection
 
-@section('css')
-<link rel="dns-prefetch" href="//fonts.bunny.net">
-<link href="https://fonts.bunny.net/css?family=Nunito" rel="stylesheet">
-<link href="https://cdnjs.cloudflare.com/ajax/libs/select2/4.1.0-beta.1/css/select2.min.css" rel="stylesheet">
 <style>
-    .card-header {
-        text-align: center;
-        font-weight: bold;
-    }
-    h3 {
+    .section-card {
         margin-bottom: 20px;
-        font-size: 1.75rem;
-        color: #2c3e50;
-        border-bottom: 2px solid #3498db;
-        padding-bottom: 10px;
-        text-transform: uppercase;
+        border: 1px solid #ddd;
+        border-radius: 8px;
+        box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
+    }
+
+    .section-header {
+        color: #333;
+        padding: 10px 15px;
+        border-bottom: 1px solid #ddd;
+        font-weight: bold;
+        font-size: 1.2rem;
+    }
+
+    .table {
+        margin-bottom: 0;
+    }
+
+    .table th {
+        background-color: #f8f9fa;
+        color: #333;
+    }
+
+    .section-content {
+        padding: 15px;
+    }
+
+    .back-btn {
+        margin-top: 20px;
         text-align: center;
-    }
-    .style1 {
-        padding: 10px;
-        border-bottom: 1px solid #e0e0e0;
-        text-align:right;
-        font-size: 1.50rem;
-    }
-    .style2{
-        color:#116dabd0
     }
 </style>
-@endsection
 
-@section('content')
 <div class="container mt-4">
     <div class="row justify-content-center">
+        <div class="col-md-10">
             <div class="card shadow-sm">
-                <div class="card-header bg-primary text-white" style="margin-top:48px">{{ __("Trips's Details") }}</div>
+                <div class="card-header">{{ __("Trip's Details") }}</div>
                 <div class="card-body">
-                    <h3><span style="color: rgba(232, 18, 18, 0.868)">Trip Name:</span> {{ $trip->name }}</h3>
-                    {{-- <div class="style1"> --}}
-                        <p class="style1"><span class="style2">type:</span> {{ $trip->type }}</p>
-                        <a href="{{ route('path.show', $trip->path->id) }}"><p class="style1"><span class="style2">path: </span>{{ $trip->path->name }}</p></a>
-                        <p class="style1"><span class="style2">bus: </span>{{ $trip->bus->name }}</p>
-                        <p class="style1"><span class="style2">status:</span> {{ $trip->status == 0 ? 'منتهية' : 'جارية'}}</p>
-                        @foreach($trip->drivers as $driver)
-                        <p class="style1"><span class="style2">drivers:</span> {{ $driver->name}}</p>
-                        @endforeach
-
-                        @foreach($trip->users as $user)
-                            <p class="style1"><span class="style2">supervisor:</span> {{ $user->name}}</p>
-                        @endforeach
-
-                        @foreach($trip->students as $student)
-                            <p class="style1"><span class="style2">students:</span> {{ $student->name}}</p>
-                        @endforeach
-
-                    {{-- </div> --}}
-                </div>
-                <div class="d-flex justify-content-between mb-3">
-                    <a href="{{ route('trip.index') }}" class="btn btn-secondary">Back</a>
+                    <table class="table table-bordered">
+                        <tbody>
+                            <tr>
+                                <th>Trip Name</th>
+                                <td>{{ $trip->name }}</td>
+                            </tr>
+                            <tr>
+                                <th>Type</th>
+                                <td>{{ $trip->type }}</td>
+                            </tr>
+                            <tr>
+                                <th>Path</th>
+                                <td><a href="{{ route('path.show', $trip->path->id) }}">{{ $trip->path->name }}</a></td>
+                            </tr>
+                            <tr>
+                                <th>Bus</th>
+                                <td>{{ $trip->bus->name }}</td>
+                            </tr>
+                            <tr>
+                                <th>Status</th>
+                                <td>{{ $trip->status == 0 ? 'منتهية' : 'جارية' }}</td>
+                            </tr>
+                        </tbody>
+                    </table>
                 </div>
             </div>
+
+            <!-- Drivers Section -->
+            <div class="section-card">
+                <div class="section-header">Drivers</div>
+                <div class="section-content">
+                    <table class="table table-bordered">
+                        <thead>
+                            <tr>
+                                <th>#</th>
+                                <th>Driver Name</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            @foreach($trip->drivers as $index => $driver)
+                                <tr>
+                                    <td>{{ $index + 1 }}</td>
+                                    <td>{{ $driver->name }}</td>
+                                </tr>
+                            @endforeach
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+
+            <!-- Supervisors Section -->
+            <div class="section-card">
+                <div class="section-header">Supervisors</div>
+                <div class="section-content">
+                    <table class="table table-bordered">
+                        <thead>
+                            <tr>
+                                <th>#</th>
+                                <th>Supervisor Name</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            @foreach($trip->users as $index => $user)
+                                <tr>
+                                    <td>{{ $index + 1 }}</td>
+                                    <td>{{ $user->name }}</td>
+                                </tr>
+                            @endforeach
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+
+            <!-- Students Section -->
+            <div class="section-card">
+                <div class="section-header">Students</div>
+                <div class="section-content">
+                    <table class="table table-bordered">
+                        <thead>
+                            <tr>
+                                <th>#</th>
+                                <th>Student Name</th>
+                                <th>Status</th>
+                                <th>Time Arrived</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            @foreach($trip->students as $index => $student)
+                                <tr>
+                                    <td>{{ $index + 1 }}</td>
+                                    <td>{{ $student->name }}</td>
+                                    <td>{{ $student->pivot->status }}</td>
+                                    <td>{{ $student->pivot->time_arrive }}</td>
+                                </tr>
+                            @endforeach
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+
+            <!-- Back Button -->
+            <div class="back-btn">
+                <a href="{{ route('trip.index') }}" class="btn btn-secondary">Back</a>
+            </div>
+        </div>
     </div>
 </div>
-@endsection
+

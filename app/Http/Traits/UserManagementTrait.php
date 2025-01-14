@@ -36,6 +36,8 @@ trait UserManagementTrait
         try {
             $user = User::create($data);
             $user->assignRole($data['role']);
+            $user->role = $data['role'];
+            $user->save();
 
             return $user;
         } catch (\Throwable $th) {
@@ -64,6 +66,7 @@ trait UserManagementTrait
 
     public function updateUser(array $data, string $id)
     {
+      //  dd($data);
         try {
             $user = User::findOrFail($id);
     
@@ -77,6 +80,9 @@ trait UserManagementTrait
     
             // إعادة تعيين الأدوار باستخدام syncRoles
             $user->syncRoles($data['role']);
+
+            $user->role = $data['role'];
+            $user->save();
     
             return $user;
         } catch (\Throwable $th) {

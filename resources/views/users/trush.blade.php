@@ -8,6 +8,28 @@
 <link rel="dns-prefetch" href="//fonts.bunny.net">
 <link href="https://fonts.bunny.net/css?family=Nunito" rel="stylesheet">
 <link href="https://cdnjs.cloudflare.com/ajax/libs/select2/4.1.0-beta.1/css/select2.min.css" rel="stylesheet">
+<style>
+    .badge-admin {
+    background-color: #ffcccc;
+    color: #660000;
+}
+
+.badge-parent {
+    background-color: #cce5ff;
+    color: #004085;
+}
+
+.badge-supervisor {
+    background-color: #fff3cd;
+    color: #856404;
+}
+
+.badge {
+    padding: 5px 10px;
+    border-radius: 5px;
+    font-weight: bold;
+}
+</style>
 @endsection
 
 @section('content')
@@ -49,7 +71,19 @@
                                     <td class="text-center">{{ $loop->iteration }}</td>
                                     <td>{{ $user->name }}</td>
                                     <td>{{ $user->email }}</td>
-                                    <td>{{ $user->role }}</td>
+                                    <td>
+                                        @if (!empty($user->getRoleNames()))
+                                            @foreach ($user->getRoleNames() as $role)
+                                                @if ($role == 'Admin')
+                                                    <label class="badge badge-admin">{{ $role }}</label>
+                                                @elseif ($role == 'parent')
+                                                    <label class="badge badge-parent">{{ $role }}</label>
+                                                @elseif ($role == 'supervisor')
+                                                    <label class="badge badge-supervisor">{{ $role }}</label>
+                                                @endif
+                                            @endforeach
+                                        @endif
+                                    </td>
                                    
                                     <td class="text-center">
                                         <form action="{{ route('restore_user', $user->id) }}" method="GET" class="d-inline-block" onsubmit="return confirm('Are you sure you want to restore this user?');">

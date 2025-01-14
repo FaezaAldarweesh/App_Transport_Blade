@@ -19,6 +19,9 @@ class AdminSeeder extends Seeder
     {
         $userAdmin = User::create([
             'name' => 'admin',
+            'first_phone' => '0947601911',
+            'secound_phone' => '0947601912',
+            'location' => 'location',
             'email' => 'admin@gmail.com',
             'password' => 11223344,
             'role' => "Admin",
@@ -26,6 +29,9 @@ class AdminSeeder extends Seeder
 
         $userSupervisor = User::create([
             'name' => 'Supervisor',
+            'first_phone' => '0947601913',
+            'secound_phone' => '0947601914',
+            'location' => 'location',
             'email' => 'super@gmail.com',
             'password' => 11223344,
             'role' => "supervisor",
@@ -33,6 +39,9 @@ class AdminSeeder extends Seeder
 
         $userParent = User::create([
             'name' => 'Parent',
+            'first_phone' => '0947601915',
+            'secound_phone' => '0947601916',
+            'location' => 'location',
             'email' => 'parent@gmail.com',
             'password' => 11223344,
             'role' => "parent",

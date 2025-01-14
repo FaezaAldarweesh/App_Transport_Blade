@@ -33,10 +33,6 @@ class StudentService
         try {
             $student = new Student();
             $student->name = $data['name'];
-            $student->father_phone = $data['father_phone'];
-            $student->mather_phone = $data['mather_phone'];
-            $student->longitude = $data['longitude'];
-            $student->latitude = $data['latitude'];
             $student->user_id = $data['user_id'];
             $student->save();
 
@@ -51,10 +47,6 @@ class StudentService
         try {
             $student = Student::findOrFail($student_id);
             $student->name = $data['name'] ?? $student->name;
-            $student->father_phone = $data['father_phone'] ?? $student->father_phone;
-            $student->mather_phone = $data['mather_phone'] ?? $student->mather_phone;
-            $student->longitude = $data['longitude'] ?? $student->longitude;
-            $student->latitude = $data['latitude'] ?? $student->latitude;
             $student->user_id = $data['user_id'] ?? $student->user_id;
 
             $student->save();

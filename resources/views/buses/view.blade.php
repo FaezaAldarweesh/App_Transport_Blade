@@ -72,7 +72,7 @@
 
                                         @can('show bus trip')
                                         <a href="{{ route('bus.show', $bus->id) }}" class="btn btn-info btn-sm">
-                                            <i class="bi bi-eye"></i> View
+                                            <i class="bi bi-eye"></i> View Trip
                                         </a>
                                         @endcan
                                 </tr>  

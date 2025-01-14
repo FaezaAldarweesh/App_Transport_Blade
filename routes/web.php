@@ -12,7 +12,6 @@ use App\Http\Controllers\BladeController\StationController;
 use App\Http\Controllers\BladeController\StudentController;
 use App\Http\Controllers\BladeController\CheckOutController;
 use App\Http\Controllers\BladeController\EmployeeController;
-use App\Http\Controllers\BladeController\SupervisorController;
 
 /*
 |--------------------------------------------------------------------------
@@ -43,11 +42,6 @@ Route::group(['middleware' => ['auth']], function () {
     Route::get('all_trashed_student', [StudentController::class, 'all_trashed_student'])->name('all_trashed_student');
     Route::get('restore_student/{student_id}', [StudentController::class, 'restore'])->name('restore_student');
     Route::delete('forceDelete_student/{student_id}', [StudentController::class, 'forceDelete'])->name('forceDelete_student');
-    
-    Route::resource('supervisor',SupervisorController::class); 
-    Route::get('all_trashed_supervisor', [SupervisorController::class, 'all_trashed_supervisor'])->name('all_trashed_supervisor');
-    Route::get('restore_supervisor/{supervisor_id}', [SupervisorController::class, 'restore'])->name('restore_supervisor');
-    Route::delete('forceDelete_supervisor/{supervisor_id}', [SupervisorController::class, 'forceDelete'])->name('forceDelete_supervisor');
     
     Route::Resource('driver',DriverController::class); 
     Route::get('all_trashed_driver', [DriverController::class, 'all_trashed_driver'])->name('all_trashed_driver');
@@ -93,7 +87,6 @@ Route::group(['middleware' => ['auth']], function () {
     Route::get('show_checkout/{student_id}', [CheckOutController::class, 'show_checkout'])->name('show_checkout');
 
     Route::resource('roles', RoleController::class);
-    //Route::resource('users', UserController::class);
 });
 
 

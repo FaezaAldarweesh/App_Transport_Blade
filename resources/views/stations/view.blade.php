@@ -45,7 +45,8 @@
                                 <th>#</th>
                                 <th>name</th>
                                 <th>path</th>
-                                <th>ٍStatus</th>
+                                <th>time arrive</th>
+                                <th>Status</th>
                                 <th>Tools</th>
                             </tr>
                         </thead>
@@ -55,6 +56,7 @@
                                     <td class="text-center">{{ $loop->iteration }}</td>
                                     <td>{{ $station->name }}</td>
                                     <td>{{ $station->path->name }}</td>
+                                    <td>{{ $station->time_arrive }}</td>
                                     @php
                                         $translation = [
                                             0 => 'لم يتم الوصول لها بعد',

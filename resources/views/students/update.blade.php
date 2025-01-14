@@ -41,38 +41,6 @@
                         </div>
 
                         <div class="mb-3">
-                            <label for="father_phone" class="form-label">father's phone</label>
-                            <input type="text" class="form-control @error('father_phone') is-invalid @enderror" id="father_phone" name="father_phone" value="{{ old('father_phone', $student->father_phone) }}">
-                            @error('father_phone')
-                                <div class="invalid-feedback">{{ $message }}</div>
-                            @enderror
-                        </div>
-
-                        <div class="mb-3">
-                            <label for="mather_phone" class="form-label">mather's phone</label>
-                            <input type="text" class="form-control @error('mather_phone') is-invalid @enderror" id="mather_phone" name="mather_phone" value="{{ old('mather_phone', $student->mather_phone) }}">
-                            @error('mather_phone')
-                                <div class="invalid-feedback">{{ $message }}</div>
-                            @enderror
-                        </div>
-
-                        <div class="mb-3">
-                            <label for="longitude" class="form-label">longitude</label>
-                            <input type="text" class="form-control @error('longitude') is-invalid @enderror" id="longitude" name="longitude" value="{{ old('longitude', $student->longitude) }}">
-                            @error('longitude')
-                                <div class="invalid-feedback">{{ $message }}</div>
-                            @enderror
-                        </div>
-
-                        <div class="mb-3">
-                            <label for="latitude" class="form-label">latitude</label>
-                            <input type="text" class="form-control @error('latitude') is-invalid @enderror" id="latitude" name="latitude" value="{{ old('latitude', $student->latitude) }}">
-                            @error('latitude')
-                                <div class="invalid-feedback">{{ $message }}</div>
-                            @enderror
-                        </div>
-
-                        <div class="mb-3">
                             <label for="exampleInputEmail1">Parent</label>
                             <select id="user_id" name="user_id" class="form-control" required>
                                 <option value="" disabled {{ old('user_id', $student->user_id) ? '' : 'selected' }}>Select Parent</option>

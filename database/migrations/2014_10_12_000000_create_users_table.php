@@ -18,6 +18,9 @@ return new class extends Migration
             $table->timestamp('email_verified_at')->nullable();
             $table->string('password');
             $table->enum('role',['Admin','supervisor','parent'])->default('parent');
+            $table->string('first_phone');
+            $table->string('secound_phone')->nullable();
+            $table->string('location');
             $table->rememberToken();
             $table->timestamps();
             $table->softDeletes();

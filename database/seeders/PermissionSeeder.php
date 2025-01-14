@@ -58,16 +58,6 @@ class PermissionSeeder extends Seeder
             'restore driver',
             'forceDelete driver',
 
-            'supervisors',
-            'supervisor management',
-            'add supervisor',
-            'update supervisor',
-            'destroy supervisor',
-            'show supervisor trip',
-            'trashed supervisor management',
-            'restore supervisor',
-            'forceDelete supervisor',
-
             'buses',
             'buse management',
             'add bus',

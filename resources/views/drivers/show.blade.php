@@ -49,7 +49,7 @@
                                 <td>{{ $trip->status == 0 ? 'منتهية': 'جارية'}}</td> 
                                 <td>
                                     <a href="{{ route('trip.show', $trip->id) }}" class="btn btn-info btn-sm">
-                                        <i class="bi bi-eye"></i> View
+                                        <i class="bi bi-eye"></i> View 
                                     </a>
                                 </td> 
                             </tr>

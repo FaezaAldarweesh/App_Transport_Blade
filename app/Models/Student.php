@@ -16,10 +16,6 @@ class Student extends Model
     */
     protected $fillable = [
         'name',
-        'father_phone',
-        'mather_phone',
-        'longitude',
-        'latitude',
         'user_id',
     ];
 
@@ -32,6 +28,6 @@ class Student extends Model
 
     public function trips (){
         
-        return $this->belongsToMany(Trip::class) ->withPivot('status');
+        return $this->belongsToMany(Trip::class) ->withPivot('status')->withPivot('time_arrive');
     }    
 }

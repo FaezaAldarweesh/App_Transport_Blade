@@ -45,6 +45,18 @@
                             @enderror
                         </div>
 
+                        <div class="mb-3">
+                            <label for="type">Type</label>
+                            <select id="type" name="type" class="form-control" required>
+                                <option value="" disabled>Select type</option>
+                                <option value="go" {{ $trip->name === 'go' ? 'selected' : '' }}>ذهاب</option>
+                                <option value="back" {{ $trip->name === 'back' ? 'selected' : '' }}>عودة</option>
+                            </select>
+                            @error('type')
+                                <div class="invalid-feedback">{{ $message }}</div>
+                            @enderror
+                        </div>
+
                         <!-- Path Field -->
                         <div class="mb-3">
                             <label for="path_id">Path</label>
@@ -69,6 +81,35 @@
                                 @endforeach
                             </select>
                             @error('bus_id')
+                                <div class="invalid-feedback">{{ $message }}</div>
+                            @enderror
+                        </div>
+
+                        <div class="mb-3">
+                            <label for="level">level</label>
+                            <select id="level" name="level" class="form-control" required>
+                                <option value="" disabled >Select level</option>
+                                <option value="primary" {{ $trip->name === 'primary' ? 'selected' : '' }}>ابتدائي</option>
+                                <option value="mid" {{ $trip->name === 'mid' ? 'selected' : '' }}>إعدادي</option>
+                                <option value="secoundary" {{ $trip->name === 'secoundary' ? 'selected' : '' }}>ثانوي</option>
+                            </select>
+                            @error('level')
+                                <div class="invalid-feedback">{{ $message }}</div>
+                            @enderror
+                        </div>
+
+                        <div class="mb-3">
+                            <label for="start_date" class="form-label">start time</label>
+                            <input type="time" class="form-control @error('start_date') is-invalid @enderror" id="start_date" name="start_date" value="{{ old('start_date', $trip->start_date) }}">
+                            @error('start_date')
+                                <div class="invalid-feedback">{{ $message }}</div>
+                            @enderror
+                        </div>
+
+                        <div class="mb-3">
+                            <label for="end_date" class="form-label">end time</label>
+                            <input type="time" class="form-control @error('end_date') is-invalid @enderror" id="end_date" name="end_date" value="{{ old('end_date', $trip->end_date) }}">
+                            @error('end_date')
                                 <div class="invalid-feedback">{{ $message }}</div>
                             @enderror
                         </div>

@@ -31,7 +31,10 @@ class Update_User_Request extends FormRequest
             'name' => 'sometimes|nullable|regex:/^[\p{L}\s]+$/u|min:2|max:50',
             'email' => ['sometimes','nullable', 'min:6','max:50','email', Rule::unique('users', 'email')->ignore($user_id)],
             'password' => 'sometimes|nullable|string|min:8',
-            'role' => 'required'
+            'role' => 'sometimes|nullable',
+            'first_phone' => ['sometimes','nullable','min:10','max:10','regex:/^([0-9\s\-\+\(\)]*)$/',Rule::unique('users', 'first_phone')->ignore($user_id)],
+            'secound_phone' => ['sometimes','nullable','min:10','max:10','regex:/^([0-9\s\-\+\(\)]*)$/',Rule::unique('users', 'secound_phone')->ignore($user_id)],
+            'location' => 'sometimes|nullable|string|min:5',
         ];
     }
     //===========================================================================================================================
@@ -48,7 +51,10 @@ class Update_User_Request extends FormRequest
             'name' => 'اسم المستخدم',
             'email' => 'ايميل المستخدم',
             'password' => 'كلمة المرور',
-            'role' => 'دور المستخدم'
+            'role' => 'دور المستخدم',
+            'first_phone' => 'الرقم الأول',
+            'secound_phone' => 'الرقم الثاني',
+            'location' => 'الموقع',
         ];
     }
     //===========================================================================================================================
@@ -64,6 +70,13 @@ class Update_User_Request extends FormRequest
             'unique' => ':attribute  موجود سابقاً , يجب أن يكون :attribute غير مكرر',
             'string' => 'يجب أن يكون :attribute عبارة عن سلسة نصية',
             'password.min' => 'الحد الأدنى لطول :attribute على الأقل هو 8 محرف',
+            'first_phone.max' => 'الحد الأقصى لطول  :attribute هو 10 حرف',
+            'first_phone.min' => 'الحد الأدنى لطول :attribute على الأقل هو 10 حرف',
+            'secound_phone.max' => 'الحد الأقصى لطول  :attribute هو 10 حرف',
+            'secound_phone.min' => 'الحد الأدنى لطول :attribute على الأقل هو 10 حرف',
+            'location.min' => 'الحد الأدنى لطول :attribute على الأقل هو 5 حرف',
+            'first_phone.regex' => 'يجب أن يحوي  :attribute على أرقام فقط',
+            'secound_phone.regex' => 'يجب أن يحوي  :attribute على أرقام فقط',
         ];
     }
 }

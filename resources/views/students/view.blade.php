@@ -43,10 +43,6 @@
                             <tr>
                                 <th>#</th>
                                 <th>name</th>
-                                <th>father_phone</th>
-                                <th>mather_phone</th>
-                                <th>longitude</th>
-                                <th>latitude</th>
                                 <th>parent</th>
                                 <th>Tools</th>
                             </tr>
@@ -56,10 +52,6 @@
                                 <tr>
                                     <td class="text-center">{{ $loop->iteration }}</td>
                                     <td>{{ $student->name }}</td>
-                                    <td>{{ $student->father_phone }}</td>
-                                    <td>{{ $student->mather_phone }}</td>
-                                    <td>{{ $student->longitude }}</td>
-                                    <td>{{ $student->latitude }}</td>
                                     <td>{{ $student->user->name }}</td>
                                     <td class="text-center">
                                         @can('update student')
@@ -79,7 +71,7 @@
 
                                         @can('show student trip')
                                         <a href="{{ route('student.show', $student->id) }}" class="btn btn-info btn-sm">
-                                            <i class="bi bi-eye"></i> View
+                                            <i class="bi bi-eye"></i> View Trip
                                         </a>
                                         @endcan
                                 </tr>  

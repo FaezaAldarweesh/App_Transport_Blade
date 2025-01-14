@@ -66,6 +66,9 @@
                                 <th>name</th>
                                 <th>email</th>
                                 <th>role</th>
+                                <th>first phone</th>
+                                <th>secound phone</th>
+                                <th>location</th>
                                 <th>Tools</th>
                             </tr>
                         </thead>
@@ -88,6 +91,9 @@
                                             @endforeach
                                         @endif
                                     </td>
+                                    <td>{{$user->first_phone}}</td>
+                                    <td>{{$user->secound_phone}}</td>
+                                    <td>{{$user->location}}</td>
                                     <td class="text-center">
                                         <a href="{{ route('users.edit', $user->id) }}" class="btn btn-warning btn-sm text-white">
                                             <i class="bi bi-pencil-square"></i> Edit

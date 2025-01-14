@@ -17,6 +17,9 @@ return new class extends Migration
             $table->enum('type',['go','back']);
             $table->foreignId('path_id')->constrained()->onDelete('cascade');
             $table->foreignId('bus_id')->constrained()->onDelete('cascade');
+            $table->time('start_date')->default('00:00:00');
+            $table->time('end_date')->default('00:00:00');
+            $table->enum('level',['primary','mid','secoundary']);
             $table->boolean('status')->default(0);
             $table->timestamps();
             $table->softDeletes();

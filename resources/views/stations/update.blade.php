@@ -56,7 +56,14 @@
                                 <div class="invalid-feedback">{{ $message }}</div>
                             @enderror
                         </div>
-                    
+
+                        <div class="mb-3">
+                            <label for="time_arrive" class="form-label">time arrive</label>
+                            <input type="time" class="form-control @error('time_arrive') is-invalid @enderror" id="time_arrive" name="time_arrive" value="{{ old('time_arrive', $station->time_arrive) }}">
+                            @error('time_arrive')
+                                <div class="invalid-feedback">{{ $message }}</div>
+                            @enderror
+                        </div>
 
                         <div class="mb-3">
                             <label for="status" class="form-label">Status</label>

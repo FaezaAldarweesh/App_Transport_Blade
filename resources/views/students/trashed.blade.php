@@ -38,10 +38,6 @@
                             <tr>
                                 <th>#</th>
                                 <th>name</th>
-                                <th>father_phone</th>
-                                <th>mather_phone</th>
-                                <th>longitude</th>
-                                <th>latitude</th>
                                 <th>parent</th>
                                 <th>Tools</th>
                             </tr>
@@ -51,10 +47,6 @@
                                 <tr>
                                     <td class="text-center">{{ $loop->iteration }}</td>
                                     <td>{{ $student->name }}</td>
-                                    <td>{{ $student->father_phone }}</td>
-                                    <td>{{ $student->mather_phone }}</td>
-                                    <td>{{ $student->longitude }}</td>
-                                    <td>{{ $student->latitude }}</td>
                                     <td>{{ $student->user?$student->user->name:'N/A'}}</td>
                                     <td class="text-center">
                                         @can('restore student')

@@ -28,7 +28,10 @@ class Store_User_Request extends FormRequest
             'name' => 'required|regex:/^[\p{L}\s]+$/u|min:2|max:50',
             'email' => 'required|min:6|max:50|email|unique:users,email',
             'password' => 'required|string|min:8',
-            'role' => 'required'
+            'role' => 'required',
+            'first_phone' => 'required|min:10|max:10|regex:/^([0-9\s\-\+\(\)]*)$/|unique:users,first_phone',
+            'secound_phone' => 'nullable|min:10|max:10|regex:/^([0-9\s\-\+\(\)]*)$/|unique:users,secound_phone',
+            'location' => 'required|string|min:5',
         ];
     }
     //===========================================================================================================================
@@ -45,7 +48,10 @@ class Store_User_Request extends FormRequest
             'name' => 'اسم المستخدم',
             'email' => 'ايميل المستخدم',
             'password' => 'كلمة المرور',
-            'role' => 'دور المستخدم'
+            'role' => 'دور المستخدم',
+            'first_phone' => 'الرقم الأول',
+            'secound_phone' => 'الرقم الثاني',
+            'location' => 'الموقع',
         ];
     }
     //===========================================================================================================================
@@ -62,6 +68,13 @@ class Store_User_Request extends FormRequest
             'unique' => ':attribute  موجود سابقاً , يجب أن يكون :attribute غير مكرر',
             'string' => 'يجب أن يكون :attribute عبارة عن سلسة نصية',
             'password.min' => 'الحد الأدنى لطول :attribute على الأقل هو 8 محرف',
+            'first_phone.max' => 'الحد الأقصى لطول  :attribute هو 10 حرف',
+            'first_phone.min' => 'الحد الأدنى لطول :attribute على الأقل هو 10 حرف',
+            'secound_phone.max' => 'الحد الأقصى لطول  :attribute هو 10 حرف',
+            'secound_phone.min' => 'الحد الأدنى لطول :attribute على الأقل هو 10 حرف',
+            'location.min' => 'الحد الأدنى لطول :attribute على الأقل هو 5 حرف',
+            'first_phone.regex' => 'يجب أن يحوي  :attribute على أرقام فقط',
+            'secound_phone.regex' => 'يجب أن يحوي  :attribute على أرقام فقط',
         ];
     }
 }

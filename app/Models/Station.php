@@ -18,6 +18,7 @@ class Station extends Model
         'name',
         'path_id',
         'status',
+        'time_arrive',
     ];
 
     public function path (){

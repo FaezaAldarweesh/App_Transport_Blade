@@ -55,6 +55,7 @@ class StationService {
             $station->name = $data['name'] ?? $station->name;
             $station->path_id = $data['path_id'] ?? $station->path_id;
             $station->status = $data['status'] ?? $station->status;
+            $station->time_arrive = $data['time_arrive'] ?? $station->time_arrive;
             $station->save(); 
             return $station;
 
