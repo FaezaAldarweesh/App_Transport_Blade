@@ -9,6 +9,7 @@ use App\Models\TripUser;
 use App\Models\DriverTrip;
 use App\Models\StudentTrip;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Log;
 use Illuminate\Support\Facades\Auth;
 
@@ -548,6 +549,25 @@ class TripService {
         } catch (\Exception $e) {
             Log::error('Error update status trip: ' . $e->getMessage());
             return redirect()->back()->withErrors('فشلت عملية النقل: ' . $e->getMessage());
+        }
+    }
+    //========================================================================================================================
+    public function update_student_time_arrive(Request $request,$student_id,$trip_id)
+    {
+        try {
+            $request->validate([
+                'time_arrive' => 'required|date_format:H:i',
+            ]);
+
+            $student = StudentTrip::where('student_id',$student_id)->where('trip_id',$trip_id)->first();
+        
+            DB::table('student_trip')
+                ->where('id', $student->id)
+                ->update(['time_arrive' => $request->time_arrive]);
+                
+        }  catch (\Exception $e) {
+            Log::error('Error update student time arrive: ' . $e->getMessage());
+            throw new \Exception($e->getMessage());
         }
     }
     //========================================================================================================================

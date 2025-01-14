@@ -129,6 +129,7 @@
                                 <th>Student Name</th>
                                 <th>Status</th>
                                 <th>Time Arrived</th>
+                                <th>Tool</th>
                             </tr>
                         </thead>
                         <tbody>
@@ -137,7 +138,18 @@
                                     <td>{{ $index + 1 }}</td>
                                     <td>{{ $student->name }}</td>
                                     <td>{{ $student->pivot->status }}</td>
-                                    <td>{{ $student->pivot->time_arrive }}</td>
+                                    <td>
+                                    <form action="{{ route('update_student_time_arrive', [$student->id,$trip->id]) }}" method="POST">
+                                        @csrf
+                                        @method('PUT')
+                                        <input type="time" name="time_arrive" value="{{ $student->pivot->time_arrive }}" class="form-control" required>
+                                        </td>
+                                    <td class="text-center">
+                                        <button type="submit" class="btn btn-warning btn-sm text-white">
+                                            <i class="bi bi-pencil-square"></i> Edit
+                                        </button>
+                                    </form>
+                                    </td>
                                 </tr>
                             @endforeach
                         </tbody>

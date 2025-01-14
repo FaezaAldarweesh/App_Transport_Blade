@@ -72,6 +72,8 @@ Route::group(['middleware' => ['auth']], function () {
     Route::get('all_student_trip/{trip_id}', [TripController::class, 'all_student_trip'])->name('all_student_trip');
     Route::post('update_student_status/{student_id}/{trip_id}', [TripController::class, 'update_student_status'])->name('update_student_status');    
     Route::post('update_student_status_transport/{student_id}', [TripController::class, 'update_student_status_transport'])->name('update_student_status_transport');  
+    Route::put('update_student_time_arrive/{student_id}/{trip_id}', [TripController::class, 'update_student_time_arrive'])->name('update_student_time_arrive');    
+
     
     Route::resource('employee', EmployeeController::class); 
     Route::get('all_trashed_employee',[EmployeeController::class,'all_trashed_employee']) -> name("all_trashed_employee");

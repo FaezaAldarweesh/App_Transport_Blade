@@ -214,4 +214,17 @@ class TripController extends Controller
     }
     
     //========================================================================================================================
+       /**
+     * method to update on trip status
+     * @param   $Trip_id
+     * @return /Illuminate\Http\JsonResponse
+     */
+    public function update_student_time_arrive(Request $request,$student_id,$trip_id)
+    {
+        $student = $this->Tripservices->update_student_time_arrive( $request,$student_id,$trip_id);
+        session()->flash('success', 'تمت عملية التعديل على موعد الوصول للطالب بنجاح');
+        return redirect()->back();
+    }
+    
+    //========================================================================================================================
 }
