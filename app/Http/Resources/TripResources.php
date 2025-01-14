@@ -16,29 +16,14 @@ class TripResources extends JsonResource
     {
         return [
             'trip id' => $this->id,
-            'trip name' => $this->name, 
-            'trip type' => $this->type, 
+            'trip name' => $this->name == 'delivery' ? 'توصيل' : 'مدرسية', 
+            'trip type' => $this->type == 'go' ? 'ذهاب' : 'عودة', 
             'trip path' => $this->path->name,
             'trip bus' => $this->bus->name,
-            'trip status' => $this->status == 0 ? 'trip end' : 'trip start',
-            'students' => $this->students->map(function ($student) {
-                return [
-                    'id' => $student->id,
-                    'student name' => $student->name,
-                ];
-            }),
-            'supervisors' => $this->supervisors->map(function ($supervisor) {
-                return [
-                    'id' => $supervisor->id,
-                    'supervisor name' => $supervisor->name,
-                ];
-            }),
-            'drivers' => $this->drivers->map(function ($driver) {
-                return [
-                    'id' => $driver->id,
-                    'driver name' => $driver->name,
-                ];
-            }),
+            'trip status' => $this->status == 0 ? 'منتهية' : 'جارية',
+            'students' =>StudentResources::collection($this->whenLoaded('students')),
+            'supervisors' => UserResources::collection($this->whenLoaded('users')),
+            'drivers' => DriverResources::collection($this->whenLoaded('drivers')),
         ];
     }
 }

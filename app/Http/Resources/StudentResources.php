@@ -17,12 +17,8 @@ class StudentResources extends JsonResource
         return [
             'student id' => $this->id,
             'student name' => $this->name, 
-            'student father phone' => $this->father_phone,
-            'student mather phone' => $this->mather_phone,
-            'student longitude' => $this->longitude,
-            'student latitude' => $this->latitude,
-            'student parent' => $this->user->name,
-            'student status' => $this->status ?? 'attendee',
+            'student status' => $this->pivot->status,
+            'student time arrive' => $this->pivot->time_arrive,
         ];
     }
 }
