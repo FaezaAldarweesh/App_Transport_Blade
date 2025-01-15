@@ -240,6 +240,23 @@
            </li> 
           @endcan
 
+          <li class="nav-item">
+            <a data-bs-toggle="collapse" href="#charts6">
+              <i class="fas fa-th-list"></i>
+              <p>Transports</p>
+              <span class="caret"></span>
+            </a>
+            <div class="collapse" id="charts6">
+              <ul class="nav nav-collapse">
+                <li>
+                  <a href="{{ route('transport') }}">
+                    <span class="sub-item">All Transports</span>
+                  </a>
+                </li>
+              </ul>
+            </div>
+          </li>
+
           @can('checkouts')
            <li class="nav-item">
             <a data-bs-toggle="collapse" href="#charts4">

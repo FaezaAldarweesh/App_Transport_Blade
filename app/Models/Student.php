@@ -29,5 +29,10 @@ class Student extends Model
     public function trips (){
         
         return $this->belongsToMany(Trip::class) ->withPivot('status')->withPivot('time_arrive');
-    }    
+    }   
+    
+    public function transports (){
+        
+        return $this->hasMany(Transport::class);
+    } 
 }

@@ -206,9 +206,9 @@ class TripController extends Controller
      * @param   $Trip_id
      * @return /Illuminate\Http\JsonResponse
      */
-    public function update_student_status_transport(Request $request, $student_id)
+    public function update_student_status_transport($transport_id)
     {
-        $student = $this->Tripservices->update_student_status_transport($request,$student_id);
+        $student = $this->Tripservices->update_student_status_transport($transport_id);
         session()->flash('success', 'تمت عملية نقل الطالب بنجاح');
         return redirect()->back();
     }

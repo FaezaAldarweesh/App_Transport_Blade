@@ -6,6 +6,7 @@ use App\Models\Bus;
 use App\Models\Trip;
 use App\Models\Student;
 use App\Models\TripUser;
+use App\Models\Transport;
 use App\Models\DriverTrip;
 use App\Models\StudentTrip;
 use Illuminate\Http\Request;
@@ -513,15 +514,13 @@ class TripService {
         }
     }
     //========================================================================================================================
-    public function update_student_status_transport(Request $request,$student_id)
+    public function update_student_status_transport($transport_id)
     {
-        try {
-            $request->validate([
-                'trip_id' => 'required|exists:trips,id',
-            ]);
-    
+        try {    
+            $transport = Transport::findOrFail($transport_id);
+            $student_id =  $transport->student_id;
+            $trip_id = $transport->trip_id;
             $student = Student::findOrFail($student_id);
-            $trip_id = $request->input('trip_id'); 
             $trip = Trip::findOrFail($trip_id);
 
             $user = Auth::user();

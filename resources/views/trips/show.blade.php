@@ -1,7 +1,7 @@
 @extends('layouts.master')
 
 @section('title')
-    عرض محطات المسار
+    عرض تفاصيل الرحلة
 @endsection
 
 <style>
@@ -137,19 +137,45 @@
                                 <tr>
                                     <td>{{ $index + 1 }}</td>
                                     <td>{{ $student->name }}</td>
-                                    <td>{{ $student->pivot->status }}</td>
+                                    @php
+                                        $translations = [
+                                            'attendee' => 'موجود',
+                                            'absent' => 'غائب',
+                                            'Moved_to' => 'مَنقول',
+                                            'Transferred_from' => 'نُقل',
+                                        ];  
+                                    @endphp
                                     <td>
-                                    <form action="{{ route('update_student_time_arrive', [$student->id,$trip->id]) }}" method="POST">
-                                        @csrf
-                                        @method('PUT')
-                                        <input type="time" name="time_arrive" value="{{ $student->pivot->time_arrive }}" class="form-control" required>
-                                        </td>
-                                    <td class="text-center">
+                                        <span class="badge 
+                                            {{ $student->pivot->status == 'attendee' ? 'bg-success' : 'bg-warning text-dark' }}">
+                                            {{ $translations[$student->pivot->status] ?? $student->pivot->status }}
+                                        </span>
+                                    </td>
+                                    <td>
+                                    @if ($student->pivot->status == 'Transferred_from')
+                                        @php
+                                            $latestTransport = $student->transports->last();
+                                        @endphp
+                                            @if ($latestTransport)
+                                            <span>{{ $latestTransport->station->name }}</span>
+                                        @else
+                                            <span>لا يوجد نقل</span>
+                                        @endif
+                                    @else
+                                        <form action="{{ route('update_student_time_arrive', [$student->id, $trip->id]) }}" method="POST">
+                                            @csrf
+                                            @method('PUT')
+                                            <input type="time" name="time_arrive" value="{{ $student->pivot->time_arrive }}" class="form-control" required>
+                                    @endif
+                                </td>
+                                <td class="text-center">
+                                    @if ($student->pivot->status != 'Transferred_from')
                                         <button type="submit" class="btn btn-warning btn-sm text-white">
                                             <i class="bi bi-pencil-square"></i> Edit
                                         </button>
-                                    </form>
-                                    </td>
+                                        </form>
+                                    @endif
+                                </td>
                                 </tr>
                             @endforeach
                         </tbody>

@@ -1,5 +1,6 @@
 <?php
 
+use App\Models\Trip;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\BladeController\BusController;
@@ -12,6 +13,7 @@ use App\Http\Controllers\BladeController\StationController;
 use App\Http\Controllers\BladeController\StudentController;
 use App\Http\Controllers\BladeController\CheckOutController;
 use App\Http\Controllers\BladeController\EmployeeController;
+use App\Http\Controllers\BladeController\TransportController;
 
 /*
 |--------------------------------------------------------------------------
@@ -70,8 +72,8 @@ Route::group(['middleware' => ['auth']], function () {
     Route::delete('forceDelete_trip/{trip_id}', [TripController::class, 'forceDelete'])->name('forceDelete_trip');
     Route::post('update_trip_status/{trip_id}/', [TripController::class, 'update_trip_status'])->name('update_trip_status');
     Route::get('all_student_trip/{trip_id}', [TripController::class, 'all_student_trip'])->name('all_student_trip');
-    Route::post('update_student_status/{student_id}/{trip_id}', [TripController::class, 'update_student_status'])->name('update_student_status');    
-    Route::post('update_student_status_transport/{student_id}', [TripController::class, 'update_student_status_transport'])->name('update_student_status_transport');  
+    Route::post('update_student_status/{student_id}/{trip_id}', [TripController::class, 'update_student_status'])->name('update_student_status');  
+    Route::post('accept_student_transport/{transport_id}', [TripController::class, 'update_student_status_transport'])->name('accept_student_transport');  
     Route::put('update_student_time_arrive/{student_id}/{trip_id}', [TripController::class, 'update_student_time_arrive'])->name('update_student_time_arrive');    
 
     
@@ -89,6 +91,19 @@ Route::group(['middleware' => ['auth']], function () {
     Route::get('show_checkout/{student_id}', [CheckOutController::class, 'show_checkout'])->name('show_checkout');
 
     Route::resource('roles', RoleController::class);
+
+
+
+    Route::get('/get-trip-stations/{trip}', function ($tripId) {
+        $trip = Trip::with('path.stations')->findOrFail($tripId); // تعديل العلاقة لتشمل stations
+        $stations = $trip->path->stations; 
+        return response()->json(['stations' => $stations]);
+    });
+
+   Route::post('update_student_status_transport/{student_id}', [TransportController::class, 'store'])->name('update_student_status_transport');  
+   Route::get('transport', [TransportController::class, 'index'])->name('transport');  
+   Route::delete('destroy_transport/{transport_id}', [TransportController::class, 'destroy'])->name('destroy_transport');  
+
 });
 
 

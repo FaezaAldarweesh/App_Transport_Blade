@@ -1,7 +1,7 @@
 @extends('layouts.master')
 
 @section('title')
-الرحلات
+الحضور و النقل
 @endsection
 
 @section('css')
@@ -87,13 +87,17 @@
                                     @can('update student status transport')
                                     <form action="{{ route('update_student_status_transport',$student->id) }}" method="POST" class="d-inline-block">
                                     @csrf    
-                                        <select name="trip_id" class="form-control">
+                                        <select class="trip-select" name="trip_id" class="form-control">
                                             <option value="">اختر رحلة جديدة</option>
                                             @foreach ($trips as $trip)
-                                            <option value="{{ $trip->id }}">
+                                                <option value="{{ $trip->id }}">
                                                     {{ $trip->name }} ({{ $trip->type }}) ({{ $trip->path->name }})
                                                 </option>
                                             @endforeach
+                                        </select>
+
+                                        <select class="stations-select" name="station_id" class="form-control">
+                                            <option value="">اختر مكان الوقوف</option>
                                         </select>
                                         </td>
                                         <td class="text-center">
@@ -117,3 +121,32 @@
     </div>
 </div>
 @endsection
+
+<script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+<script>
+$(document).ready(function () {
+    $('.trip-select').change(function () {
+        var tripId = $(this).val();
+        var $stationsSelect = $(this).closest('tr').find('.stations-select');
+
+        $.ajax({
+            url: '/get-trip-stations/' + tripId,
+            type: 'GET',
+            success: function (response) {
+                $stationsSelect.empty().append('<option value="">اختر مكان الوقوف</option>');
+                if (response.stations.length > 0) {
+                    response.stations.forEach(function (station) {
+                        $stationsSelect.append('<option value="' + station.id + '">' + station.name + '   ' + station.time_arrive + '</option>');
+                    });
+                } else {
+                    $stationsSelect.append('<option value="">لا توجد نقاط وقوف متاحة</option>');
+                }
+            },
+            error: function () {
+                alert('حدث خطأ أثناء تحميل نقاط الوقوف.');
+            }
+        });
+    });
+});
+
+</script>
