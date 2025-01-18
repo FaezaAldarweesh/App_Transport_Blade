@@ -18,14 +18,14 @@ class TripResources extends JsonResource
             'trip id' => $this->id,
             'trip name' => $this->name == 'delivery' ? 'توصيل' : 'مدرسية', 
             'trip type' => $this->type == 'go' ? 'ذهاب' : 'عودة', 
-            'trip path' => $this->path->name,
             'trip bus' => $this->bus->name,
             'trip status' => $this->status == 0 ? 'منتهية' : 'جارية',
             'trip start_date' => $this->start_date,
             'trip end_date' => $this->end_date,
-            'students' =>StudentResources::collection($this->whenLoaded('students')),
+            'the number of students' => $this->students->count(),
             'supervisors' => UserResources::collection($this->whenLoaded('users')),
             'drivers' => DriverResources::collection($this->whenLoaded('drivers')),
+            'trip stations' => StationResources::collection($this->path->stations),
         ];
     }
 }

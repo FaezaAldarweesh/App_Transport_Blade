@@ -42,7 +42,6 @@ class Trip extends Model
         
         return $this->belongsToMany(Driver::class)->withTrashed();
     }
-
     public function bus (){
         
         return $this->belongsTo(Bus::class)->withTrashed();

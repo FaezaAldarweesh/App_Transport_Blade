@@ -17,7 +17,7 @@ class StationResources extends JsonResource
         return [
             'station id' => $this->id,
             'station name' => $this->name, 
-            'station path' => $this->path ? $this->path->name : null,
+            'station time arrive' => $this->time_arrive, 
         ];
     }
 }

@@ -48,4 +48,14 @@ class TripController extends Controller
             return $this->success_Response(new TripResources($Trip), "تمت عملية عرض الرحلة بنجاح", 200);
     }
     //===========================================================================================================================
+    /**
+     * method to show next Trip
+     * @return /Illuminate\Http\JsonResponse
+     */
+    public function next_trip()
+    {
+        $Trip = $this->Tripservices->next_trip();
+        return $this->success_Response(new TripResources($Trip), "تمت عملية عرض الرحلة التالية بنجاح", 200);
+    }
+    //===========================================================================================================================
 }

@@ -32,5 +32,7 @@ Route::group(['middleware' => ['auth:api']], function () {
     Route::post('refresh', [AuthController::class ,'refresh']);
     
     Route::apiResource('trip',TripController::class); 
+    Route::get('next_trip', [TripController::class ,'next_trip']);
+
 
 });

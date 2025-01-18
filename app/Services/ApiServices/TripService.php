@@ -2,19 +2,12 @@
 
 namespace App\Services\ApiServices;
 
-use App\Models\Bus;
+use Carbon\Carbon;
 use App\Models\Trip;
-use App\Models\Driver;
-use App\Models\BusTrip;
-use App\Models\Student;
-use App\Models\DriverTrip;
-use App\Models\Supervisor;
-use App\Models\StudentTrip;
-use App\Models\SupervisorTrip;
 use Illuminate\Support\Facades\Log;
+use Illuminate\Support\Facades\Auth;
 use App\Http\Traits\ApiResponseTrait;
 use App\Http\Traits\AllStudentsByTripTrait;
-use Illuminate\Support\Facades\Auth;
 
 
 class TripService {
@@ -30,9 +23,8 @@ class TripService {
 
             if($user->role == 'supervisor'){
                 $Trips = $user->trips()->get();
-            }else{
-                $Trips = Trip::all();
             }
+
             return $Trips;
         } catch (\Throwable $th) { Log::error($th->getMessage()); return $this->failed_Response('Something went wrong with fetche Trips', 400);}
     }
@@ -49,11 +41,41 @@ class TripService {
                 throw new \Exception('Trip not found');
             }
 
-            $Trip->load('students','users','drivers');
+            $Trip->load('students','users','drivers','path.stations');
 
             return $Trip;
         } catch (\Exception $e) { Log::error($e->getMessage()); return $this->failed_Response($e->getMessage(), 404);
-        } catch (\Throwable $th) { Log::error($th->getMessage()); return $this->failed_Response('Something went wrong with update Trip', 400);}
+        } catch (\Throwable $th) { Log::error($th->getMessage()); return $this->failed_Response('Something went wrong with show Trip', 400);}
     }
+    //========================================================================================================================
+        /**
+     * method to show next Trip 
+     * @return /Illuminate\Http\JsonResponse if have an error
+     */
+    public function next_trip()
+    {
+        try {
+            $user = Auth::user();
+            $currentTime = Carbon::now()->format('H:i:s');
+
+            if ($user->role == 'supervisor') {
+                $Trip = $user->trips()
+                             ->where('start_date', '>', $currentTime) 
+                             ->orderBy('start_date', 'asc')
+                             ->first();
+                             
+                if (!$Trip) {
+                    $Trip = $user->trips()
+                                 ->orderBy('start_date', 'asc')
+                                 ->first(); 
+                }
+            }
+
+            return $Trip;
+        } catch (\Throwable $th) {
+            Log::error($th->getMessage());
+            return $this->failed_Response($th->getMessage(), 400);
+        }
+    }    
     //========================================================================================================================
 }
