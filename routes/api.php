@@ -1,15 +1,8 @@
 <?php
 
 use Illuminate\Support\Facades\Route;
-use App\Http\Controllers\ApiController\BusController;
 use App\Http\Controllers\ApiController\AuthController;
-use App\Http\Controllers\ApiController\PathController;
 use App\Http\Controllers\ApiController\TripController;
-use App\Http\Controllers\ApiController\UserController;
-use App\Http\Controllers\ApiController\DriverController;
-use App\Http\Controllers\ApiController\StationController;
-use App\Http\Controllers\ApiController\StudentController;
-use App\Http\Controllers\ApiController\SupervisorController;
 
 /*
 |--------------------------------------------------------------------------
@@ -33,6 +26,6 @@ Route::group(['middleware' => ['auth:api']], function () {
     
     Route::apiResource('trip',TripController::class); 
     Route::get('next_trip', [TripController::class ,'next_trip']);
-
+    Route::get('update_trip_status/{trip_id}/', [TripController::class, 'update_trip_status']);
 
 });

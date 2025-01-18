@@ -78,4 +78,43 @@ class TripService {
         }
     }    
     //========================================================================================================================
+    public function update_trip_status($trip_id)
+    {
+        try {
+            $Trip = Trip::find($trip_id);
+            $user = Auth::user();
+            
+            
+            if ($user->role == 'supervisor') {
+                $Trip = $user->trips()->find($trip_id);
+                             
+                if(!$Trip){
+                    throw new \Exception('لا يمكنك التعديل على حالة رحلة غير مخصصة لك ');
+                }
+            }
+  
+            $Trip->status = !$Trip->status;
+
+            if($Trip->status == 0){
+                // جلب الطلاب المرتبطين بالرحلة مع حالة غياب أو منقول
+                $Trip->students()
+                     ->wherePivotIn('status', ['absent', 'Moved_to'])
+                     ->each(function ($student) use ($Trip) {
+                        $Trip->students()->updateExistingPivot($student->id, ['status' => 'attendee']);
+                    });
+
+                // حذف الطلاب المرتبطين بالرحلة مع حالة نقل
+                $Trip->students()->wherePivot('status', 'Transferred_from')
+                    ->detach();
+                
+                $Trip->path->stations()->update(['status' => 0]);
+            }
+            $Trip->save(); 
+
+            return $Trip;
+
+        } catch (\Exception $e) { Log::error($e->getMessage()); return $this->failed_Response($e->getMessage(), 404);
+        } catch (\Throwable $th) { Log::error($th->getMessage()); return $this->failed_Response('Something went wrong with update status Trip', 400);}
+    }
+    //========================================================================================================================
 }
