@@ -35,7 +35,7 @@ class AuthController extends Controller
         if ($token instanceof \Illuminate\Http\JsonResponse) {
             return $token;
         }
-        return $this->api_Response(null,$token,"login has been successfully",200);
+        return $this->api_Response(null,$token,"تمت عملية تسجيل الدخول بنجاح",200);
     }
 //===========================================================================================================================
     /**
@@ -45,7 +45,7 @@ class AuthController extends Controller
     public function logout()
     {
         $this->authservices->logout();
-        return $this->api_Response(null,null,"Successfully logged out",200);
+        return $this->api_Response(null,null,"تمت عملية تسجيل الخروج بنجاح",200);
     }
 //===========================================================================================================================
     /**
@@ -55,7 +55,7 @@ class AuthController extends Controller
     public function refresh()
     {
         $result = $this->authservices->refresh();
-        return $this->api_Response(new registerResource($result['user']),$result['token']," refresh has been successfully",201);
+        return $this->api_Response(new registerResource($result['user']),$result['token'],"refresh has been successfully",201);
     }
 //===========================================================================================================================
 }

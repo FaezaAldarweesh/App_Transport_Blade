@@ -18,7 +18,10 @@ trait ApiResponseTrait
     //========================================================================================================================
     
     public function failed_Response($message,$status){
-        return response()->json($message,$status);
+        $array = [
+            'message'=>$message,
+        ];
+        return response()->json($array,$status);
     }
     //========================================================================================================================
     public function success_Response($data,$message,$status){
