@@ -4,6 +4,7 @@ namespace App\Http\Controllers\ApiController;
 
 use App\Http\Traits\ApiResponseTrait;
 use App\Http\Resources\AllTripResources;
+use App\Http\Resources\viewTripResources;
 use App\Services\ApiServices\TripService;
 use App\Http\Controllers\ApiController\Controller;
 
@@ -45,7 +46,7 @@ class TripController extends Controller
         if ($Trip instanceof \Illuminate\Http\JsonResponse) {
             return $Trip;
         }
-            return $this->success_Response(new TripResources($Trip), "تمت عملية عرض الرحلة بنجاح", 200);
+            return $this->success_Response(new viewTripResources($Trip), "تمت عملية عرض الرحلة بنجاح", 200);
     }
     //===========================================================================================================================
     /**
@@ -55,7 +56,7 @@ class TripController extends Controller
     public function next_trip()
     {
         $Trip = $this->Tripservices->next_trip();
-        return $this->success_Response(new TripResources($Trip), "تمت عملية عرض الرحلة التالية بنجاح", 200);
+        return $this->success_Response(new AllTripResources($Trip), "تمت عملية عرض الرحلة التالية بنجاح", 200);
     }
     //===========================================================================================================================
     /**

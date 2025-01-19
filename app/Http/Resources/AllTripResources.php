@@ -19,6 +19,7 @@ class AllTripResources extends JsonResource
             'trip id' => $this->id,
             'trip name' => $this->name == 'delivery' ? 'توصيل' : 'مدرسية', 
             'trip type' => $this->type == 'go' ? 'ذهاب' : 'عودة', 
+            'trip bus' => $this->bus->name,
             'trip path' => $this->path->name, 
             'trip status' => $this->status == 0 ? 'منتهية' : 'جارية',
             'trip start_date' =>  $this->formatTimeToArabic($this->start_date),
@@ -33,5 +34,4 @@ class AllTripResources extends JsonResource
 
         return $formattedTime . ' ' . $period; // دمج الوقت مع الفترة
     }
-
 }
