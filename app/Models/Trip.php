@@ -24,6 +24,8 @@ class Trip extends Model
         'status',
     ];
 
+    
+
     public function path (){
         
         return $this->belongsTo(Path::class)->withTrashed();

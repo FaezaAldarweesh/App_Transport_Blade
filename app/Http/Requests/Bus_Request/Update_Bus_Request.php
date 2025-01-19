@@ -26,7 +26,7 @@ class Update_Bus_Request extends FormRequest
     public function rules(): array
     {
         return [
-            'name' => ['sometimes','nullable','string','min:4','max:50', 'unique:buses,name,' . $this->route('bus')],
+            'name' => ['sometimes','nullable','string','max:50', 'unique:buses,name,' . $this->route('bus')],
             'number_of_seats' => 'sometimes|nullable|integer|min:20',
         ];
     }

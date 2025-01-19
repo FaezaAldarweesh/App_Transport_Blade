@@ -25,7 +25,7 @@ class Store_Bus_Request extends FormRequest
     public function rules(): array
     {
         return [
-            'name' => 'required|unique:buses,name|string|min:4|max:50',
+            'name' => 'required|unique:buses,name|string|max:50',
             'number_of_seats' => 'required|integer|min:20',
         ];
     }

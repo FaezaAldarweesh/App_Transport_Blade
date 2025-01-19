@@ -2,10 +2,10 @@
 
 namespace App\Http\Controllers\ApiController;
 
+use App\Http\Traits\ApiResponseTrait;
+use App\Http\Resources\AllTripResources;
 use App\Services\ApiServices\TripService;
 use App\Http\Controllers\ApiController\Controller;
-use App\Http\Resources\TripResources;
-use App\Http\Traits\ApiResponseTrait;
 
 class TripController extends Controller
 {
@@ -29,7 +29,7 @@ class TripController extends Controller
     public function index()
     {  
         $Trips = $this->Tripservices->get_all_Trips();
-        return $this->success_Response(TripResources::collection($Trips), "تمت عملية الوصول للرحلات بنجاح", 200);
+        return $this->success_Response(AllTripResources::collection($Trips), "تمت عملية الوصول للرحلات بنجاح", 200);
     }
     //===========================================================================================================================
     /**
@@ -71,6 +71,17 @@ class TripController extends Controller
             return $Trip;
         }
         return $this->success_Response(new TripResources($Trip), 'تمت عملية تعديل حالة الرحلة بنجاح', 200);
+    }  
+    //========================================================================================================================
+    /**
+     * method to get all students that belong to Specify trip 
+     * @param   $Trip_id
+     * @return /Illuminate\Http\JsonResponse
+     */
+    public function all_student_trip($trip_id)
+    {
+        $trip = $this->Tripservices->all_student_trip($trip_id);
+        return $this->success_Response( new TripResources($trip), 'تمت عملية جلب طلاب الرحلة بنجاح', 200);
     }  
     //========================================================================================================================
 }

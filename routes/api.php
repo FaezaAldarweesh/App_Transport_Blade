@@ -27,5 +27,6 @@ Route::group(['middleware' => ['auth:api']], function () {
     Route::apiResource('trip',TripController::class); 
     Route::get('next_trip', [TripController::class ,'next_trip']);
     Route::get('update_trip_status/{trip_id}/', [TripController::class, 'update_trip_status']);
+    Route::get('all_student_trip/{trip_id}', [TripController::class, 'all_student_trip']);
 
 });

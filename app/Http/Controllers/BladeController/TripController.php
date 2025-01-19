@@ -176,8 +176,8 @@ class TripController extends Controller
 
     }  
     //========================================================================================================================
-        /**
-     * method to update on trip status
+    /**
+     * method to get all students that belong to Specify trip
      * @param   $Trip_id
      * @return /Illuminate\Http\JsonResponse
      */
