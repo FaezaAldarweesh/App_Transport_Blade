@@ -122,6 +122,7 @@ class TripService {
         try {
             $trip = Trip::find($trip_id);
             $trip->load('students');
+
             return $trip;
 
         }catch (\Throwable $th) { Log::error($th->getMessage()); return $this->failed_Response('Something went wrong with get all students', 400);}

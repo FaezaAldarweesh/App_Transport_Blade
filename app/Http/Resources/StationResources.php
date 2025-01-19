@@ -21,11 +21,9 @@ class StationResources extends JsonResource
             'station time arrive' => $this->formatTimeToArabic($this->time_arrive), 
         ];
     }
-    private function formatTimeToArabic($time)
+    private function formatTimeToArabic($time): string
     {
-        $formattedTime = Carbon::parse($time)->format('h:i'); // تنسيق 12 ساعة مع الدقائق
-        $period = Carbon::parse($time)->format('A') == 'AM' ? 'ص' : 'م'; // تحديد الفترة
-
-        return $formattedTime . ' ' . $period; // دمج الوقت مع الفترة
+        return Carbon::parse($time)->format('h:i') . ' ' . 
+               (Carbon::parse($time)->format('A') === 'AM' ? 'ص' : 'م');
     }
 }

@@ -6,6 +6,7 @@ use App\Http\Traits\ApiResponseTrait;
 use App\Http\Resources\AllTripResources;
 use App\Http\Resources\viewTripResources;
 use App\Services\ApiServices\TripService;
+use App\Http\Resources\StudentTripResources;
 use App\Http\Controllers\ApiController\Controller;
 
 class TripController extends Controller
@@ -71,7 +72,7 @@ class TripController extends Controller
         if ($Trip instanceof \Illuminate\Http\JsonResponse) {
             return $Trip;
         }
-        return $this->success_Response(new TripResources($Trip), 'تمت عملية تعديل حالة الرحلة بنجاح', 200);
+        return $this->success_Response(new AllTripResources($Trip), 'تمت عملية تعديل حالة الرحلة بنجاح', 200);
     }  
     //========================================================================================================================
     /**
@@ -82,7 +83,7 @@ class TripController extends Controller
     public function all_student_trip($trip_id)
     {
         $trip = $this->Tripservices->all_student_trip($trip_id);
-        return $this->success_Response( new TripResources($trip), 'تمت عملية جلب طلاب الرحلة بنجاح', 200);
+        return $this->success_Response( new StudentTripResources($trip), 'تمت عملية جلب طلاب الرحلة بنجاح', 200);
     }  
     //========================================================================================================================
 }
