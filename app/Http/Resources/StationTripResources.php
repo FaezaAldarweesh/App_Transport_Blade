@@ -2,10 +2,11 @@
 
 namespace App\Http\Resources;
 
+use Carbon\Carbon;
 use Illuminate\Http\Request;
 use Illuminate\Http\Resources\Json\JsonResource;
 
-class PathResources extends JsonResource
+class StationTripResources extends JsonResource
 {
     /**
      * Transform the resource into an array.
@@ -15,8 +16,8 @@ class PathResources extends JsonResource
     public function toArray(Request $request): array
     {
         return [
-            'path id' => $this->id,
-            'path name' => $this->name, 
+            'trip id' => $this->id,
+            'trip stations' => StationResources::collection($this->path->stations),
         ];
     }
 }
