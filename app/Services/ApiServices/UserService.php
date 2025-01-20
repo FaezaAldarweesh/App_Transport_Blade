@@ -4,160 +4,24 @@ namespace App\Services\ApiServices;
 
 use App\Models\User;
 use Illuminate\Support\Facades\Log;
+use Illuminate\Support\Facades\Auth;
 use App\Http\Traits\ApiResponseTrait;
-use Illuminate\Support\Facades\Request;
 
 class UserService {
     //trait customize the methods for successful , failed , authentecation responses.
     use ApiResponseTrait;
-    /**
-     * method to view all users with filter on role
-     * @param   Request $request
-     * @return /Illuminate\Http\JsonResponse if have an error
-     */
-    public function get_all_Users($role){
-        try {
-            $user = User::filter($role)->get();
-            return $user;
-        } catch (\Throwable $th) { Log::error($th->getMessage()); return $this->failed_Response('حدث خطأ أثناء محاولة الوصول إلى المستخدمين', 400);}
-    }
-    //========================================================================================================================
-    /**
-     * method to store a new user
-     * @param   $data
-     * @return /Illuminate\Http\JsonResponse ig have an error
-     */
-    public function create_User($data) {
-        try {
-            $user = new User();
-            $user->name = ['first_name' => $data['first_name'], 'last_name' => $data['last_name']];
-            $user->username = $data['username'];
-            $user->password = $data['password'];
-            
-            $user->save(); 
-    
-            return $user; 
-        } catch (\Throwable $th) { Log::error($th->getMessage()); return $this->failed_Response('حدث خطأ أثناء محاولة إضافة مستخدم جديد', 400);}
-    }    
-    //========================================================================================================================
-    /**
-     * method to update user alraedy exist
-     * @param  $data
-     * @param  $user_id
-     * @return /Illuminate\Http\JsonResponse if have an error
-     */
-    public function update_user($data,$user_id){
+    public function update_info($data){
         try {  
-            $user = User::find($user_id);
-            if(!$user){
-                throw new \Exception('المستخدم المطلوب غير موجود');
-            }
-
-            if (isset($data['first_name']) && isset($data['last_name'])) {
-                $user->name = ['first_name' => $data['first_name'], 'last_name' => $data['last_name']];
-            }
-            $user->username = $data['username'] ?? $user->username;
-            $user->password = $data['password'] ?? $user->password;  
-            $user->role = $data['role'] ?? $user->role;
+            $user = User::find(Auth::id());
+            $user->first_phone = $data['first_phone'] ?? $user->first_phone;
+            $user->secound_phone = $data['secound_phone'] ?? $user->secound_phone;
+            $user->location = $data['location'] ?? $user->location;  
 
             $user->save();  
             return $user;
-        } catch (\Exception $e) { Log::error($e->getMessage()); return $this->failed_Response($e->getMessage(), 404);
-        }catch (\Throwable $th) { Log::error($th->getMessage()); return $this->failed_Response('حدث خطأ أثناء محاولة التعديل على المستخدم', 400);}
-    }
-    //========================================================================================================================
-    /**
-     * method to show user alraedy exist
-     * @param  $user_id
-     * @return /Illuminate\Http\JsonResponse if have an error
-     */
-    public function view_User($user_id) {
-        try {    
-            $user = User::find($user_id);
-            if(!$user){
-                throw new \Exception('المستخدم المطلوب غير موجود');
-            }
-            return $user;
-        } catch (\Exception $e) { Log::error($e->getMessage()); return $this->failed_Response($e->getMessage(), 404);
-        } catch (\Throwable $th) { Log::error($th->getMessage()); return $this->failed_Response('حدث خطأ أثناء محاولة عرض المستخدم', 400);}
-    }
-    //========================================================================================================================
-    /**
-     * method to soft delete user alraedy exist
-     * @param  User $user
-     * @return /Illuminate\Http\JsonResponse if have an error
-     */
-    public function delete_user($user_id)
-    {
-        try {  
-            $user = User::find($user_id);
-            if(!$user){
-                throw new \Exception('المستخدم المطلوب غير موجود');
-            }
-             //منع الأدمن من إزالة حسابه
-             if ($user->role == 'admin') {
-                throw new \Exception('لا يمكنك إجراء حذف على حساب الأدمن');
-            }
-            $user->students()->delete();
-            $user->delete();
-            return true;
-        }catch (\Exception $e) { Log::error($e->getMessage()); return $this->failed_Response($e->getMessage(), 400);
-        } catch (\Throwable $th) { Log::error($th->getMessage()); return $this->failed_Response('حدث خطأ أثناء محاولة حذف المستخدم', 400);}
-    }
-    //========================================================================================================================
-    /**
-     * method to return all soft delete users
-     * @return /Illuminate\Http\JsonResponse if have an error
-     */
-    public function all_trashed_user()
-    {
-        try {  
-            $users = User::onlyTrashed()->get();
-            return $users;
-        } catch (\Throwable $th) { Log::error($th->getMessage()); return $this->failed_Response('حدث خطأ أثناء محاولة الوصول إلى أرشيف المستخدميين', 400);}
-    }
-    //========================================================================================================================
-    /**
-     * method to restore soft delete user alraedy exist
-     * @param   $user_id
-     * @return /Illuminate\Http\JsonResponse if have an error
-     */
-    public function restore_user($user_id)
-    {
-        try {
-            $user = User::withTrashed()->find($user_id);
-            if(!$user){
-                throw new \Exception('المستخدم المطلوب غير موجود');
-            }
-            $user->students()->restore();
-            return $user->restore();
-        }catch (\Exception $e) { Log::error($e->getMessage()); return $this->failed_Response($e->getMessage(), 400);   
-        } catch (\Throwable $th) { Log::error($th->getMessage()); return $this->failed_Response('حدث خطأ أثناء محاولة إستعادة المستخدميين', 400);
+        }catch (\Exception $e) {
+            Log::error('Error updating bus: ' . $e->getMessage());
+            throw new \Exception('حدث خطأ أثناء محاولة التعديل على المستخدم');
         }
     }
-    //========================================================================================================================
-    /**
-     * method to force delete on user that soft deleted before
-     * @param   $user_id
-     * @return /Illuminate\Http\JsonResponse if have an error
-     */
-    public function forceDelete_user($user_id)
-    {   
-        try {
-            $user = User::onlyTrashed()->find($user_id);
-            if(!$user){
-                throw new \Exception('المستخدم المطلوب غير موجود');
-            }
-            
-            //منع الأدمن من إزالة حسابه
-            else if ($user->role == 'admin') {
-                throw new \Exception('لا يمكنك إجراء حذف على حساب الأدمن');
-            }
-            $user->students()->forceDelete();            
-            return $user->forceDelete();
-        }catch (\Exception $e) { Log::error($e->getMessage()); return $this->failed_Response($e->getMessage(), 400);   
-        } catch (\Throwable $th) { Log::error($th->getMessage()); return $this->failed_Response('حدث خطأ أثناء محاولة حذف أرشيف المستخدميين', 400);}
-    }
-    //========================================================================================================================
-
 }

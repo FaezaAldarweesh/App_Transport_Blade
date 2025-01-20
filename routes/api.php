@@ -5,6 +5,7 @@ use App\Http\Controllers\ApiController\AuthController;
 use App\Http\Controllers\ApiController\TripController;
 use App\Http\Controllers\ApiController\StationController;
 use App\Http\Controllers\ApiController\CheckoutController;
+use App\Http\Controllers\ApiController\UserController;
 
 /*
 |--------------------------------------------------------------------------
@@ -36,5 +37,7 @@ Route::group(['middleware' => ['auth:api']], function () {
     Route::get('all_station_trip/{trip_id}', [StationController::class, 'all_station_trip']);
     Route::post('update_station_status/{station_id}',[StationController::class,'update_station_status']);
 
+    Route::get('view_info', [UserController::class, 'view_info']);
+    Route::post('update_info',[UserController::class,'update_info']);
 
 });
