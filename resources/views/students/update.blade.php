@@ -55,6 +55,19 @@
                                 <div class="invalid-feedback">{{ $message }}</div>
                             @enderror
                         </div>
+
+                        <div class="mb-3">
+                            <label for="gender">Gender</label>
+                            <select id="gender" name="gender" class="form-control" required>
+                                <option value="" disabled>Select gender</option>
+                                <option value="male" {{ $student->gender === 'male' ? 'selected' : '' }}>ذكر</option>
+                                <option value="female" {{ $student->gender === 'female' ? 'selected' : '' }}>أنثى</option>
+                            </select>
+                            @error('gender')
+                                <div class="invalid-feedback">{{ $message }}</div>
+                            @enderror
+                        </div>
+
                         <div class="d-flex justify-content-end mt-4">
                             <button type="submit" class="btn btn-primary">Update Student</button>
                             <a href="{{ route('student.index') }}" class="btn btn-secondary ms-2">Back</a>

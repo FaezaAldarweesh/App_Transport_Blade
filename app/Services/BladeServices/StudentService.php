@@ -34,6 +34,7 @@ class StudentService
             $student = new Student();
             $student->name = $data['name'];
             $student->user_id = $data['user_id'];
+            $student->gender = $data['gender'];
             $student->save();
 
         } catch (\Exception $e) {
@@ -48,6 +49,7 @@ class StudentService
             $student = Student::findOrFail($student_id);
             $student->name = $data['name'] ?? $student->name;
             $student->user_id = $data['user_id'] ?? $student->user_id;
+            $student->gender = $data['gender'] ?? $student->gender;
 
             $student->save();
 

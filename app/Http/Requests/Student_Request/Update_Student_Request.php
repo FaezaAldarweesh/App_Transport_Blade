@@ -28,6 +28,7 @@ class Update_Student_Request extends FormRequest
         return [
             'name' => 'sometimes|nullable|unique:students,name,' . $this->route('student') . '|regex:/^[\p{L}\s]+$/u|min:2|max:50',
             'user_id' => 'sometimes|nullable|integer|exists:users,id',
+            'gender' => 'sometimes|nullable|string|in:male,female',
         ];
     }
     //===========================================================================================================================
@@ -43,6 +44,7 @@ class Update_Student_Request extends FormRequest
         return [
             'name' => 'اسم الطالب',
             'user_id' => 'اسم الأب',
+            'gender' => 'الجنس',
         ];
     }
     //===========================================================================================================================
@@ -55,6 +57,7 @@ class Update_Student_Request extends FormRequest
             'name.max' => 'الحد الأقصى لطول  :attribute هو 50 حرف',
             'name.min' => 'الحد الأدنى لطول :attribute على الأقل هو 2 حرف',
             'integer' => 'يجب أن يكون الحقل :attribute من نمط int',
+            'in' => 'يأخذ الحقل :attribute فقط القيم إما ( male أو female )',
         ];
     }
 }

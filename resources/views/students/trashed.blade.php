@@ -39,6 +39,7 @@
                                 <th>#</th>
                                 <th>name</th>
                                 <th>parent</th>
+                                <th>gender</th>
                                 <th>Tools</th>
                             </tr>
                         </thead>
@@ -48,6 +49,7 @@
                                     <td class="text-center">{{ $loop->iteration }}</td>
                                     <td>{{ $student->name }}</td>
                                     <td>{{ $student->user?$student->user->name:'N/A'}}</td>
+                                    <td>{{ $student->gender }}</td>
                                     <td class="text-center">
                                         @can('restore student')
                                         <form action="{{ route('restore_student', $student->id) }}" method="GET" class="d-inline-block" onsubmit="return confirm('Are you sure you want to restore this student?');">

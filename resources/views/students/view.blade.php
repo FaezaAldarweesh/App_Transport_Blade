@@ -44,6 +44,7 @@
                                 <th>#</th>
                                 <th>name</th>
                                 <th>parent</th>
+                                <th>gender</th>
                                 <th>Tools</th>
                             </tr>
                         </thead>
@@ -53,6 +54,7 @@
                                     <td class="text-center">{{ $loop->iteration }}</td>
                                     <td>{{ $student->name }}</td>
                                     <td>{{ $student->user->name }}</td>
+                                    <td>{{ $student->gender }}</td>
                                     <td class="text-center">
                                         @can('update student')
                                         <a href="{{ route('student.edit', $student->id) }}" class="btn btn-warning btn-sm text-white">

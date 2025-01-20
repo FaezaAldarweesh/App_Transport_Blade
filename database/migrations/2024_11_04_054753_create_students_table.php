@@ -15,6 +15,7 @@ return new class extends Migration
             $table->id();
             $table->string('name');
             $table->foreignId('user_id')->constrained()->onDelete('cascade');
+            $table->enum('gender',['male','female']);
             $table->timestamps();
             $table->softDeletes();
         });
