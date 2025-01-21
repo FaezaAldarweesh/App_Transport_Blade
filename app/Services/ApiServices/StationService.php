@@ -36,6 +36,25 @@ class StationService {
                 throw new \Exception('لا يمكن تعديل حالة المحطة إلا إذا كانت الرحلة جارية');                
             }
 
+            // جلب جميع المحطات المرتبطة بالطريق وترتيبها حسب وقت الوصول
+            $stations = Station::where('path_id', $station->path_id)
+                               ->orderBy('time_arrive', 'asc')
+                               ->get();
+
+            // التحقق من ترتيب المحطات
+            foreach ($stations as $key => $currentStation) {
+                if ($currentStation->id == $station_id) {
+                        // التحقق من أن المحطة السابقة تم الوصول لها قبل تعديل الحالية
+                        if ($key > 0) {
+                            $previousStation = $stations[$key - 1];
+                            if ($previousStation->status == 0) {
+                                throw new \Exception('لا يمكن تعديل حالة هذه المحطة قبل تعديل المحطة السابقة لها');
+                            }
+                    }
+                    break;
+                }
+            }
+
             $station->status = !$station->status;
             $station->save(); 
 

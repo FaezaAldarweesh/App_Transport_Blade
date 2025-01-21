@@ -60,8 +60,9 @@ class TripService {
 
             if ($user->role == 'supervisor') {
                 $Trip = $user->trips()
-                             ->where('start_date', '>', $currentTime) 
-                             ->orderBy('start_date', 'asc')
+                             ->where('status',0)
+                             ->where('end_date', '>', $currentTime) 
+                             ->orderBy('end_date', 'asc')
                              ->first();
                              
                 if (!$Trip) {
@@ -91,6 +92,7 @@ class TripService {
                 if(!$Trip){
                     throw new \Exception('لا يمكنك التعديل على حالة رحلة غير مخصصة لك ');
                 }
+
             }
   
             $Trip->status = !$Trip->status;
@@ -108,7 +110,14 @@ class TripService {
                     ->detach();
                 
                 $Trip->path->stations()->update(['status' => 0]);
+            }else{
+                //منع المشرفة من بدأ أكثر من رحلة في نفس الوقت
+                $activeTrip = $user->trips()->where('status', 1)->where('trips.id', '!=', $trip_id)->first();
+                if ($activeTrip) {
+                    throw new \Exception('لا يمكنك بدء هذه الرحلة لأن هناك رحلة أخرى لا تزال قيد التنفيذ.');
+                }
             }
+
             $Trip->save(); 
 
             return $Trip;
