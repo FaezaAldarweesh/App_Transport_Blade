@@ -3,6 +3,7 @@
 use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\ApiController\AuthController;
 use App\Http\Controllers\ApiController\TripController;
+use App\Http\Controllers\ApiController\CheckoutController;
 
 /*
 |--------------------------------------------------------------------------
@@ -28,5 +29,7 @@ Route::group(['middleware' => ['auth:api']], function () {
     Route::get('next_trip', [TripController::class ,'next_trip']);
     Route::get('update_trip_status/{trip_id}/', [TripController::class, 'update_trip_status']);
     Route::get('all_student_trip/{trip_id}', [TripController::class, 'all_student_trip']);
+
+    Route::post('checkout', [CheckoutController::class,'store']);
 
 });
