@@ -86,4 +86,15 @@ class TripController extends Controller
         return $this->success_Response( new StudentTripResources($trip), 'تمت عملية جلب طلاب الرحلة بنجاح', 200);
     }  
     //========================================================================================================================
+    /**
+     * method to get all students that belong to Specify back trip 
+     * @param   $Trip_id
+     * @return /Illuminate\Http\JsonResponse
+     */
+    public function all_student_Back_trip($trip_id)
+    {
+        $trip = $this->Tripservices->all_student_Back_trip($trip_id);
+        return $this->success_Response( new StudentTripResources($trip), 'تمت عملية جلب طلاب رحلة العودة بنجاح', 200);
+    }  
+    //========================================================================================================================
 }
