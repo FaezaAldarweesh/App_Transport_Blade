@@ -26,7 +26,7 @@ class viewTripResources extends JsonResource
             'the number of students' => $this->students->count(),
             'supervisors' => UserResources::collection($this->whenLoaded('users')),
             'drivers' => DriverResources::collection($this->whenLoaded('drivers')),
-            'trip stations' => StationResources::collection($this->path->stations),
+            'trip stations' => StationResources::collection($this->path->stations()->orderBy('time_arrive', 'asc')->get()),
         ];
     }
     private function formatTimeToArabic($time)
