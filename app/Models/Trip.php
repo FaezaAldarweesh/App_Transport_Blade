@@ -24,28 +24,31 @@ class Trip extends Model
         'status',
     ];
 
-    
+
 
     public function path (){
-        
+
         return $this->belongsTo(Path::class)->withTrashed();
     }
     public function students (){
-        
+
         return $this->belongsToMany(Student::class) ->withPivot('status')->withPivot('time_arrive')->withTrashed();
     }
 
     public function users (){
-        
+
         return $this->belongsToMany(User::class)->withTrashed();
     }
 
     public function drivers (){
-        
+
         return $this->belongsToMany(Driver::class)->withTrashed();
     }
     public function bus (){
-        
+
         return $this->belongsTo(Bus::class)->withTrashed();
+    }
+    public function tripTrack(){
+        return $this->hasMany(TripTrack::class);
     }
 }
