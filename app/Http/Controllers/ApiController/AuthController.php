@@ -12,7 +12,7 @@ class AuthController extends Controller
 {
     //trait customize the methods for successful , failed , authentecation responses.
     use ApiResponseTrait;
-    protected $authservices;    
+    protected $authservices;
     /**
      * construct to inject auth services
      * @param AuthService $authservices
@@ -29,9 +29,9 @@ class AuthController extends Controller
      * @return /Illuminate\Http\JsonResponse
      */
     public function login(loginRequest $request)
-    {        
+    {
         $token = $this->authservices->login($request->validated());
-        // In case error messages are returned from the services section 
+        // In case error messages are returned from the services section
         if ($token instanceof \Illuminate\Http\JsonResponse) {
             return $token;
         }
