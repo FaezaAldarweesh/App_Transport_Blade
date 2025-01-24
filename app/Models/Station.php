@@ -19,10 +19,11 @@ class Station extends Model
         'path_id',
         'status',
         'time_arrive',
+        'location'
     ];
 
     public function path (){
-        
+
         return $this->belongsTo(Path::class,'path_id','id')->withTrashed();
 
     }

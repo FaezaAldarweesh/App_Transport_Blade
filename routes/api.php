@@ -43,6 +43,6 @@ Route::group(['middleware' => ['auth:api']], function () {
     Route::post('update_info', [UserController::class, 'update_info']);
 
     Route::post('trip-tracks', [TripTrackController::class,'store']);
-    Route::get('trip-tracks/{trip?}', [TripTrackController::class,'show']);
+    Route::get('trip-tracks/{trip}', [TripTrackController::class,'show']);
 
 });

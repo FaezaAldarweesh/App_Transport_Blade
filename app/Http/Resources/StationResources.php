@@ -17,14 +17,15 @@ class StationResources extends JsonResource
     {
         return [
             'station id' => $this->id,
-            'station name' => $this->name, 
-            'station status' => $this->status == 0 ? 'لم يتم الوصول لها بعد' : 'تم الوصول إليها', 
-            'station time arrive' => $this->formatTimeToArabic($this->time_arrive), 
+            'station name' => $this->name,
+            'station status' => $this->status == 0 ? 'لم يتم الوصول لها بعد' : 'تم الوصول إليها',
+            'station time arrive' => $this->formatTimeToArabic($this->time_arrive),
+            'location'=>$this->location
         ];
     }
     private function formatTimeToArabic($time): string
     {
-        return Carbon::parse($time)->format('h:i') . ' ' . 
+        return Carbon::parse($time)->format('h:i') . ' ' .
                (Carbon::parse($time)->format('A') === 'AM' ? 'ص' : 'م');
     }
 }
