@@ -27,7 +27,6 @@ class TripTrackController extends Controller
     {
         $this->tripTrackService = $tripTrackService;
         $this->middleware('role:supervisor')->only('store');
-        $this->middleware('role:Admin|parent')->only('show');
     }
 
 
