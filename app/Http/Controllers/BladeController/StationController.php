@@ -13,7 +13,7 @@ class StationController extends Controller
 {
     protected $stationservices;
     /**
-     * construct to inject Station Services 
+     * construct to inject Station Services
      * @param StationService $stationservices
      */
     public function __construct(StationService $stationservices)
@@ -30,17 +30,17 @@ class StationController extends Controller
     }
     //===========================================================================================================================
     /**
-     * method to view all Stations 
+     * method to view all Stations
      * @return /view
      */
     public function index()
-    {  
+    {
         $stations = $this->stationservices->get_all_Stations();
         return view('stations.view', compact('stations'));
     }
     //===========================================================================================================================
     /**
-     * method header to station create page 
+     * method header to station create page
      */
     public function create(){
         $paths = Path::all();
@@ -58,7 +58,7 @@ class StationController extends Controller
         session()->flash('success', 'تمت عملية إضافة المحطة بنجاح');
         return redirect()->route('station.index');
     }
-    
+
     //===========================================================================================================================
     /**
     * method header station to edit page
@@ -80,7 +80,7 @@ class StationController extends Controller
         $station = $this->stationservices->update_Station($request->validated(), $stationRoom_id);
         session()->flash('success', 'تمت عملية التعديل على المحطة بنجاح');
         return redirect()->route('station.index');
-    }    
+    }
     //===========================================================================================================================
     /**
      * method to soft delete station alraedy exist
@@ -127,7 +127,7 @@ class StationController extends Controller
         session()->flash('success', 'تمت عملية حذف المحطة بنجاح');
         return redirect()->route('all_trashed_station');
     }
-        
+
 //========================================================================================================================
     /**
      * method to update on station status

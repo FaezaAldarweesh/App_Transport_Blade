@@ -110,5 +110,3 @@ Route::group(['middleware' => ['auth']], function () {
     Route::get('/trip-tracks/{trip}',[TripTrackController::class,'show'])->middleware('role:Admin');
 
 });
-
-

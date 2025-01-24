@@ -9,7 +9,7 @@ use Illuminate\Support\Facades\Request;
 
 class StationService {
     /**
-     * method to view all stations 
+     * method to view all stations
      * @param   Request $request
      * @return /view
      */
@@ -33,15 +33,16 @@ class StationService {
             $station = new Station();
             $station->name = $data['name'];
             $station->path_id = $data['path_id'];
-            
-            $station->save(); 
-    
-            return $station; 
+            $station->location = $data['location'];
+
+            $station->save();
+
+            return $station;
         } catch (\Exception $e) {
             Log::error('Error creating station: ' . $e->getMessage());
             throw new \Exception('حدث خطأ أثناء محاولة إضافة محطة جديدة');
         }
-    }    
+    }
     //========================================================================================================================
     /**
      * method to updstation alraedy exist
@@ -50,13 +51,13 @@ class StationService {
      * @return /view
      */
     public function update_Station($data, $station_id){
-        try {  
+        try {
             $station = Station::findOrFail($station_id);
             $station->name = $data['name'] ?? $station->name;
             $station->path_id = $data['path_id'] ?? $station->path_id;
             $station->status = $data['status'] ?? $station->status;
             $station->time_arrive = $data['time_arrive'] ?? $station->time_arrive;
-            $station->save(); 
+            $station->save();
             return $station;
 
         } catch (\Exception $e) {
@@ -72,7 +73,7 @@ class StationService {
      */
     public function delete_station($station_id)
     {
-        try {  
+        try {
             $station = Station::findOrFail($station_id);
             $station->delete();
             return true;
@@ -88,7 +89,7 @@ class StationService {
      */
     public function all_trashed_station()
     {
-        try {  
+        try {
             return Station::onlyTrashed()->get();
         } catch (\Exception $e) {
             Log::error('Error fetching trashed station: ' . $e->getMessage());
@@ -118,7 +119,7 @@ class StationService {
      * @return /view
      */
     public function forceDelete_station($station_id)
-    {   
+    {
         try {
             $station = Station::onlyTrashed()->findOrFail($station_id);
             return $station->forceDelete();
@@ -139,10 +140,10 @@ class StationService {
             if(auth()->user()->role == 'supervisor' && !$trip){
              //   return redirect()->back()->withErrors('error','لايمكن تعديل حالة المحطة إلا إذا كانت الرحلة جارية');
                 return  session()->flash('custom_error', 'لا يمكن تعديل حالة المحطة إلا إذا كانت الرحلة جارية');
-                
+
             }
             $station->status = !$station->status;
-            $station->save(); 
+            $station->save();
 
             return $station;
 
