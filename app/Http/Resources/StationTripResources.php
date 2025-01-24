@@ -17,7 +17,7 @@ class StationTripResources extends JsonResource
     {
         return [
             'trip id' => $this->id,
-            'trip stations' => StationResources::collection($this->path->stations),
+            'trip stations' => StationResources::collection($this->path->stations()->orderBy('time_arrive', 'asc')->get()),
         ];
     }
 }
