@@ -14,11 +14,11 @@ class TripTrackSeeder extends Seeder
     public function run(): void
     {
         $locations = [
-            ['latitude' => 24.7136, 'longitude' => 46.6753],
-            ['latitude' => 24.7195, 'longitude' => 46.6864],
-            ['latitude' => 24.7265, 'longitude' => 46.6982],
-            ['latitude' => 24.7332, 'longitude' => 46.7091],
-            ['latitude' => 24.7407, 'longitude' => 46.7203],
+            ['latitude' => 35.1372, 'longitude' => 36.7596],
+            ['latitude' => 35.1325, 'longitude' => 36.7511],
+            ['latitude' => 35.1329, 'longitude' => 36.7523],
+            ['latitude' => 35.1339, 'longitude' => 36.7485],
+            ['latitude' => 35.1358, 'longitude' => 36.7557],
         ];
 
         // إدخال البيانات إلى الجدول
