@@ -46,6 +46,7 @@ class Store_Station_Request extends FormRequest
         return [
             'name' => 'اسم المحطة',
             'path_id' => 'اسم المسار',
+            'location' => 'الموقع',
         ];
     }
 

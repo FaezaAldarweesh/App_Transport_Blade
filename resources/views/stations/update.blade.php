@@ -1,16 +1,69 @@
 @extends('layouts.master')
 
 @section('title')
-تعديل الموظف
+تعديل المحطة
+@endsection
+@section('map-head')
+
+    <link rel="stylesheet" href="https://unpkg.com/leaflet@1.9.3/dist/leaflet.css"/>
+    <script src="https://unpkg.com/leaflet@1.9.3/dist/leaflet.js"></script>
+
 @endsection
 
 @section('css')
-<link rel="dns-prefetch" href="//fonts.bunny.net">
-<link href="https://fonts.bunny.net/css?family=Nunito" rel="stylesheet">
-<link href="https://cdnjs.cloudflare.com/ajax/libs/select2/4.1.0-beta.1/css/select2.min.css" rel="stylesheet">
+    <link rel="dns-prefetch" href="//fonts.bunny.net">
+    <link href="https://fonts.bunny.net/css?family=Nunito" rel="stylesheet">
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/select2/4.1.0-beta.1/css/select2.min.css" rel="stylesheet">
+    <style>
+        #map {
+            height: 500px;
+            width: 100%;
+        }
+    </style>
 @endsection
 
 @section('content')
+<script>
+        document.addEventListener("DOMContentLoaded", () => {
+            const map = L.map('map').setView([35.1318, 36.7578], 13);
+
+            // Add map tile layer
+            L.tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png', {
+                maxZoom: 19,
+                attribution: '© OpenStreetMap'
+            }).addTo(map);
+
+            let marker; // For storing the current marker
+
+            // Convert coordinates to DMS format
+            const toDMS = (coord, directionPositive, directionNegative) => {
+                const absolute = Math.abs(coord);
+                const degrees = Math.floor(absolute);
+                const minutes = Math.floor((absolute - degrees) * 60);
+                const seconds = Math.round(((absolute - degrees) * 60 - minutes) * 60 * 10) / 10;
+                const direction = coord >= 0 ? directionPositive : directionNegative;
+                return `${degrees}°${minutes}'${seconds}"${direction}`;
+            };
+
+            const formatCoordinates = (lat, lng) => {
+                return `${toDMS(lat, 'N', 'S')} ${toDMS(lng, 'E', 'W')}`;
+            };
+
+            // Handle map click event
+            map.on('click', (e) => {
+                const {lat, lng} = e.latlng;
+
+                // Remove existing marker
+                if (marker) marker.remove();
+
+                // Add new marker
+                marker = L.marker([lat, lng]).addTo(map);
+
+                // Update hidden input with formatted coordinates
+                document.getElementById('location').value = formatCoordinates(lat, lng);
+            });
+        });
+    </script>
 <div class="container">
     <div class="row justify-content-center">
         {{-- <div class="col-md-8"> --}}
@@ -32,6 +85,17 @@
                     <form action="{{ route('station.update', $station->id) }}" method="POST">
                         @csrf
                         @method('PUT')
+
+                        
+                        <div class="mb-3">
+                            <div id="map" style="height: 400px;"></div>
+                            <label for="location" class="form-label">Location</label>
+                            <input type="text" class="form-control @error('location') is-invalid @enderror"
+                                   id="location" name="location" value="{{ old('name', $station->location)}}" readonly>
+                            @error('location')
+                            <div class="invalid-feedback">{{ $message }}</div>
+                            @enderror
+                        </div>
 
                         <div class="mb-3">
                             <label for="name" class="form-label">Name</label>
