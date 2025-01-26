@@ -30,10 +30,8 @@ class Update_Station_Request extends FormRequest
             'path_id' => 'sometimes|nullable|integer|exists:paths,id',
             'status' => 'sometimes|nullable|string|in:0,1',
             'time_arrive' => 'sometimes|nullable|regex:/^\d{2}:\d{2}(:\d{2})?$/',
-            'location' => [
-                'sometimes','nullable',
-                'regex:/^([0-8]?\d(\.\d+)?|90(\.0+)?)°([0-5]?\d)\'([0-5]?\d(\.\d+)?)"(N|S)\s(1[0-7]\d(\.\d+)?|0?\d{1,2}(\.0+)?|180(\.0+)?)°([0-5]?\d)\'([0-5]?\d(\.\d+)?)"(E|W)$/',
-            ]
+            'latitude' => ['sometimes','nullable','numeric'],
+            'longitude' => ['sometimes','nullable','numeric'],
         ];
     }
     //===========================================================================================================================
@@ -51,6 +49,8 @@ class Update_Station_Request extends FormRequest
             'path_id' => 'اسم الصف',
             'status' => 'حالة المحطة',
             'time_arrive' =>'زمن الوصول للمحطة',
+            'longitude' => 'خط الطول',
+            'latitude' => 'خط العرض'
         ];
     }
     //===========================================================================================================================

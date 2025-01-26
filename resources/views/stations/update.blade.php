@@ -30,24 +30,10 @@
             // Add map tile layer
             L.tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png', {
                 maxZoom: 19,
-                attribution: '© OpenStreetMap'
+                attribution: '© OpenStreetMap contributors'
             }).addTo(map);
 
             let marker; // For storing the current marker
-
-            // Convert coordinates to DMS format
-            const toDMS = (coord, directionPositive, directionNegative) => {
-                const absolute = Math.abs(coord);
-                const degrees = Math.floor(absolute);
-                const minutes = Math.floor((absolute - degrees) * 60);
-                const seconds = Math.round(((absolute - degrees) * 60 - minutes) * 60 * 10) / 10;
-                const direction = coord >= 0 ? directionPositive : directionNegative;
-                return `${degrees}°${minutes}'${seconds}"${direction}`;
-            };
-
-            const formatCoordinates = (lat, lng) => {
-                return `${toDMS(lat, 'N', 'S')} ${toDMS(lng, 'E', 'W')}`;
-            };
 
             // Handle map click event
             map.on('click', (e) => {
@@ -59,8 +45,12 @@
                 // Add new marker
                 marker = L.marker([lat, lng]).addTo(map);
 
-                // Update hidden input with formatted coordinates
-                document.getElementById('location').value = formatCoordinates(lat, lng);
+                // Update hidden inputs with latitude and longitude
+                document.getElementById('latitude').value = lat;
+                document.getElementById('longitude').value = lng;
+
+                // Optionally, show the coordinates in a readable format
+                document.getElementById('location').value = `Lat: ${lat.toFixed(6)}, Lng: ${lng.toFixed(6)}`;
             });
         });
     </script>
@@ -89,10 +79,19 @@
                         
                         <div class="mb-3">
                             <div id="map" style="height: 400px;"></div>
-                            <label for="location" class="form-label">Location</label>
-                            <input type="text" class="form-control @error('location') is-invalid @enderror"
-                                   id="location" name="location" value="{{ old('name', $station->location)}}" readonly>
-                            @error('location')
+                            <label for="latitude" class="form-label">Latitude</label>
+                            <input type="text" class="form-control @error('latitude') is-invalid @enderror"
+                                   id="latitude" name="latitude" value="{{ old('latitude', $station->latitude) }}" readonly>
+                            @error('latitude')
+                            <div class="invalid-feedback">{{ $message }}</div>
+                            @enderror
+                        </div>
+
+                        <div class="mb-3">
+                            <label for="longitude" class="form-label">Longitude</label>
+                            <input type="text" class="form-control @error('longitude') is-invalid @enderror"
+                                   id="longitude" name="longitude" value="{{ old('longitude', $station->longitude) }}" readonly>
+                            @error('longitude')
                             <div class="invalid-feedback">{{ $message }}</div>
                             @enderror
                         </div>
