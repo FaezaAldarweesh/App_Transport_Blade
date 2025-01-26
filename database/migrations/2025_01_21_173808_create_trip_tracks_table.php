@@ -14,7 +14,8 @@ return new class extends Migration
         Schema::create('trip_tracks', function (Blueprint $table) {
             $table->id();
             $table->foreignId('trip_id')->constrained()->onDelete('cascade');
-            $table->string('location'); //32°36'12.6"N 36°39'34.6"E
+            $table->decimal('latitude', 10, 8); // خط العرض
+            $table->decimal('longitude', 11, 8); // خط الطول
             $table->timestamps();
         });
     }

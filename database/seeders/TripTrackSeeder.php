@@ -14,21 +14,19 @@ class TripTrackSeeder extends Seeder
     public function run(): void
     {
         $locations = [
-            '35°08\'05.3"N 36°45\'07.9"E', // دوار الشريعة
-            '35°08\'17.2"N 36°45\'41.0"E', // حي الكازو
-            '35°07\'46.2"N 36°45\'25.2"E', // جسر العاصي
-            '35°07\'49.8"N 36°45\'10.8"E', // قلعة حماة
-            '35°07\'52.3"N 36°45\'17.3"E', // ساحة العاصي
-            '35°08\'12.1"N 36°45\'32.7"E', // شارع العلمين
-            '35°07\'58.4"N 36°45\'28.1"E', // حي جنوب الثكنة
-            '35°08\'01.5"N 36°45\'19.0"E'  // حي الأربعين
+            ['latitude' => 24.7136, 'longitude' => 46.6753],
+            ['latitude' => 24.7195, 'longitude' => 46.6864],
+            ['latitude' => 24.7265, 'longitude' => 46.6982],
+            ['latitude' => 24.7332, 'longitude' => 46.7091],
+            ['latitude' => 24.7407, 'longitude' => 46.7203],
         ];
 
         // إدخال البيانات إلى الجدول
         foreach ($locations as $location) {
             TripTrack::create([
                 'trip_id' => 6, // يمكنك تغيير الرقم لربطه برحلة محددة
-                'location' => $location,
+                'latitude' => $location['latitude'],
+                'longitude' => $location['longitude'],
             ]);
         }
     }

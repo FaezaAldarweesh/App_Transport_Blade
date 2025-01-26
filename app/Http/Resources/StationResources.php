@@ -20,7 +20,8 @@ class StationResources extends JsonResource
             'station name' => $this->name,
             'station status' => $this->status == 0 ? 'لم يتم الوصول لها بعد' : 'تم الوصول إليها',
             'station time arrive' => $this->formatTimeToArabic($this->time_arrive),
-            'location'=>$this->location
+            'latitude'=>$this->latitude,
+            'longitude'=>$this->longitude,
         ];
     }
     private function formatTimeToArabic($time): string

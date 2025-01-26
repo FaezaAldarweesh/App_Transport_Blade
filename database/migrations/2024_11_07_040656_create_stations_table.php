@@ -17,7 +17,8 @@ return new class extends Migration
             $table->foreignId('path_id')->constrained()->onDelete('cascade');
             $table->boolean('status')->default(0);
             $table->time('time_arrive')->default('00:00:00');
-            $table->string('location');
+            $table->decimal('latitude', 10, 8); // خط العرض
+            $table->decimal('longitude', 11, 8); // خط الطول
             $table->timestamps();
             $table->softDeletes();
         });

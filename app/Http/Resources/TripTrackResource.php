@@ -16,7 +16,8 @@ class TripTrackResource extends JsonResource
     {
         return [
             'trip_id'=>$this->trip_id,
-            'location'=>$this->location,
+            'latitude'=>$this->latitude,
+            'longitude'=>$this->longitude,
             'created_at'=>$this->created_at
         ];
     }

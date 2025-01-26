@@ -11,7 +11,8 @@ class TripTrack extends Model
 
     protected $fillable = [
         'trip_id',
-        'location'
+        'latitude',
+        'longitude'
     ];
 
     public function trip()

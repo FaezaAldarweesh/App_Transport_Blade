@@ -33,7 +33,8 @@ class StationService {
             $station = new Station();
             $station->name = $data['name'];
             $station->path_id = $data['path_id'];
-            $station->location = $data['location'];
+            $station->latitude = $data['latitude'];
+            $station->longitude = $data['longitude'];
 
             $station->save();
 

@@ -26,10 +26,8 @@ class StoreRequest extends FormRequest
     {
         return [
             'trip_id' => ['required', 'integer', 'exists:trips,id'],
-            'location' => [
-                'required',
-                'regex:/^([0-8]?\d(\.\d+)?|90(\.0+)?)°([0-5]?\d)\'([0-5]?\d(\.\d+)?)"(N|S)\s(1[0-7]\d(\.\d+)?|0?\d{1,2}(\.0+)?|180(\.0+)?)°([0-5]?\d)\'([0-5]?\d(\.\d+)?)"(E|W)$/',
-            ],
+            'latitude' => ['required','numeric'],
+            'longitude' => ['required','numeric'],
         ];
     }
 
@@ -41,7 +39,8 @@ class StoreRequest extends FormRequest
     {
         return [
             'trip_id' => 'الرحلة',
-            'location' => 'الموقع الجغرافي'
+            'longitude' => 'خط الطول',
+            'latitude' => 'خط العرض'
         ];
     }
 
@@ -55,7 +54,6 @@ class StoreRequest extends FormRequest
             'required' => ' :attribute مطلوب',
             'integer' => 'يجب أن يكون الحقل :attribute من نمط integer',
             'trip_id.exists' => ':attribute موجودة ضمن الرحلات المخزنة سابقا يجب أن تكون',
-            'location.regex' => 'صيغة :attribute غير صحيحة.',
         ];
     }
 
