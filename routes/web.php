@@ -106,7 +106,7 @@ Route::group(['middleware' => ['auth']], function () {
    Route::get('transport', [TransportController::class, 'index'])->name('transport');
    Route::delete('destroy_transport/{transport_id}', [TransportController::class, 'destroy'])->name('destroy_transport');
 
-    Route::get('/trip-tracks/{trip}/map',[TripTrackController::class,'showMap'])->middleware('role:Admin');
-    Route::get('/trip-tracks/{trip}',[TripTrackController::class,'show'])->middleware('role:Admin');
+    Route::get('/trip-tracks/{trip}/map',[TripTrackController::class,'showMap'])->middleware('role:Admin')->name('trip_tracks_map');
+    Route::get('/trip-tracks/{trip}',[TripTrackController::class,'show'])->middleware('role:Admin')->name('trip_tracks');
 
 });

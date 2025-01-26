@@ -31,6 +31,6 @@ class TripTrackController extends Controller
     public function show(showRequest $request, Trip $trip)
     {
         $result = $this->tripTrackService->showTracksForTrip($trip, $request->trip_date);
-        return $result;
+        return view('trips.track',['trip'=>$result]);        
     }
 }
