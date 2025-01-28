@@ -22,7 +22,7 @@ class TripService {
             $user = Auth::user();
 
             if($user->role == 'supervisor'){
-                $Trips = $user->trips()->get();
+                $Trips = $user->trips()->orderBy('start_date', 'asc')->get();
             }
 
             return $Trips;

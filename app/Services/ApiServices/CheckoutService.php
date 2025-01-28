@@ -16,9 +16,9 @@ class CheckoutService {
      * method to view all checkouts 
      * @return /Illuminate\Http\JsonResponse if have an error
      */
-    public function get_all_Checkout(){
+    public function view($trip_id){
         try {
-            $Checkouts = Checkout::all();
+            $Checkouts = Checkout::where('trip_id',$trip_id)->orderBy('created_at', 'desc')->get();
             return $Checkouts;
         } catch (\Throwable $th) { Log::error($th->getMessage()); return $this->failed_Response('Something went wrong with fetche Checkouts', 400);}
     }
@@ -28,10 +28,10 @@ class CheckoutService {
      * @param   $data
      * @return /Illuminate\Http\JsonResponse ig have an error
      */
-    public function create_Checkout($data) {
+    public function create_Checkout($trip_id,$student_id,$status) {
         try {
             $user = Auth::user();
-            $trip = Trip::where('id',$data['trip_id'])->first();
+            $trip = Trip::where('id',$trip_id)->first();
 
             //منع المشرفة من إضافة تفقد في حال كانت حالة الرحلة منتهية.....تستطيع فقط أضافة تفقد في حال الرحلة حارية    
             if($user->role == 'supervisor' && $trip->status == 0 ){
@@ -39,8 +39,8 @@ class CheckoutService {
             }
 
             //التحقق من أن الطالب لم يتم تسجيل حضور له بتاريخ اليوم في الرحلة المحددة
-            $checkout = Checkout::where('trip_id', $data['trip_id'])
-                                ->where('student_id', $data['student_id'])
+            $checkout = Checkout::where('trip_id', $trip_id)
+                                ->where('student_id', $student_id)
                                 ->whereDate('created_at',Carbon::now())
                                 ->first();
 
@@ -49,9 +49,9 @@ class CheckoutService {
             }
     
             // تحديث أو إنشاء السجل
-            $checkout->trip_id = $data['trip_id'] ?? $checkout->trip_id;
-            $checkout->student_id = $data['student_id'] ?? $checkout->student_id;
-            $checkout->checkout = $data['checkout'] ?? $checkout->checkout;
+            $checkout->trip_id = $trip_id ?? $checkout->trip_id;
+            $checkout->student_id = $student_id ?? $checkout->student_id;
+            $checkout->checkout = $status ?? $checkout->checkout;
 
             $checkout->save();
 

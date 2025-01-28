@@ -35,7 +35,8 @@ Route::group(['middleware' => ['auth:api']], function () {
     Route::get('all_student_trip/{trip_id}', [TripController::class, 'all_student_trip']);
     Route::get('all_student_Back_trip/{trip_id}', [TripController::class, 'all_student_Back_trip']);
 
-    Route::post('checkout', [CheckoutController::class, 'store']);
+    Route::get('checkout/{trip_id}/{student_id}/{status}', [CheckoutController::class, 'store']);
+    Route::get('view_checkout/{trip_id}', [CheckoutController::class, 'view']);
 
     Route::get('all_station_trip/{trip_id}', [StationController::class, 'all_station_trip']);
     Route::post('update_station_status/{station_id}', [StationController::class, 'update_station_status']);

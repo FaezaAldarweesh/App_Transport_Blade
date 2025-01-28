@@ -23,13 +23,13 @@ class CheckoutController extends Controller
     }
     //===========================================================================================================================
     /**
-     * method to view all checkouts
+     * method to view all checkouts to a specific trip
      * @return /Illuminate\Http\JsonResponse
      * checkoutResources to customize the return responses.
      */
-    public function index()
+    public function view($trip_id)
     {  
-        $checkout = $this->checkoutservices->get_all_Checkout();
+        $checkout = $this->checkoutservices->view($trip_id);
         return $this->success_Response(CheckoutResources::collection($checkout), "تم عملية الوصول للتفقد بنجاح", 200);
     }
     //===========================================================================================================================
@@ -38,9 +38,9 @@ class CheckoutController extends Controller
      * @param   Store_Checkout_Request $request
      * @return /Illuminate\Http\JsonResponse
      */
-    public function store(Store_Checkout_Request $request)
+    public function store($trip_id,$student_id,$status)
     {
-        $checkout = $this->checkoutservices->create_checkout($request->validated());
+        $checkout = $this->checkoutservices->create_checkout($trip_id,$student_id,$status);
          // In case error messages are returned from the services section 
          if ($checkout instanceof \Illuminate\Http\JsonResponse) {
             return $checkout;
