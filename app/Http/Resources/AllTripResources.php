@@ -20,6 +20,11 @@ class AllTripResources extends JsonResource
             'trip name' => $this->name == 'delivery' ? 'توصيل' : 'مدرسية', 
             'trip type' => $this->type == 'go' ? 'ذهاب' : 'عودة', 
             'trip bus' => $this->bus->name,
+            'supervisor' => $this->users->map(function ($user) {
+                return [
+                    'name' => $user->name,
+                ];
+            }),
             'trip path' => $this->path->name, 
             'trip status' => $this->status == 0 ? 'منتهية' : 'جارية',
             'trip start_date' =>  $this->formatTimeToArabic($this->start_date),

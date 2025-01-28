@@ -6,9 +6,11 @@ use App\Models\User;
 use Illuminate\Support\Facades\Auth;
 use App\Http\Resources\UserResources;
 use App\Http\Traits\ApiResponseTrait;
+use App\Http\Resources\ChildResources;
+use App\Http\Resources\StudentResources;
 use App\Services\ApiServices\UserService;
 use App\Http\Controllers\ApiController\Controller;
-use App\Http\Requests\User_Rqeuests\Update_User_Request;
+use App\Http\Requests\User_Rqeuests\Update_Supervisor_Request;
 
 class UserController extends Controller
 {
@@ -37,13 +39,23 @@ class UserController extends Controller
     //===========================================================================================================================
     /**
      * method to update user alraedy exist
-     * @param  Update_User_Request $request
+     * @param  Update_Supervisor_Request $request
      * @return /Illuminate\Http\JsonResponse
      */
-    public function update_info(Update_User_Request $request)
+    public function update_info(Update_Supervisor_Request $request)
     {
         $user = $this->userservices->update_info($request->validated()); 
        return $this->success_Response(new UserResources($user), "تمت عملية التعديل على المستخدم بنجاح", 200);
+    }
+    //===========================================================================================================================
+     /**
+     * method return all children that belong to the same parent
+     * @return /Illuminate\Http\JsonResponse
+     */
+    public function all_children()
+    {
+        $students = $this->userservices->all_children(); 
+       return $this->success_Response( ChildResources::collection($students), "تمت عملية جلب كل الأطفال بنجاح", 200);
     }
     //===========================================================================================================================
 }

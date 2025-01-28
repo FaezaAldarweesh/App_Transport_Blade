@@ -8,7 +8,7 @@ use Illuminate\Support\Facades\Log;
 use Illuminate\Support\Facades\Auth;
 use App\Http\Traits\ApiResponseTrait;
 use App\Http\Traits\AllStudentsByTripTrait;
-
+use App\Models\StudentTrip;
 
 class TripService {
     //trait customize the methods for successful , failed , authentecation responses.
@@ -70,8 +70,23 @@ class TripService {
                                  ->orderBy('start_date', 'asc')
                                  ->first(); 
                 }
-            }
+            }else{
+                $studentsTrips = $user->students->flatMap(function ($student) {
+                    return $student->trips;
+                });
+    
+                $Trip = $studentsTrips
+                            ->where('status', 0)
+                            ->where('end_date', '>', $currentTime)
+                            ->orderBy('end_date', 'asc')
+                            ->first();
 
+                if (!$Trip) {
+                    $Trip = $studentsTrips
+                                ->orderBy('start_date', 'asc')
+                                ->first();
+                }
+            }
             return $Trip;
         } catch (\Throwable $th) {
             Log::error($th->getMessage());
@@ -146,6 +161,20 @@ class TripService {
             return $trip;
 
         }catch (\Throwable $th) { Log::error($th->getMessage()); return $this->failed_Response('Something went wrong with get all students', 400);}
+    }
+    //========================================================================================================================
+    /**
+     * method to show Trip alraedy exist
+     * @param  $Trip_id
+     * @return /Illuminate\Http\JsonResponse if have an error
+     */
+    public function details_Trip($Trip_id) {
+        try {    
+            $Trip = Trip::find($Trip_id);
+            $Trip->load('students','users','drivers','path.stations');
+
+            return $Trip;
+        } catch (\Throwable $th) { Log::error($th->getMessage()); return $this->failed_Response('Something went wrong with show Trip', 400);}
     }
     //========================================================================================================================
 }

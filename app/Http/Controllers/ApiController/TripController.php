@@ -2,10 +2,12 @@
 
 namespace App\Http\Controllers\ApiController;
 
+use App\Models\Trip;
 use App\Http\Traits\ApiResponseTrait;
 use App\Http\Resources\AllTripResources;
 use App\Http\Resources\viewTripResources;
 use App\Services\ApiServices\TripService;
+use App\Http\Resources\detailsTripResources;
 use App\Http\Resources\StudentTripResources;
 use App\Http\Controllers\ApiController\Controller;
 
@@ -97,4 +99,18 @@ class TripController extends Controller
         return $this->success_Response( new StudentTripResources($trip), 'تمت عملية جلب طلاب رحلة العودة بنجاح', 200);
     }  
     //========================================================================================================================
+    /**
+     * method to show Trip alraedy exist
+     * @param  $Trip_id
+     * @return /Illuminate\Http\JsonResponse
+     */
+    public function details_Trip($Trip_id)
+    {
+        //$Trip = $this->Tripservices->details_Trip($Trip_id);
+        $Trip = Trip::find($Trip_id);
+        $Trip->load('students','users','drivers','path.stations');
+
+        return $this->success_Response(new detailsTripResources($Trip), "تمت عملية عرض الرحلة بنجاح", 200);
+    }
+    //===========================================================================================================================
 }

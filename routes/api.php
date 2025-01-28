@@ -3,6 +3,7 @@
 use App\Http\Controllers\ApiController\AuthController;
 use App\Http\Controllers\ApiController\CheckoutController;
 use App\Http\Controllers\ApiController\StationController;
+use App\Http\Controllers\ApiController\StudentController;
 use App\Http\Controllers\ApiController\TripController;
 use App\Http\Controllers\ApiController\TripTrackController;
 use App\Http\Controllers\ApiController\UserController;
@@ -44,5 +45,9 @@ Route::group(['middleware' => ['auth:api']], function () {
 
     Route::post('trip-tracks', [TripTrackController::class,'store']);
     Route::get('trip-tracks/{trip}', [TripTrackController::class,'show']);
+
+    Route::get('all_children', [UserController::class, 'all_children']);
+    Route::get('all_student_trips/{student_id}', [StudentController::class, 'all_student_trips']);
+    Route::get('details_Trip/{trip_id}', [TripController::class, 'details_Trip']);
 
 });
