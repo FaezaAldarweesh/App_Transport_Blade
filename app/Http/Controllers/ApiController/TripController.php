@@ -113,4 +113,18 @@ class TripController extends Controller
         return $this->success_Response(new detailsTripResources($Trip), "تمت عملية عرض الرحلة بنجاح", 200);
     }
     //===========================================================================================================================
+    /**
+     * method to update on trip status
+     * @param   $Trip_id
+     * @return /Illuminate\Http\JsonResponse
+     */
+    public function update_student_status($student_id,$trip_id)
+    {
+        $trip = $this->Tripservices->update_student_status($student_id,$trip_id);
+        // In case error messages are returned from the services section 
+        if ($trip instanceof \Illuminate\Http\JsonResponse) {
+            return $trip;
+        }
+        return $this->success_Response(new detailsTripResources($trip), 'تمت عملية تعديل حالة الطالب بنجاح', 200);
+    }  
 }

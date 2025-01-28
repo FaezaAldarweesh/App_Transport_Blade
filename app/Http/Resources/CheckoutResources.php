@@ -20,7 +20,7 @@ class CheckoutResources extends JsonResource
             'trip name' => $this->name == 'delivery' ? 'توصيل' : 'مدرسية', 
             'trip type' => $this->type == 'go' ? 'ذهاب' : 'عودة', 
             'checkout student' => $this->student->name,
-            'checkout checkout' => $this->checkout == 0 ? 'غياب' : 'حضور', 
+            'checkout' => $this->checkout == 0 ? 'غياب' : 'حضور', 
             'checkout date' => Carbon::parse($this->created_at)->format('H:i:s d/m/Y'), 
         ];
     }

@@ -48,6 +48,10 @@ class Trip extends Model
 
         return $this->belongsTo(Bus::class)->withTrashed();
     }
+    public function checkouts (){
+        
+        return $this->hasMany(Checkout::class);
+    } 
     public function tripTrack(){
         return $this->hasMany(TripTrack::class);
     }

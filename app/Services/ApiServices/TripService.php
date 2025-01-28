@@ -144,7 +144,7 @@ class TripService {
     public function all_student_trip($trip_id)
     {
         try {
-            $trip = Trip::find($trip_id);
+            $trip = Trip::findOrFail($trip_id);
             $trip->load('students');
 
             return $trip;
@@ -175,6 +175,26 @@ class TripService {
 
             return $Trip;
         } catch (\Throwable $th) { Log::error($th->getMessage()); return $this->failed_Response('Something went wrong with show Trip', 400);}
+    }
+    //========================================================================================================================
+    public function update_student_status($student_id,$trip_id)
+    {
+        try {
+            $student = StudentTrip::where('student_id',$student_id)->where('trip_id',$trip_id)->first();
+
+            $user = Auth::user();
+            $trip = Trip::where('id',$student->trip_id)->first();
+            
+            if($user->role == 'parent' && $trip->status == 1 ){
+                throw new \Exception( 'لا يمكنك تعديل حالة الطالب في حال كانت الرحلة حاليا جارية');
+            }
+            
+            $status = $student->status == 'attendee' ? 'absent' : 'attendee';
+            $student->update(['status' => $status]); 
+
+            return $trip;
+        } catch (\Exception $e) { Log::error($e->getMessage()); return $this->failed_Response($e->getMessage(), 404);
+        } catch (\Throwable $th) { Log::error($th->getMessage()); return $this->failed_Response('Something went wrong with update student status', 400);}
     }
     //========================================================================================================================
 }

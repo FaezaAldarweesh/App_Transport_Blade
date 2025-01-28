@@ -50,5 +50,6 @@ Route::group(['middleware' => ['auth:api']], function () {
     Route::get('all_children', [UserController::class, 'all_children']);
     Route::get('all_student_trips/{student_id}', [StudentController::class, 'all_student_trips']);
     Route::get('details_Trip/{trip_id}', [TripController::class, 'details_Trip']);
-
+    Route::get('update_student_status/{student_id}/{trip_id}', [TripController::class, 'update_student_status']);
+    Route::post('update_student_status_transport/{student_id}', [StudentController::class, 'store']);
 });
