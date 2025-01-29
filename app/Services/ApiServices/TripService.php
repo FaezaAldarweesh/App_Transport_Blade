@@ -4,11 +4,12 @@ namespace App\Services\ApiServices;
 
 use Carbon\Carbon;
 use App\Models\Trip;
+use App\Models\StudentTrip;
+use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Log;
 use Illuminate\Support\Facades\Auth;
 use App\Http\Traits\ApiResponseTrait;
 use App\Http\Traits\AllStudentsByTripTrait;
-use App\Models\StudentTrip;
 
 class TripService {
     //trait customize the methods for successful , failed , authentecation responses.
@@ -195,6 +196,14 @@ class TripService {
             return $trip;
         } catch (\Exception $e) { Log::error($e->getMessage()); return $this->failed_Response($e->getMessage(), 404);
         } catch (\Throwable $th) { Log::error($th->getMessage()); return $this->failed_Response('Something went wrong with update student status', 400);}
+    }
+    //========================================================================================================================
+    public function trip_filter(Request $request){
+        try {
+            $Trips = Trip::filter($request)->orderBy('start_date', 'asc')->get();
+            $Trips->load('users','drivers');
+            return $Trips;
+        } catch (\Throwable $th) { Log::error($th->getMessage()); return $this->failed_Response('Something went wrong with fetche Trips', 400);}
     }
     //========================================================================================================================
 }

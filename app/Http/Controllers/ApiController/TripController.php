@@ -3,6 +3,8 @@
 namespace App\Http\Controllers\ApiController;
 
 use App\Models\Trip;
+use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Log;
 use App\Http\Traits\ApiResponseTrait;
 use App\Http\Resources\AllTripResources;
 use App\Http\Resources\viewTripResources;
@@ -10,6 +12,7 @@ use App\Services\ApiServices\TripService;
 use App\Http\Resources\detailsTripResources;
 use App\Http\Resources\StudentTripResources;
 use App\Http\Controllers\ApiController\Controller;
+
 
 class TripController extends Controller
 {
@@ -126,5 +129,12 @@ class TripController extends Controller
             return $trip;
         }
         return $this->success_Response(new detailsTripResources($trip), 'تمت عملية تعديل حالة الطالب بنجاح', 200);
-    }  
+    } 
+    //===========================================================================================================================
+    public function trip_filter(Request $request)
+    {  
+        $Trips = $this->Tripservices->trip_filter($request);
+        return $this->success_Response(viewTripResources::collection($Trips), "تمت عملية الوصول للرحلات بنجاح", 200);
+    }
+    //=========================================================================================================================== 
 }

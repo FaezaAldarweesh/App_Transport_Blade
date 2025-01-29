@@ -2,9 +2,12 @@
 
 namespace App\Models;
 
-use Illuminate\Database\Eloquent\Factories\HasFactory;
+use Illuminate\Support\Facades\Log;
 use Illuminate\Database\Eloquent\Model;
+use Illuminate\Database\Eloquent\Builder;
 use Illuminate\Database\Eloquent\SoftDeletes;
+use Illuminate\Database\Eloquent\Factories\HasFactory;
+
 
 class Trip extends Model
 {
@@ -24,7 +27,17 @@ class Trip extends Model
         'status',
     ];
 
+    public function scopeFilter(Builder $query, $request)
+    {
+        if ($request->input('name') !== null) {
+            $query->where('name', '=', $request->input('name'));
+        }
+        if ($request->input('type') !== null) {
+            $query->where('type', '=', $request->input('type'));
+        }
 
+        return $query;
+    }
 
     public function path (){
 
