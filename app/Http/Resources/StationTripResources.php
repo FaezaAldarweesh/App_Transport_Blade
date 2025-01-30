@@ -17,7 +17,42 @@ class StationTripResources extends JsonResource
     {
         return [
             'trip id' => $this->id,
-            'trip stations' => StationResources::collection($this->path->stations()->orderBy('time_arrive', 'asc')->get()),
+            'trip stations' => $this->formatStations(),
         ];
+    }
+
+        /**
+     * تنسيق المحطات حسب نوع الرحلة وترتيبها تصاعديًا
+     */
+    private function formatStations()
+    {
+        return $this->path->stations
+            ->map(function ($station) {
+                return [
+                    'station id' => $station->id,
+                    'station name' => $station->name,
+                    'station status' => $station->status == 0 ? 'لم يتم الوصول لها بعد' : 'تم الوصول إليها',
+                    'time' => $this->type == 'go' ? $this->formatTimeToArabic($station->time_go) : $this->formatTimeToArabic($station->time_back),
+                    'latitude' => $station->latitude,
+                    'longitude' => $station->longitude,
+                    'raw_time' => $this->type == 'go' ? $station->time_go : $station->time_back, // لاستخدامه في الترتيب
+                ];
+            })
+            ->filter(fn($station) => $station['raw_time'] !== null) // تجاهل المحطات بدون وقت
+            ->sortBy('raw_time') // ترتيب تصاعدي حسب الوقت
+            ->values() // إعادة تعيين الفهارس
+            ->map(fn($station) => collect($station)->except('raw_time')); // إزالة الحقل المؤقت بعد الترتيب
+    }
+
+    private function formatTimeToArabic($time): ?string
+    {
+        if (!$time) {
+            return null;
+        }
+        
+        $carbonTime = Carbon::parse($time);
+        $period = $carbonTime->format('A') === 'AM' ? 'ص' : 'م';
+
+        return $carbonTime->format('h:i') . ' ' . $period;
     }
 }

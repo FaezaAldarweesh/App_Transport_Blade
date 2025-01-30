@@ -121,9 +121,17 @@
                         </div>
 
                         <div class="mb-3">
-                            <label for="time_arrive" class="form-label">time arrive</label>
-                            <input type="time" class="form-control @error('time_arrive') is-invalid @enderror" id="time_arrive" name="time_arrive" value="{{ old('time_arrive', $station->time_arrive) }}">
-                            @error('time_arrive')
+                            <label for="time_go" class="form-label">time go</label>
+                            <input type="time" class="form-control @error('time_go') is-invalid @enderror" id="time_go" name="time_go" value="{{ old('time_go', $station->time_go) }}">
+                            @error('time_go')
+                                <div class="invalid-feedback">{{ $message }}</div>
+                            @enderror
+                        </div>
+
+                        <div class="mb-3">
+                            <label for="time_back" class="form-label">time back</label>
+                            <input type="time" class="form-control @error('time_back') is-invalid @enderror" id="time_back" name="time_back" value="{{ old('time_back', $station->time_back) }}">
+                            @error('time_back')
                                 <div class="invalid-feedback">{{ $message }}</div>
                             @enderror
                         </div>

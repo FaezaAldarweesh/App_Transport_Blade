@@ -19,14 +19,6 @@ class StationResources extends JsonResource
             'station id' => $this->id,
             'station name' => $this->name,
             'station status' => $this->status == 0 ? 'لم يتم الوصول لها بعد' : 'تم الوصول إليها',
-            'station time arrive' => $this->formatTimeToArabic($this->time_arrive),
-            'latitude'=>$this->latitude,
-            'longitude'=>$this->longitude,
         ];
-    }
-    private function formatTimeToArabic($time): string
-    {
-        return Carbon::parse($time)->format('h:i') . ' ' .
-               (Carbon::parse($time)->format('A') === 'AM' ? 'ص' : 'م');
     }
 }

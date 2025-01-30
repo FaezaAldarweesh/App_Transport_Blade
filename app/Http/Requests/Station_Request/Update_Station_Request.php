@@ -29,7 +29,8 @@ class Update_Station_Request extends FormRequest
             'name' => 'sometimes|nullable|string|min:4|max:50',
             'path_id' => 'sometimes|nullable|integer|exists:paths,id',
             'status' => 'sometimes|nullable|string|in:0,1',
-            'time_arrive' => 'sometimes|nullable|regex:/^\d{2}:\d{2}(:\d{2})?$/',
+            'time_go' => 'sometimes|nullable|regex:/^\d{2}:\d{2}(:\d{2})?$/',
+            'time_back' => 'sometimes|nullable|regex:/^\d{2}:\d{2}(:\d{2})?$/',
             'latitude' => ['sometimes','nullable','numeric'],
             'longitude' => ['sometimes','nullable','numeric'],
         ];
@@ -48,7 +49,8 @@ class Update_Station_Request extends FormRequest
             'name' => 'اسم الشعبة',
             'path_id' => 'اسم الصف',
             'status' => 'حالة المحطة',
-            'time_arrive' =>'زمن الوصول للمحطة',
+            'time_go' =>'زمن الذهاب للمحطة',
+            'time_back' =>'زمن العودة للمحطة',
             'longitude' => 'خط الطول',
             'latitude' => 'خط العرض'
         ];

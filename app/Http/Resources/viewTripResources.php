@@ -26,14 +26,42 @@ class viewTripResources extends JsonResource
             'the number of students' => $this->students->count(),
             'supervisors' => UserResources::collection($this->whenLoaded('users')),
             'drivers' => DriverResources::collection($this->whenLoaded('drivers')),
-            'trip stations' => StationResources::collection($this->path->stations()->orderBy('time_arrive', 'asc')->get()),
+            'trip stations' => $this->formatStations(),
         ];
     }
-    private function formatTimeToArabic($time)
-    {
-        $formattedTime = Carbon::parse($time)->format('h:i'); // تنسيق 12 ساعة مع الدقائق
-        $period = Carbon::parse($time)->format('A') == 'AM' ? 'ص' : 'م'; // تحديد الفترة
 
-        return $formattedTime . ' ' . $period; // دمج الوقت مع الفترة
+    /**
+     * تنسيق المحطات حسب نوع الرحلة وترتيبها تصاعديًا
+     */
+    private function formatStations()
+    {
+        return $this->path->stations
+            ->map(function ($station) {
+                return [
+                    'station id' => $station->id,
+                    'station name' => $station->name,
+                    'station status' => $station->status == 0 ? 'لم يتم الوصول لها بعد' : 'تم الوصول إليها',
+                    'time' => $this->type == 'go' ? $this->formatTimeToArabic($station->time_go) : $this->formatTimeToArabic($station->time_back),
+                    'latitude' => $station->latitude,
+                    'longitude' => $station->longitude,
+                    'raw_time' => $this->type == 'go' ? $station->time_go : $station->time_back, // لاستخدامه في الترتيب
+                ];
+            })
+            ->filter(fn($station) => $station['raw_time'] !== null) // تجاهل المحطات بدون وقت
+            ->sortBy('raw_time') // ترتيب تصاعدي حسب الوقت
+            ->values() // إعادة تعيين الفهارس
+            ->map(fn($station) => collect($station)->except('raw_time')); // إزالة الحقل المؤقت بعد الترتيب
+    }
+
+    private function formatTimeToArabic($time): ?string
+    {
+        if (!$time) {
+            return null;
+        }
+        
+        $carbonTime = Carbon::parse($time);
+        $period = $carbonTime->format('A') === 'AM' ? 'ص' : 'م';
+
+        return $carbonTime->format('h:i') . ' ' . $period;
     }
 }

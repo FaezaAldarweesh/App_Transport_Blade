@@ -57,7 +57,8 @@ class StationService {
             $station->name = $data['name'] ?? $station->name;
             $station->path_id = $data['path_id'] ?? $station->path_id;
             $station->status = $data['status'] ?? $station->status;
-            $station->time_arrive = $data['time_arrive'] ?? $station->time_arrive;
+            $station->time_go = $data['time_go'] ?? $station->time_go;
+            $station->time_back = $data['time_back'] ?? $station->time_back;
             $station->latitude = $data['latitude'] ?? $station->latitude;
             $station->longitude = $data['longitude'] ?? $station->longitude;
             $station->save();

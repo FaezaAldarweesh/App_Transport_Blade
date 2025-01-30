@@ -3,7 +3,7 @@
 namespace App\Services\BladeServices;
 
 use App\Models\Trip;
-use App\Models\driver;
+use App\Models\Driver;
 use App\Models\DriverTrip;
 use Illuminate\Support\Facades\Log;
 use Illuminate\Support\Facades\Request;

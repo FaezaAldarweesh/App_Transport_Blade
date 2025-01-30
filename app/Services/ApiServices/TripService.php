@@ -96,51 +96,62 @@ class TripService {
     }    
     //========================================================================================================================
     public function update_trip_status($trip_id)
-    {
-        try {
-            $Trip = Trip::find($trip_id);
-            $user = Auth::user();
-            
-            
-            if ($user->role == 'supervisor') {
-                $Trip = $user->trips()->find($trip_id);
-                             
-                if(!$Trip){
-                    throw new \Exception('لا يمكنك التعديل على حالة رحلة غير مخصصة لك ');
-                }
+{
+    try {
+        $Trip = Trip::find($trip_id);
+        $user = Auth::user();
+        
+        if (!$Trip) {
+            throw new \Exception('الرحلة غير موجودة');
+        }
 
+        if ($user->role == 'supervisor') {
+            $Trip = $user->trips()->find($trip_id);
+                         
+            if(!$Trip){
+                throw new \Exception('لا يمكنك التعديل على حالة رحلة غير مخصصة لك');
             }
-  
-            $Trip->status = !$Trip->status;
+        }
 
-            if($Trip->status == 0){
-                // جلب الطلاب المرتبطين بالرحلة مع حالة غياب أو منقول
-                $Trip->students()
-                     ->wherePivotIn('status', ['absent', 'Moved_to'])
-                     ->each(function ($student) use ($Trip) {
-                        $Trip->students()->updateExistingPivot($student->id, ['status' => 'attendee']);
-                    });
+        $Trip->status = $Trip->status == 1 ? 0 : 1;
 
-                // حذف الطلاب المرتبطين بالرحلة مع حالة نقل
-                $Trip->students()->wherePivot('status', 'Transferred_from')
-                    ->detach();
-                
-                $Trip->path->stations()->update(['status' => 0]);
-            }else{
-                //منع المشرفة من بدأ أكثر من رحلة في نفس الوقت
+        if ($Trip->status == 0) {
+            // تحديث حالة الطلاب المرتبطين بالرحلة
+            $students = $Trip->students()->wherePivotIn('status', ['absent', 'Moved_to'])->get();
+            foreach ($students as $student) {
+                $Trip->students()->updateExistingPivot($student->id, ['status' => 'attendee']);
+            }
+
+            // حذف الطلاب المرتبطين بالرحلة مع حالة نقل
+            $Trip->students()->wherePivot('status', 'Transferred_from')->detach();
+
+            // تحديث حالة المحطات إلى 0
+            $Trip->path->stations()->update(['status' => 0]);
+
+            $Trip->save(); 
+
+            return ['trip' => $Trip, 'message' => 'تمت عملية إنهاء الرحلة بنجاح'];
+        } else {
+            // منع المشرفة من بدء أكثر من رحلة في نفس الوقت
+            if ($user->trips()->exists()) {
                 $activeTrip = $user->trips()->where('status', 1)->where('trips.id', '!=', $trip_id)->first();
                 if ($activeTrip) {
                     throw new \Exception('لا يمكنك بدء هذه الرحلة لأن هناك رحلة أخرى لا تزال قيد التنفيذ.');
                 }
             }
-
+            
             $Trip->save(); 
+            return ['trip' => $Trip, 'message' => 'تمت عملية بدأ الرحلة بنجاح'];
+        }
 
-            return $Trip;
-
-        } catch (\Exception $e) { Log::error($e->getMessage()); return $this->failed_Response($e->getMessage(), 404);
-        } catch (\Throwable $th) { Log::error($th->getMessage()); return $this->failed_Response('Something went wrong with update status Trip', 400);}
+    } catch (\Exception $e) { 
+        Log::error($e->getMessage()); 
+        return $this->failed_Response($e->getMessage(), 404);
+    } catch (\Throwable $th) { 
+        Log::error($th->getMessage()); 
+        return $this->failed_Response('Something went wrong with update status Trip', 400);
     }
+}
     //========================================================================================================================
     public function all_student_trip($trip_id)
     {

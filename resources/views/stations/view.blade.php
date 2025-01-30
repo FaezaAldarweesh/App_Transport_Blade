@@ -45,7 +45,8 @@
                                 <th>#</th>
                                 <th>name</th>
                                 <th>path</th>
-                                <th>time arrive</th>
+                                <th>time go</th>
+                                <th>time back</th>
                                 <th>Status</th>
                                 <th>Tools</th>
                             </tr>
@@ -56,7 +57,8 @@
                                     <td class="text-center">{{ $loop->iteration }}</td>
                                     <td>{{ $station->name }}</td>
                                     <td>{{ $station->path->name }}</td>
-                                    <td>{{ $station->time_arrive }}</td>
+                                    <td>{{ $station->time_go }}</td>
+                                    <td>{{ $station->time_back }}</td>
                                     @php
                                         $translation = [
                                             0 => 'لم يتم الوصول لها بعد',
@@ -104,10 +106,6 @@
 
                         </tbody>
                     </table>
-
-                    {{-- <a href="{{ route('all_trashed_station') }}" class="btn btn-danger">
-                        <i class="bi bi-trash me-1"></i> Trashed Station
-                    </a> --}}
 
                 </div>
             </div>
