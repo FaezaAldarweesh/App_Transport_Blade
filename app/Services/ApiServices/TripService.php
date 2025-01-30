@@ -79,16 +79,16 @@ class TripService {
                 $Trip = $studentsTrips
                             ->where('status', 0)
                             ->where('end_date', '>', $currentTime)
-                            ->orderBy('end_date', 'asc')
+                            ->sortBy('end_date')
                             ->first();
 
                 if (!$Trip) {
                     $Trip = $studentsTrips
-                                ->orderBy('start_date', 'asc')
+                                ->sortBy('start_date')
                                 ->first();
                 }
             }
-            return $Trip;
+        return $Trip;
         } catch (\Throwable $th) {
             Log::error($th->getMessage());
             return $this->failed_Response($th->getMessage(), 400);
