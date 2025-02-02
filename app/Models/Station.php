@@ -24,15 +24,6 @@ class Station extends Model
         'latitude',
         'longitude'
     ];
-
-    // protected static function boot()
-    // {
-    //     parent::boot();
-
-    //     static::addGlobalScope('orderByTime', function (Builder $query) {
-    //         $query->orderByRaw("COALESCE(time_go, time_back) ASC");
-    //     });
-    // }
     
     public function path (){
 

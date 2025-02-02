@@ -58,10 +58,8 @@ class StudentService {
                 $transport->save();
             }
 
-            $studen_id = Student::whereIn('id',$data['students'])->pluck('id');
-            $AllTransports = Transport::whereIn('student_id',$studen_id)->get();
-            $AllTransports->load('student');
-            return $AllTransports;
+            
+            return true;
         } catch (\Exception $e) { Log::error($e->getMessage()); return $this->failed_Response($e->getMessage(), 404);
         } catch (\Throwable $th) { Log::error($th->getMessage()); return $this->failed_Response('Something went wrong with make transport', 400);}
     }  

@@ -49,4 +49,14 @@ class StationController extends Controller
        }
         return $this->success_Response(new StationResources($station), "تمت عملية الوصول للمحطات بنجاح", 200);
     }
+    //===========================================================================================================================
+    public function student_station($student_id)
+    {  
+        $trip = $this->stationservices->student_station($student_id);
+        // In case error messages are returned from the services section 
+        if ($trip instanceof \Illuminate\Http\JsonResponse) {
+            return $trip;
+        }
+        return $this->success_Response(new StationTripResources($trip), "تمت عملية الوصول للمحطات بنجاح", 200);
+    }
 }

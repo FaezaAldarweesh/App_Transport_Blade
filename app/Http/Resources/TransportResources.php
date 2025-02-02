@@ -16,11 +16,8 @@ class TransportResources extends JsonResource
     public function toArray(Request $request): array
     {
         return [
-            'students' => $this->whenLoaded('student', function () {
-                return [
-                    'name' => $this->student->name,
-                ];
-            }) ?? [],
+            'transport id' => $this->id,
+            'students' => $this->student->name,
             'name' => $this->trip->name == 'delivery' ? 'توصيل' : 'مدرسية', 
             'type' => $this->trip->type == 'go' ? 'ذهاب' : 'عودة', 
             'bus' => $this->trip->bus->name,
@@ -34,11 +31,8 @@ class TransportResources extends JsonResource
                     'name' => $driver->name,
                 ];
             }),
-            'path' => $this->trip->path->name, 
             'station name' => $this->station->name, 
-            'station time' => $this->formatTimeToArabic($this->station->time_arrive), 
-            'start_date' =>  $this->formatTimeToArabic($this->trip->start_date),
-            'end_date' => $this->formatTimeToArabic($this->trip->end_date),
+            'time' => $this->trip->type == 'go' ? $this->formatTimeToArabic($this->station->time_go) : $this->formatTimeToArabic($this->station->time_back),
         ];
     }
     private function formatTimeToArabic($time): string

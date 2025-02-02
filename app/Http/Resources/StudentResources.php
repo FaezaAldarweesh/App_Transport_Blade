@@ -18,8 +18,8 @@ class StudentResources extends JsonResource
         $translations = [
             'attendee' => 'موجود',
             'absent' => 'غائب',
-            'Moved_to' => 'مَنقول',
-            'Transferred_from' => 'نُقل',
+            'Moved_to' => 'نُقل',
+            'Transferred_from' => 'مَنقول',
         ];
 
         // تحديد البيانات بناءً على الحالة

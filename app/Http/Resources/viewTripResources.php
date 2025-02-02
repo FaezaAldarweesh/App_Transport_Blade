@@ -26,6 +26,7 @@ class viewTripResources extends JsonResource
             'the number of students' => $this->students->count(),
             'supervisors' => UserResources::collection($this->whenLoaded('users')),
             'drivers' => DriverResources::collection($this->whenLoaded('drivers')),
+            'trip path' => $this->path->name,
             'trip stations' => $this->formatStations(),
         ];
     }

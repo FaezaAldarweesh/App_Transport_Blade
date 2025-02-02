@@ -17,6 +17,7 @@ class StationTripResources extends JsonResource
     {
         return [
             'trip id' => $this->id,
+            'trip type' => $this->type,
             'trip stations' => $this->formatStations(),
         ];
     }
