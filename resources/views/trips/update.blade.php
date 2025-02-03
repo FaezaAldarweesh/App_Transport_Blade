@@ -49,8 +49,8 @@
                             <label for="type">Type</label>
                             <select id="type" name="type" class="form-control" required>
                                 <option value="" disabled>Select type</option>
-                                <option value="go" {{ $trip->name === 'go' ? 'selected' : '' }}>ذهاب</option>
-                                <option value="back" {{ $trip->name === 'back' ? 'selected' : '' }}>عودة</option>
+                                <option value="go" {{ $trip->type === 'go' ? 'selected' : '' }}>ذهاب</option>
+                                <option value="back" {{ $trip->type === 'back' ? 'selected' : '' }}>عودة</option>
                             </select>
                             @error('type')
                                 <div class="invalid-feedback">{{ $message }}</div>
