@@ -8,6 +8,18 @@
         name="viewport"
     />
     @include('layouts.head')
+
+    @if (Auth::check())
+        <script>
+            window.authUser = @json(Auth::user());
+        </script>
+    @else
+        <script>
+            window.authUser = null;
+        </script>
+    @endif
+
+    @vite('resources/js/notification.js')
     @yield('map-head')
 
     <!-- CSS Just for demo purpose, don't include it in your project -->

@@ -11,6 +11,8 @@ use App\Http\Controllers\ApiController\CheckoutController;
 use App\Http\Controllers\ApiController\TransportController;
 use App\Http\Controllers\ApiController\TripTrackController;
 
+use \App\Http\Controllers\ApiController\NotificationController;
+
 /*
 |--------------------------------------------------------------------------
 | API Routes
@@ -46,8 +48,8 @@ Route::group(['middleware' => ['auth:api']], function () {
     Route::get('view_info', [UserController::class, 'view_info']);
     Route::post('update_info', [UserController::class, 'update_info']);
 
-    Route::post('trip-tracks', [TripTrackController::class,'store']);
-    Route::get('trip-tracks/{trip}', [TripTrackController::class,'show']);
+    Route::post('trip-tracks', [TripTrackController::class, 'store']);
+    Route::get('trip-tracks/{trip}', [TripTrackController::class, 'show']);
 
     Route::get('all_children', [UserController::class, 'all_children']);
     Route::get('all_student_trips/{student_id}', [StudentController::class, 'all_student_trips']);
@@ -56,10 +58,16 @@ Route::group(['middleware' => ['auth:api']], function () {
     Route::get('details_Trip/{trip_id}', [TripController::class, 'details_Trip']);
     Route::get('update_student_status/{student_id}/{trip_id}', [TripController::class, 'update_student_status']);
     Route::get('trip_filter', [TripController::class, 'trip_filter']);
-    
+
     Route::get('all_transport', [TransportController::class, 'all_transport']);
     Route::delete('delete_transport/{transport_id}', [TransportController::class, 'delete_transport']);
 
     Route::get('student_station/{student_id}', [StationController::class, 'student_station']);
+
+    Route::post('/student/{student}/got-off', [StudentController::class, 'studentGotOff'])->middleware('role:supervisor');
+    Route::prefix('notifications')->group(function (){
+        Route::get('/for-user',[NotificationController::class,'userNotification']);
+        Route::get('/read/{notification_id}',[NotificationController::class,'readNotification']);
+    });
 
 });

@@ -34,7 +34,23 @@
         </nav>
 
         <ul class="navbar-nav topbar-nav ms-md-auto align-items-center">
-          <li
+{{--            Notification button--}}
+            <li class="nav-item dropdown">
+                <a class="nav-link dropdown-toggle" href="#" id="notificationDropdown" role="button" data-bs-toggle="dropdown" aria-expanded="false">
+                    <i class="fa fa-bell"></i>
+{{--                    <span class="badge bg-danger" id="notificationCount">3</span> <!-- عدد الإشعارات -->--}}
+                </a>
+                <ul class="dropdown-menu dropdown-menu-end p-3 notifications-dropdown" aria-labelledby="notificationDropdown">
+                    <li><h6 class="dropdown-header">الإشعارات</h6></li>
+                    <div class="notifications-list">
+                    </div>
+{{--                    <li><a class="dropdown-item text-center" href="#">عرض الكل</a></li>--}}
+                </ul>
+            </li>
+
+
+
+            <li
             class="nav-item topbar-icon dropdown hidden-caret d-flex d-lg-none"
           >
             <a
@@ -68,7 +84,7 @@
             >
               <div class="avatar-sm">
                 <img
-                  src="{{ asset('assets/img/profile.jpg') }}" 
+                  src="{{ asset('assets/img/profile.jpg') }}"
                   alt="..."
                   class="avatar-img rounded-circle"
                 />
@@ -84,7 +100,7 @@
                   <div class="user-box">
                     <div class="avatar-lg">
                       <img
-                        src="{{ asset('assets/img/profile.jpg') }}" 
+                        src="{{ asset('assets/img/profile.jpg') }}"
                         alt="image profile"
                         class="avatar-img rounded"
                       />
@@ -116,7 +132,7 @@
 
                     <form id="logout-form" action="{{ route('logout') }}" method="POST" class="d-none">
                         @csrf
-                    </form>   
+                    </form>
                 </li>
               </div>
             </ul>
@@ -126,3 +142,84 @@
     </nav>
     <!-- End Navbar -->
   </div>
+<style>
+
+    .notifications-dropdown {
+        width: 400px;
+        max-height: 500px;
+        overflow: hidden;
+        border-radius: revert;
+    }
+
+    .notifications-list {
+        max-height: 400px;
+        overflow-y: auto;
+    }
+
+    .notifications-list .dropdown-item {
+        white-space: normal;
+        margin: 10px;
+        border-bottom: 1px solid #eee;
+    }
+
+    #notificationCount {
+        position: absolute;
+        top: 5px;
+        right: 5px;
+        font-size: 12px;
+        padding: 4px 7px;
+        border-radius: 50%;
+    }
+    .notifications-list .dropdown-item {
+        text-align: right; /* محاذاة النص إلى اليمين */
+        padding: 10px;
+        display: flex;
+        flex-direction: column;
+    }
+
+    .notification-time {
+        font-size: 12px;
+        color: #807e7e;
+        text-align: left;
+        margin-top: 5px;
+    }
+
+
+</style>
+<script>
+    document.addEventListener("DOMContentLoaded", function () {
+        document.getElementById("notificationDropdown").addEventListener("click", function () {
+            fetch("{{ route('notifications.fetch') }}") // استبدل بمسار جلب الإشعارات
+                .then(response => response.json())
+                .then(data => {
+                    let notificationList = document.querySelector(".notifications-list");
+                    notificationList.innerHTML = "";
+                    if (data.length > 0) {
+                        data.forEach(notification => {
+                            let timestamp = new Date(notification.created_at);
+                            let formattedTime = timestamp.toLocaleDateString('ar-EG', {
+                                weekday: 'long',
+                                year: 'numeric',
+                                month: 'long',
+                                day: 'numeric',
+                                hour: '2-digit',
+                                minute: '2-digit'
+                            });
+
+                            let item = `
+                            <li class="dropdown-item">
+                                <span>${notification.data.message}</span>
+                                <span class="notification-time">${formattedTime}</span>
+                            </li>`;
+                            notificationList.innerHTML += item;
+                        });
+                    } else {
+                        notificationList.innerHTML = `<li class="dropdown-item text-center">لا توجد إشعارات جديدة</li>`;
+                    }
+                    document.getElementById("notificationCount").innerText = data.length;
+                })
+                .catch(error => console.error("Error fetching notifications:", error));
+        });
+    });
+</script>
+

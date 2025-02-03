@@ -14,7 +14,7 @@ class CheckoutController extends Controller
     use ApiResponseTrait;
     protected $checkoutservices;
     /**
-     * construct to inject checkout Services 
+     * construct to inject checkout Services
      * @param CheckoutService $checkoutservices
      */
     public function __construct(CheckoutService $checkoutservices)
@@ -28,7 +28,7 @@ class CheckoutController extends Controller
      * checkoutResources to customize the return responses.
      */
     public function view($trip_id)
-    {  
+    {
         $checkout = $this->checkoutservices->view($trip_id);
         return $this->success_Response(CheckoutResources::collection($checkout), "تم عملية الوصول للتفقد بنجاح", 200);
     }
@@ -41,12 +41,12 @@ class CheckoutController extends Controller
     public function store($trip_id,$student_id,$status)
     {
         $checkout = $this->checkoutservices->create_checkout($trip_id,$student_id,$status);
-         // In case error messages are returned from the services section 
+         // In case error messages are returned from the services section
          if ($checkout instanceof \Illuminate\Http\JsonResponse) {
             return $checkout;
         }
         return $this->success_Response(new CheckoutResources($checkout), "تمت عملية أخذ التفقد بنجاح", 201);
     }
-    
+
     //===========================================================================================================================
 }
