@@ -68,4 +68,7 @@ class Trip extends Model
     public function tripTrack(){
         return $this->hasMany(TripTrack::class);
     }
+    public function transport(){
+        return $this->hasMany(Transport::class);
+    }
 }

@@ -13,6 +13,7 @@ class Kernel extends ConsoleKernel
     protected function schedule(Schedule $schedule): void
     {
          $schedule->command('app:delete-trip-track-command')->daily();
+         $schedule->command('app:delete-notification-command')->weekly();
     }
 
     /**

@@ -109,4 +109,5 @@ Route::group(['middleware' => ['auth']], function () {
     Route::get('/trip-tracks/{trip}/map',[TripTrackController::class,'showMap'])->middleware('role:Admin')->name('trip_tracks_map');
     Route::get('/trip-tracks/{trip}',[TripTrackController::class,'show'])->middleware('role:Admin');
 
+    Route::get('/notifications/for-user',[UserController::class,'getNotificationForUser'])->name('notifications.fetch');;
 });

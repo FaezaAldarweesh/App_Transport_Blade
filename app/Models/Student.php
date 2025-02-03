@@ -20,20 +20,20 @@ class Student extends Model
         'gender',
     ];
 
+
     public function user (){
-        
+
         return $this->belongsTo(User::class,'user_id','id')->withTrashed();
 
     }
 
     public function trips (){
-        
-        return $this->belongsToMany(Trip::class) ->withPivot('status')->withPivot('time_arrive');
-    }   
-    
-    public function transports (){
-        
-        return $this->hasMany(Transport::class);
-    } 
 
+        return $this->belongsToMany(Trip::class)->withPivot('status')->withPivot('time_arrive');
+    }
+
+    public function transports (){
+
+        return $this->hasMany(Transport::class);
+    }
 }

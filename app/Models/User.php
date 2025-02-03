@@ -51,7 +51,7 @@ class User extends Authenticatable implements JWTSubject
         'email_verified_at' => 'datetime',
         'password' => 'hashed'
     ];
-    
+
      /**
      * Get the identifier that will be stored in the subject claim of the JWT.
      * @return mixed
@@ -69,6 +69,13 @@ class User extends Authenticatable implements JWTSubject
     {
         return [];
     }
+    /**
+     * The channels the user receives notification broadcasts on.
+     */
+    public function receivesBroadcastNotificationsOn(): string
+    {
+        return 'users.'.$this->id;
+    }
 
     /**
      * Return a all users with filter on role.
@@ -84,12 +91,12 @@ class User extends Authenticatable implements JWTSubject
     }
 
     public function students (){
-        
+
         return $this->hasMany(Student::class);
     }
 
     public function trips (){
-        
+
         return $this->belongsToMany(Trip::class);
     }
 

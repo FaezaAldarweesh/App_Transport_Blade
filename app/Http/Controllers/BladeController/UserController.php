@@ -158,7 +158,12 @@ class UserController extends Controller
         session()->flash('success', 'تمت عملية حذف المستخدم بنجاح');
         return redirect()->route('all_trashed_user');
     }
-        
+
     //========================================================================================================================
 
+    public function getNotificationForUser(){
+        $notifications = auth()->user()->notifications()->latest()->get();
+        return response()->json($notifications);
+
+    }
 }
