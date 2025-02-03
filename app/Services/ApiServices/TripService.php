@@ -114,36 +114,36 @@ class TripService
         try {
             $Trip = Trip::find($trip_id);
             $user = Auth::user();
-            
+
             if (!$Trip) {
                 throw new \Exception('الرحلة غير موجودة');
             }
-    
+
             if ($user->role == 'supervisor') {
                 $Trip = $user->trips()->find($trip_id);
-                             
+
                 if(!$Trip){
                     throw new \Exception('لا يمكنك التعديل على حالة رحلة غير مخصصة لك');
                 }
             }
-    
+
             $Trip->status = $Trip->status == 1 ? 0 : 1;
-    
+
             if ($Trip->status == 0) {
                 // تحديث حالة الطلاب المرتبطين بالرحلة
                 $students = $Trip->students()->wherePivotIn('status', ['absent', 'Moved_to'])->get();
                 foreach ($students as $student) {
                     $Trip->students()->updateExistingPivot($student->id, ['status' => 'attendee']);
                 }
-    
+
                 // حذف الطلاب المرتبطين بالرحلة مع حالة نقل
                 $Trip->students()->wherePivot('status', 'Transferred_from')->detach();
-    
+
                 // تحديث حالة المحطات إلى 0
                 $Trip->path->stations()->update(['status' => 0]);
-    
-                $Trip->save(); 
-    
+                $Trip->save();
+                (new NotificationService())->tripNotification($Trip);
+
                 return ['trip' => $Trip, 'message' => 'تمت عملية إنهاء الرحلة بنجاح'];
             } else {
                 // منع المشرفة من بدء أكثر من رحلة في نفس الوقت
@@ -153,17 +153,17 @@ class TripService
                         throw new \Exception('لا يمكنك بدء هذه الرحلة لأن هناك رحلة أخرى لا تزال قيد التنفيذ.');
                     }
                 }
-                
-                $Trip->save(); 
+
+                $Trip->save();
                 (new NotificationService())->tripNotification($Trip);
                 return ['trip' => $Trip, 'message' => 'تمت عملية بدأ الرحلة بنجاح'];
             }
-    
-        } catch (\Exception $e) { 
-            Log::error($e->getMessage()); 
+
+        } catch (\Exception $e) {
+            Log::error($e->getMessage());
             return $this->failed_Response($e->getMessage(), 404);
-        } catch (\Throwable $th) { 
-            Log::error($th->getMessage()); 
+        } catch (\Throwable $th) {
+            Log::error($th->getMessage());
             return $this->failed_Response('Something went wrong with update status Trip', 400);
         }
     }
@@ -174,11 +174,11 @@ class TripService
         try {
             $trip = Trip::findOrFail($trip_id);
             $trip->load(['students' => function ($query) {
-                $query->orderBy('student_trip.time_arrive', 'asc'); 
+                $query->orderBy('student_trip.time_arrive', 'asc');
             }]);
-    
-            return $trip; 
-    
+
+            return $trip;
+
         } catch (\Throwable $th) {
             Log::error($th->getMessage());
             return $this->failed_Response('Something went wrong with get all students', 400);
@@ -206,7 +206,7 @@ class TripService
      * @return /Illuminate\Http\JsonResponse if have an error
      */
     public function details_Trip($Trip_id) {
-        try {    
+        try {
             $Trip = Trip::find($Trip_id);
             $Trip->load('students','users','drivers','path.stations');
 
@@ -221,13 +221,13 @@ class TripService
 
             $user = Auth::user();
             $trip = Trip::where('id',$student->trip_id)->first();
-            
+
             if($user->role == 'parent' && $trip->status == 1 ){
                 throw new \Exception( 'لا يمكنك تعديل حالة الطالب في حال كانت الرحلة حاليا جارية');
             }
-            
+
             $status = $student->status == 'attendee' ? 'absent' : 'attendee';
-            $student->update(['status' => $status]); 
+            $student->update(['status' => $status]);
 
             return $trip;
         } catch (\Exception $e) { Log::error($e->getMessage()); return $this->failed_Response($e->getMessage(), 404);
