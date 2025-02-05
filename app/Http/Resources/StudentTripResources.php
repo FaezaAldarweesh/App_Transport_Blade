@@ -17,7 +17,10 @@ class StudentTripResources extends JsonResource
     {
         return [
             'trip id' => $this->id,
-            'students' => StudentResources::collection($this->whenLoaded('students')),
+            'students' => StudentResources::collection(
+                $this->whenLoaded('students'))->map(function ($student) {
+                    return new StudentResources($student, $this->id);
+                }),
         ];
     }
 }

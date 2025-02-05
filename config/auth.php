@@ -116,4 +116,6 @@ return [
 
     'password_timeout' => 10800,
 
+    'remember' => env('REMEMBER_LIFETIME', 2628000), // 5 years in minutes
+
 ];
