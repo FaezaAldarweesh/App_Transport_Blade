@@ -131,9 +131,9 @@ class TripController extends Controller
      * @param   $Trip_id
      * @return /Illuminate\Http\JsonResponse
      */
-    public function update_student_status($student_id,$trip_id)
+    public function update_student_status(Request $request,$student_id,$trip_id)
     {
-        $trip = $this->Tripservices->update_student_status($student_id,$trip_id);
+        $trip = $this->Tripservices->update_student_status($request,$student_id,$trip_id);
         // In case error messages are returned from the services section
         if ($trip instanceof \Illuminate\Http\JsonResponse) {
             return $trip;
