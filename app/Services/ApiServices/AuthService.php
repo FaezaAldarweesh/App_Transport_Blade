@@ -47,9 +47,11 @@ class AuthService {
      */
     public function refresh(){
         try {
+            $token = Auth::refresh();
+            $user = Auth::setToken($token)->user();
             return [
-                'user' => Auth::user(),
-                'token' => Auth::refresh(),
+                'user' => $user,
+                'token' => $token,
             ];
 
         } catch (\Throwable $th) { Log::error($th->getMessage()); return $this->failed_Response('Something went wrong with refresh token', 400);}

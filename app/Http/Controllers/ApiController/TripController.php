@@ -79,12 +79,12 @@ class TripController extends Controller
      */
     public function update_trip_status($trip_id)
     {
-        $Trip = $this->Tripservices->update_trip_status($trip_id);
+        $result = $this->Tripservices->update_trip_status($trip_id);
         // In case error messages are returned from the services section
-        if ($Trip instanceof \Illuminate\Http\JsonResponse) {
-            return $Trip;
+        if ($result instanceof \Illuminate\Http\JsonResponse) {
+            return $result;
         }
-        return $this->success_Response(new AllTripResources($Trip), 'تمت عملية تعديل حالة الرحلة بنجاح', 200);
+        return $this->success_Response(new AllTripResources($result['trip']), $result['message'], 200);
     }
     //========================================================================================================================
 
