@@ -93,12 +93,12 @@ class TripService
                 $Trip = $studentsTrips
                     ->where('status', 0)
                     ->where('end_date', '>', $currentTime)
-                    ->orderBy('end_date', 'asc')
+                    ->sortBy('end_date')
                     ->first();
 
                 if (!$Trip) {
                     $Trip = $studentsTrips
-                        ->orderBy('start_date', 'asc')
+                        ->sortBy('start_date')
                         ->first();
                 }
             }
@@ -214,7 +214,7 @@ class TripService
         } catch (\Throwable $th) { Log::error($th->getMessage()); return $this->failed_Response('Something went wrong with show Trip', 400);}
     }
     //========================================================================================================================
-    public function update_student_status($student_id,$trip_id)
+    public function update_student_status($request,$student_id,$trip_id)
     {
         try {
             $student = StudentTrip::where('student_id',$student_id)->where('trip_id',$trip_id)->first();
@@ -226,8 +226,7 @@ class TripService
                 throw new \Exception( 'لا يمكنك تعديل حالة الطالب في حال كانت الرحلة حاليا جارية');
             }
 
-            $status = $student->status == 'attendee' ? 'absent' : 'attendee';
-            $student->update(['status' => $status]);
+            $student->update(['status' => $request['status']]);
 
             return $trip;
         } catch (\Exception $e) { Log::error($e->getMessage()); return $this->failed_Response($e->getMessage(), 404);

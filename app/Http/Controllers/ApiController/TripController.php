@@ -79,12 +79,12 @@ class TripController extends Controller
      */
     public function update_trip_status($trip_id)
     {
-        $Trip = $this->Tripservices->update_trip_status($trip_id);
+        $result = $this->Tripservices->update_trip_status($trip_id);
         // In case error messages are returned from the services section
-        if ($Trip instanceof \Illuminate\Http\JsonResponse) {
-            return $Trip;
+        if ($result instanceof \Illuminate\Http\JsonResponse) {
+            return $result;
         }
-        return $this->success_Response(new AllTripResources($Trip), 'تمت عملية تعديل حالة الرحلة بنجاح', 200);
+        return $this->success_Response(new AllTripResources($result['trip']), $result['message'], 200);
     }
     //========================================================================================================================
 
@@ -131,9 +131,9 @@ class TripController extends Controller
      * @param   $Trip_id
      * @return /Illuminate\Http\JsonResponse
      */
-    public function update_student_status($student_id,$trip_id)
+    public function update_student_status(Request $request,$student_id,$trip_id)
     {
-        $trip = $this->Tripservices->update_student_status($student_id,$trip_id);
+        $trip = $this->Tripservices->update_student_status($request,$student_id,$trip_id);
         // In case error messages are returned from the services section
         if ($trip instanceof \Illuminate\Http\JsonResponse) {
             return $trip;

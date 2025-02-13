@@ -56,7 +56,7 @@ Route::group(['middleware' => ['auth:api']], function () {
     Route::post('update_student_status_transport', [StudentController::class, 'update_student_status_transport']);
 
     Route::get('details_Trip/{trip_id}', [TripController::class, 'details_Trip']);
-    Route::get('update_student_status/{student_id}/{trip_id}', [TripController::class, 'update_student_status']);
+    Route::post('update_student_status/{student_id}/{trip_id}', [TripController::class, 'update_student_status']);
     Route::get('trip_filter', [TripController::class, 'trip_filter']);
 
     Route::get('all_transport', [TransportController::class, 'all_transport']);
