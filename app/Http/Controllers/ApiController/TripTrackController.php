@@ -7,10 +7,13 @@ use App\Http\Requests\TripTrack_Request\showRequest;
 use App\Http\Requests\TripTrack_Request\StoreRequest;
 use App\Http\Resources\TripTrackResource;
 use App\Http\Traits\ApiResponseTrait;
+use App\Models\Student;
 use App\Models\Trip;
 use App\Models\TripTrack;
 use App\Services\ApiServices\TripTrackService;
+use Carbon\Carbon;
 use Illuminate\Http\JsonResponse;
+use Illuminate\Support\Facades\Log;
 
 class TripTrackController extends Controller
 {
@@ -27,6 +30,7 @@ class TripTrackController extends Controller
     {
         $this->tripTrackService = $tripTrackService;
         $this->middleware('role:supervisor')->only('store');
+        $this->middleware('role:parent')->only('trackForParent');
     }
 
 
@@ -39,7 +43,7 @@ class TripTrackController extends Controller
 
     public function store(StoreRequest $request)
     {
-        TripTrack::create($request->validationData());
+        TripTrack::create($request->validated());
         return $this->success_Response(null, 'تمت الإضافة بنجاح', 200);
     }
 
@@ -56,5 +60,12 @@ class TripTrackController extends Controller
     {
         $result = $this->tripTrackService->showTracksForTrip($trip, $request->trip_date);
         return $this->success_Response(TripTrackResource::collection($result), 'تمت العملية بنجاح', 200);
+    }
+
+    public function trackForParent($student_id){
+
+        $tripTracks = $this->tripTrackService->trackForParent($student_id);
+        return $this->success_Response(TripTrackResource::collection($tripTracks), 'تمت العملية بنجاح', 200);
+
     }
 }

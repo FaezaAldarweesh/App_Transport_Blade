@@ -50,6 +50,7 @@ Route::group(['middleware' => ['auth:api']], function () {
 
     Route::post('trip-tracks', [TripTrackController::class, 'store']);
     Route::get('trip-tracks/{trip}', [TripTrackController::class, 'show']);
+    Route::get('trip-tracks/for-parent/{student}',[TripTrackController::class,'trackForParent']);
 
     Route::get('all_children', [UserController::class, 'all_children']);
     Route::get('all_student_trips/{student_id}', [StudentController::class, 'all_student_trips']);
@@ -70,4 +71,9 @@ Route::group(['middleware' => ['auth:api']], function () {
         Route::get('/read/{notification_id}',[NotificationController::class,'readNotification']);
     });
 
+});
+
+Route::get('/test',function (){
+   $admin = \App\Models\User::find(1);
+   $admin->notify(new \App\Notifications\UserNotification('Hello Admin Admin'));
 });
