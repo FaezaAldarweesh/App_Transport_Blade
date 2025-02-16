@@ -2,7 +2,6 @@
 
 namespace App\Notifications;
 
-use Illuminate\Broadcasting\PrivateChannel;
 use Illuminate\Bus\Queueable;
 use Illuminate\Contracts\Queue\ShouldQueue;
 use Illuminate\Notifications\Messages\BroadcastMessage;
@@ -29,14 +28,14 @@ class UserNotification extends Notification implements ShouldQueue
      */
     public function via(object $notifiable): array
     {
-        return ['broadcast','database'];
+        return ['broadcast', 'database'];
     }
 
     public function toBroadcast($notifiable)
     {
         return new BroadcastMessage([
-                'message' => $this->message
-            ]);
+            'message' => $this->message
+        ]);
     }
 
     /**

@@ -1,5 +1,7 @@
 <?php
 
+use App\Models\Trip;
+use App\Models\User;
 use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\ApiController\AuthController;
 use App\Http\Controllers\ApiController\TripController;
@@ -74,6 +76,16 @@ Route::group(['middleware' => ['auth:api']], function () {
 });
 
 Route::get('/test',function (){
-   $admin = \App\Models\User::find(1);
-   $admin->notify(new \App\Notifications\UserNotification('Hello Admin Admin'));
+//   $admin = \App\Models\User::find(1);
+//   $admin->notify(new \App\Notifications\UserNotification('Hello Admin Rima'));
+//
+    $trip = Trip::find(3);
+//    $users = $trip->students()
+//        ->wherePivotIn('status', ['attendee', 'Transferred_from'])
+//        ->with('user')
+//        ->get()->pluck('user')->unique();
+//    $users[] = User::role('Admin', 'web')->get();
+//
+    (new \App\Services\ApiServices\NotificationService())->tripNotification($trip);
+   return "sndfhd";
 });

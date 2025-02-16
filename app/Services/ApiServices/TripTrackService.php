@@ -16,7 +16,7 @@ class TripTrackService
      * Fetch TripTrack records for a specific trip and date.
      * @param Trip $trip - The Trip model instance for which the tracks are to be fetched.
      * @param string|null $date - The specific date for filtering TripTrack records (defaults to the current date if null).
-     * @return \Illuminate\Http\JsonResponse - A collection of TripTrack records for the given trip and date.
+     * @return \Illuminate\Database\Eloquent\Collection|\Illuminate\Http\JsonResponse - A collection of TripTrack records for the given trip and date.
      */
     public function showTracksForTrip(Trip $trip, $date)
     {

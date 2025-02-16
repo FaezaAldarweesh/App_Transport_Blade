@@ -38,13 +38,11 @@
             <li class="nav-item dropdown">
                 <a class="nav-link dropdown-toggle" href="#" id="notificationDropdown" role="button" data-bs-toggle="dropdown" aria-expanded="false">
                     <i class="fa fa-bell"></i>
-{{--                    <span class="badge bg-danger" id="notificationCount">3</span> <!-- عدد الإشعارات -->--}}
                 </a>
                 <ul class="dropdown-menu dropdown-menu-end p-3 notifications-dropdown" aria-labelledby="notificationDropdown">
                     <li><h6 class="dropdown-header">الإشعارات</h6></li>
                     <div class="notifications-list">
                     </div>
-{{--                    <li><a class="dropdown-item text-center" href="#">عرض الكل</a></li>--}}
                 </ul>
             </li>
 
@@ -216,7 +214,6 @@
                     } else {
                         notificationList.innerHTML = `<li class="dropdown-item text-center">لا توجد إشعارات جديدة</li>`;
                     }
-                    document.getElementById("notificationCount").innerText = data.length;
                 })
                 .catch(error => console.error("Error fetching notifications:", error));
         });

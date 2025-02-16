@@ -2,6 +2,7 @@
 
 namespace App\Services\ApiServices;
 
+use App\Http\Traits\ApiResponseTrait;
 use App\Models\Student;
 use App\Models\Trip;
 use App\Models\User;
@@ -11,12 +12,13 @@ use Illuminate\Support\Facades\Notification;
 
 class NotificationService
 {
+    use ApiResponseTrait;
 
     /**
      * Send notifications to the admin and to the students' families on the trip (start trip - end trip)
      *
      * @param Trip $trip
-     * @return void
+     * @return \Illuminate\Http\JsonResponse
      */
     public function tripNotification(Trip $trip)
     {
@@ -25,8 +27,7 @@ class NotificationService
                 ->wherePivotIn('status', ['attendee', 'Transferred_from'])
                 ->with('user')
                 ->get()->pluck('user')->unique();
-            $users[] = User::role('Admin', 'web')->get();
-
+            $users = [...$users,...User::role('Admin', 'web')->get()];
             $status = $trip->status ? "بدأت رحلة " : "انتهت رحلة ";
             $name = $trip->name == 'delivery' ? "التوصيل " : "المدرسة ";
             $type = $trip->type == 'go' ? " ( ذهاب ) " : "( عودة ) ";
@@ -36,7 +37,7 @@ class NotificationService
             Notification::send($users, new UserNotification($message));
         } catch (\Exception $e) {
             Log::error($e->getMessage());
-            throw new \Exception("لم يتم إرسال الإشعار للمستخدمين بسبب مشكلة ما");
+            return $this->failed_Response("لم يتم إرسال الإشعار للمستخدمين بسبب مشكلة ما", 400);
         }
     }
 
@@ -45,7 +46,7 @@ class NotificationService
      *
      * @param Student $student
      * @param $message
-     * @return void
+     * @return \Illuminate\Http\JsonResponse
      * @throws \Exception
      */
     public function studentNotification(Student $student, $message)
@@ -54,7 +55,7 @@ class NotificationService
             $student->user->notify(new UserNotification($message));
         } catch (\Exception $e) {
             Log::error($e->getMessage());
-            throw new \Exception("لم يتم إرسال الإشعار للمستخدم بسبب مشكلة ما");
+            return $this->failed_Response("لم يتم إرسال الإشعار للمستخدمين بسبب مشكلة ما", 400);
         }
     }
 
