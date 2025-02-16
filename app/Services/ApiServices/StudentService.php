@@ -32,24 +32,24 @@ class StudentService {
     public function update_student_status_transport($data)
     {
         try {
-    
+
             $trip_id = $data['trip_id'];
             $station_id = $data['station_id'];
             $students = $data['students'];
-    
+
             $trip = Trip::findOrFail($trip_id);
             $user = Auth::user();
-    
+
             // التحقق من حالة الرحلة للمستخدم الأب
             if ($user->role === 'parent' && $trip->status === 1) {
                 throw new \Exception( 'لا يمكنك نقل الطالب إذا كانت الرحلة جارية.', 403);
             }
-    
+
             // التحقق من عدد المقاعد المتاحة في الحافلة
             if (count($trip->students) + count($students) > $trip->bus->number_of_seats) {
                 throw new \Exception( 'لا يوجد مكان فارغ ضمن هذه الرحلة', 400);
             }
-    
+
             foreach ($students as $student_id) {
                 $transport = new Transport();
                 $transport->trip_id = $trip_id;
@@ -57,12 +57,13 @@ class StudentService {
                 $transport->station_id = $station_id;
                 $transport->save();
             }
+            $message = "قدم " . $user->name . " طلب نقل جديد. ";
+            (new NotificationService())->adminsNotification($message);
 
-            
             return true;
         } catch (\Exception $e) { Log::error($e->getMessage()); return $this->failed_Response($e->getMessage(), 404);
         } catch (\Throwable $th) { Log::error($th->getMessage()); return $this->failed_Response('Something went wrong with make transport', 400);}
-    }  
-    
+    }
+
     //===========================================================================================================================
 }

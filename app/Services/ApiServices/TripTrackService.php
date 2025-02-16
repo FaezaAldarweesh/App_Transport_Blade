@@ -42,10 +42,11 @@ class TripTrackService
         try {
             $student = Student::find($student_id);
             $trip = $student->trips->where('status', 1)->first();
-            if ($trip) {
-                $tripTracks = $trip->tripTrack()->whereDate('created_at', Carbon::now()->format('Y-m-d'))->get();
+            if (!$trip) {
+                throw new \Exception('لا يوجد رحلة جارية للطالب حالياً');
             }
-            return $tripTracks ?? collect();
+            $tripTrack = $trip->tripTrack()->whereDate('created_at', Carbon::now()->format('Y-m-d'))->latest()->first();
+            return $tripTrack ?? null;
 
         } catch (\Throwable $th) {
             Log::error($th->getMessage());

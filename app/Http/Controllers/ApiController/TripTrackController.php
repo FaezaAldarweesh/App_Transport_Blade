@@ -62,10 +62,13 @@ class TripTrackController extends Controller
         return $this->success_Response(TripTrackResource::collection($result), 'تمت العملية بنجاح', 200);
     }
 
-    public function trackForParent($student_id){
-
-        $tripTracks = $this->tripTrackService->trackForParent($student_id);
-        return $this->success_Response(TripTrackResource::collection($tripTracks), 'تمت العملية بنجاح', 200);
+    public function trackForParent($student_id)
+    {
+        $tripTrack = $this->tripTrackService->trackForParent($student_id);
+        if (!$tripTrack) {
+            return $this->failed_Response('لم يتم العثور على بيانات التتبع', 404);
+        }
+        return $this->success_Response(new TripTrackResource($tripTrack), 'تمت العملية بنجاح', 200);
 
     }
 }

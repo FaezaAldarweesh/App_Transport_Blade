@@ -70,7 +70,7 @@ Route::group(['middleware' => ['auth:api']], function () {
     Route::post('/student/{student}/got-off', [StudentController::class, 'studentGotOff'])->middleware('role:supervisor');
     Route::prefix('notifications')->group(function (){
         Route::get('/for-user',[NotificationController::class,'userNotification']);
-        Route::get('/read/{notification_id}',[NotificationController::class,'readNotification']);
+        Route::get('/read',[NotificationController::class,'readNotification']);
     });
 
 });

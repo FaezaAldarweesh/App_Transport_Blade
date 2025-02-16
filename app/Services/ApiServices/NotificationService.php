@@ -59,4 +59,20 @@ class NotificationService
         }
     }
 
+    /**
+     * send notification to admin
+     *
+     * @param $message
+     * @return \Illuminate\Http\JsonResponse|void
+     */
+    public function adminsNotification($message){
+        try {
+            $admins = User::role('Admin', 'web')->get();
+            Notification::send($admins, new UserNotification($message));
+        }catch (\Exception $e) {
+            Log::error($e->getMessage());
+            return $this->failed_Response("لم يتم إرسال الإشعار للمستخدمين بسبب مشكلة ما", 400);
+        }
+    }
+
 }

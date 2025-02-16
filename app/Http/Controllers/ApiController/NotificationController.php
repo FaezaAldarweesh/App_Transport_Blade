@@ -22,10 +22,10 @@ class NotificationController extends Controller
         return $this->success_Response(NotificationResource::collection($notifications), 'تمت العملية بنجاح', 200);
     }
 
-    public function readNotification($notification_id)
+    public function readNotification()
     {
         try {
-            auth()->user()->notifications()->findOrFail($notification_id)->markAsRead();
+            auth()->user()->unreadNotifications->markAsRead();
             return $this->success_Response(null, 'تمت العملية بنجاح', 200);
         } catch (\Throwable $th) {
             Log::error($th->getMessage());

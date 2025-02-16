@@ -6,6 +6,7 @@ use App\Models\Trip;
 use App\Models\Station;
 use App\Models\Student;
 use App\Models\Transport;
+use App\Services\ApiServices\NotificationService;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Log;
 use App\Http\Controllers\Controller;
@@ -36,10 +37,10 @@ class TransportController extends Controller
             $request->validate([
                 'trip_id' => 'required|exists:trips,id',
             ]);
-    
+
             $student = Student::findOrFail($student_id);
-            $trip_id = $request->input('trip_id'); 
-            $station_id = $request->input('station_id'); 
+            $trip_id = $request->input('trip_id');
+            $station_id = $request->input('station_id');
             $trip = Trip::findOrFail($trip_id);
 
             $user = Auth::user();
@@ -56,11 +57,11 @@ class TransportController extends Controller
             $transport->trip_id = $trip_id;
             $transport->student_id = $student_id;
             $transport->station_id = $station_id;
-            $transport->save(); 
+            $transport->save();
 
             session()->flash('success', 'تمت عملية نقل الطالب بنجاح');
             return redirect()->back();
-    
+
         } catch (\Exception $e) {
             Log::error('Error update status student: ' . $e->getMessage());
             return redirect()->back()->withErrors('فشلت عملية النقل: ' . $e->getMessage());
@@ -71,10 +72,13 @@ class TransportController extends Controller
      */
     public function destroy($transport_id)
     {
-        try {  
+        try {
             $transport = Transport::findOrFail($transport_id);
+            $student = $transport->student;
             $transport->delete();
-            
+            $message = "رفضت عملية نقل الطالب".$student->name;
+            (new NotificationService())->studentNotification($student,$message);
+
             session()->flash('success', 'تمت عملية حذف نقل الطالب بنجاح');
             return redirect()->back();
 
