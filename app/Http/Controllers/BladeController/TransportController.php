@@ -77,7 +77,8 @@ class TransportController extends Controller
             $student = $transport->student;
             $transport->delete();
             $message = "رفضت عملية نقل الطالب".$student->name;
-            (new NotificationService())->studentNotification($student,$message);
+            $title = "نقل الطالب";
+            (new NotificationService())->studentNotification($student,$message,$title);
 
             session()->flash('success', 'تمت عملية حذف نقل الطالب بنجاح');
             return redirect()->back();

@@ -33,8 +33,8 @@ class NotificationService
             $type = $trip->type == 'go' ? " ( ذهاب ) " : "( عودة ) ";
             $path = "خط " . $trip->path->name;
             $message = $status . $name . $type . $path;
-
-            Notification::send($users, new UserNotification($message));
+            $title = $trip->status ? "بدء رحلة" : "انتهاء رحلة";
+            Notification::send($users, new UserNotification($message,$title));
         } catch (\Exception $e) {
             Log::error($e->getMessage());
             return $this->failed_Response("لم يتم إرسال الإشعار للمستخدمين بسبب مشكلة ما", 400);
@@ -49,10 +49,10 @@ class NotificationService
      * @return \Illuminate\Http\JsonResponse
      * @throws \Exception
      */
-    public function studentNotification(Student $student, $message)
+    public function studentNotification(Student $student, $message,$title)
     {
         try {
-            $student->user->notify(new UserNotification($message));
+            $student->user->notify(new UserNotification($message,$title));
         } catch (\Exception $e) {
             Log::error($e->getMessage());
             return $this->failed_Response("لم يتم إرسال الإشعار للمستخدمين بسبب مشكلة ما", 400);
@@ -65,10 +65,10 @@ class NotificationService
      * @param $message
      * @return \Illuminate\Http\JsonResponse|void
      */
-    public function adminsNotification($message){
+    public function adminsNotification($message,$title){
         try {
             $admins = User::role('Admin', 'web')->get();
-            Notification::send($admins, new UserNotification($message));
+            Notification::send($admins, new UserNotification($message,$title));
         }catch (\Exception $e) {
             Log::error($e->getMessage());
             return $this->failed_Response("لم يتم إرسال الإشعار للمستخدمين بسبب مشكلة ما", 400);

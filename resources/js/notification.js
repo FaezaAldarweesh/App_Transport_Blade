@@ -24,7 +24,7 @@ if (window.authUser && window.authUser.id) {
         .notification((notification) => {
 
             $.notify({
-                title: `<strong>إشعار جديد</strong><br>`,
+                title: `<strong>${notification.title}</strong><br>`,
                 message: notification.message,
                 icon: 'icon-bell' // يمكنك استخدام أيقونة أخرى إذا كنت تستخدم FontAwesome
             }, {

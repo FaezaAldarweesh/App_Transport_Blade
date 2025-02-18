@@ -169,46 +169,46 @@
         border-radius: 50%;
     }
     .notifications-list .dropdown-item {
-        text-align: right; /* محاذاة النص إلى اليمين */
-        padding: 10px;
         display: flex;
-        flex-direction: column;
+        justify-content: space-between;
+        align-items: center;
+        text-align: right;
+        padding: 10px;
+        border-bottom: 1px solid #eee;
     }
 
     .notification-time {
         font-size: 12px;
-        color: #807e7e;
-        text-align: left;
-        margin-top: 5px;
+        color: #807e7e; /* لون رمادي */
+        white-space: nowrap; /* منع انتقال التاريخ لسطر جديد */
+        margin-left: 10px; /* مسافة بين الوقت والنص */
     }
+
+    .notification-content {
+        flex-grow: 1; /* يجعل العنوان والنص يأخذان المساحة المتبقية */
+    }
+
 
 
 </style>
 <script>
     document.addEventListener("DOMContentLoaded", function () {
         document.getElementById("notificationDropdown").addEventListener("click", function () {
-            fetch("{{ route('notifications.fetch') }}") // استبدل بمسار جلب الإشعارات
+            fetch("{{ route('notifications.fetch') }}")
                 .then(response => response.json())
                 .then(data => {
                     let notificationList = document.querySelector(".notifications-list");
                     notificationList.innerHTML = "";
                     if (data.length > 0) {
                         data.forEach(notification => {
-                            let timestamp = new Date(notification.created_at);
-                            let formattedTime = timestamp.toLocaleDateString('ar-EG', {
-                                weekday: 'long',
-                                year: 'numeric',
-                                month: 'long',
-                                day: 'numeric',
-                                hour: '2-digit',
-                                minute: '2-digit'
-                            });
-
                             let item = `
-                            <li class="dropdown-item">
-                                <span>${notification.data.message}</span>
-                                <span class="notification-time">${formattedTime}</span>
-                            </li>`;
+                        <li class="dropdown-item d-flex align-items-center">
+                            <span class="notification-time">${notification.create}</span>
+                            <div class="notification-content">
+                                <strong>${notification.data.title}</strong>
+                                <span class="d-block">${notification.data.message}</span>
+                            </div>
+                        </li>`;
                             notificationList.innerHTML += item;
                         });
                     } else {
@@ -218,5 +218,6 @@
                 .catch(error => console.error("Error fetching notifications:", error));
         });
     });
+
 </script>
 

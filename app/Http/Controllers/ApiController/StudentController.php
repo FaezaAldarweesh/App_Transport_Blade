@@ -60,8 +60,9 @@ class StudentController extends Controller
      */
     public function studentGotOff(Student $student)
     {
+        $title = "وصول الطالب";
         $message = "نزل " . $student->name . " من الحافلة ";
-        (new NotificationService())->studentNotification($student, $message);
+        (new NotificationService())->studentNotification($student, $message,$title);
         return $this->success_Response(null, 'تمت العملية بنجاح', 200);
     }
 

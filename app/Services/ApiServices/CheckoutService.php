@@ -56,9 +56,9 @@ class CheckoutService {
 
             $checkout->save();
             $student = $checkout->student;
+            $title= "تفقد";
             $message = "تفقد ابنك/ابنتك ". $student->name . ($checkout->checkout ? " حضور ":" غياب ");
-
-            (new NotificationService())->studentNotification($student,$message);
+            (new NotificationService())->studentNotification($student,$message,$title);
             return $checkout;
         } catch (\Exception $e) { Log::error($e->getMessage()); return $this->failed_Response($e->getMessage(), 404);
         } catch (\Throwable $th) { Log::error($th->getMessage()); return $this->failed_Response('Something went wrong with create checkout', 400);}

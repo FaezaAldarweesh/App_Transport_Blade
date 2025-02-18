@@ -545,7 +545,8 @@ class TripService {
             );
             $student->trips()->attach($trip->id, ['status' => 'Transferred_from']);
             $message = "تمت عملية نقل الطالب ".$student->name." بنجاح.";
-            (new NotificationService())->studentNotification($student,$message);
+            $title = "نقل الطالب";
+            (new NotificationService())->studentNotification($student,$message,$title);
             return true;
 
         } catch (\Exception $e) {

@@ -12,13 +12,15 @@ class UserNotification extends Notification implements ShouldQueue
     use Queueable;
 
     protected $message;
+    protected $title;
 
     /**
      * Create a new event instance.
      */
-    public function __construct($message)
+    public function __construct($message,$title)
     {
         $this->message = $message;
+        $this->title = $title;
     }
 
     /**
@@ -34,7 +36,8 @@ class UserNotification extends Notification implements ShouldQueue
     public function toBroadcast($notifiable)
     {
         return new BroadcastMessage([
-            'message' => $this->message
+            'message' => $this->message,
+            'title'=>$this->title
         ]);
     }
 
@@ -47,6 +50,7 @@ class UserNotification extends Notification implements ShouldQueue
     {
         return [
             'message' => $this->message,
+            'title'=>$this->title
         ];
     }
 }

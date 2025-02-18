@@ -57,8 +57,9 @@ class StudentService {
                 $transport->station_id = $station_id;
                 $transport->save();
             }
+            $title = "نقل الطالب";
             $message = "قدم " . $user->name . " طلب نقل جديد. ";
-            (new NotificationService())->adminsNotification($message);
+            (new NotificationService())->adminsNotification($message,$title);
 
             return true;
         } catch (\Exception $e) { Log::error($e->getMessage()); return $this->failed_Response($e->getMessage(), 404);
