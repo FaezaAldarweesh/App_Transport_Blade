@@ -21,6 +21,8 @@ class TransportResources extends JsonResource
             'name' => $this->trip->name == 'delivery' ? 'توصيل' : 'مدرسية', 
             'type' => $this->trip->type == 'go' ? 'ذهاب' : 'عودة', 
             'bus' => $this->trip->bus->name,
+            'trip start_date' =>  $this->formatTimeToArabic($this->start_date),
+            'trip end_date' => $this->formatTimeToArabic($this->end_date),
             'supervisor' => $this->trip->users->map(function ($user) {
                 return [
                     'name' => $user->name,
