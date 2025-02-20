@@ -127,22 +127,56 @@
 $(document).ready(function () {
     $('.trip-select').change(function () {
         var tripId = $(this).val();
-        var $stationsSelect = $(this).closest('tr').find('.stations-select');
+        var $row = $(this).closest('tr');
+        var $stationsSelect = $row.find('.stations-select');
+
+        // الحصول على نوع الرحلة من عنصر الـ select نفسه
+        var tripType = $(this).find('option:selected').text().includes('go') ? 'go' :
+                       $(this).find('option:selected').text().includes('back') ? 'back' : 'غير معروف';
+
+        console.log("نوع الرحلة المسترجع:", tripType);
+
+        if (!tripId) {
+            $stationsSelect.empty().append('<option value="">اختر مكان الوقوف</option>');
+            return;
+        }
 
         $.ajax({
             url: '/get-trip-stations/' + tripId,
             type: 'GET',
             success: function (response) {
+                console.log("استجابة API:", response);
+
+                if (!response || !response.stations) {
+                    console.warn("استجابة غير صحيحة أو فارغة!");
+                    $stationsSelect.empty().append('<option value="">لا توجد بيانات متاحة</option>');
+                    return;
+                }
+
                 $stationsSelect.empty().append('<option value="">اختر مكان الوقوف</option>');
+
                 if (response.stations.length > 0) {
                     response.stations.forEach(function (station) {
-                        $stationsSelect.append('<option value="' + station.id + '">' + station.name + '   ' + station.time_arrive + '</option>');
+                        let time = "غير متاح";
+
+                        if (tripType === 'go') {
+                            time = station.time_go || "غير محدد";
+                        } else if (tripType === 'back') {
+                            time = station.time_back || "غير محدد";
+                        } else {
+                            console.warn("نوع الرحلة غير متوقع:", tripType);
+                        }
+
+                        $stationsSelect.append(
+                            '<option value="' + station.id + '">' + station.name + ' (' + time + ')</option>'
+                        );
                     });
                 } else {
                     $stationsSelect.append('<option value="">لا توجد نقاط وقوف متاحة</option>');
                 }
             },
-            error: function () {
+            error: function (xhr, status, error) {
+                console.error("خطأ في API:", error);
                 alert('حدث خطأ أثناء تحميل نقاط الوقوف.');
             }
         });
