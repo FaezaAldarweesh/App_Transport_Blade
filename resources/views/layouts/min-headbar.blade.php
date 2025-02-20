@@ -140,8 +140,8 @@
     </nav>
     <!-- End Navbar -->
   </div>
-<style>
 
+<style>
     .notifications-dropdown {
         width: 400px;
         max-height: 500px;
@@ -152,12 +152,21 @@
     .notifications-list {
         max-height: 400px;
         overflow-y: auto;
+        overflow-x: hidden; /* إخفاء التمرير الأفقي */
     }
 
     .notifications-list .dropdown-item {
         white-space: normal;
+        word-wrap: break-word;
+        overflow-wrap: break-word;
+        word-break: break-word;
+        max-width: 100%; /* منع العنصر من تجاوز الحدود */
         margin: 10px;
         border-bottom: 1px solid #eee;
+        display: flex;
+        flex-direction: column;
+        align-items: flex-start;
+        box-sizing: border-box; /* التأكد من أن العرض يشمل الحواف */
     }
 
     #notificationCount {
@@ -168,29 +177,25 @@
         padding: 4px 7px;
         border-radius: 50%;
     }
-    .notifications-list .dropdown-item {
-        display: flex;
-        justify-content: space-between;
-        align-items: center;
+
+    .notification-content {
+        width: 100%;
+        max-width: 100%; /* منع تجاوز المحتوى للعرض */
         text-align: right;
-        padding: 10px;
-        border-bottom: 1px solid #eee;
+        white-space: normal;
+        word-wrap: break-word;
+        overflow-wrap: break-word;
+        word-break: break-word;
     }
 
     .notification-time {
         font-size: 12px;
-        color: #807e7e; /* لون رمادي */
-        white-space: nowrap; /* منع انتقال التاريخ لسطر جديد */
-        margin-left: 10px; /* مسافة بين الوقت والنص */
+        color: #807e7e;
+        align-self: flex-start;
+        margin-top: 5px;
     }
-
-    .notification-content {
-        flex-grow: 1; /* يجعل العنوان والنص يأخذان المساحة المتبقية */
-    }
-
-
-
 </style>
+
 <script>
     document.addEventListener("DOMContentLoaded", function () {
         document.getElementById("notificationDropdown").addEventListener("click", function () {
@@ -201,14 +206,24 @@
                     notificationList.innerHTML = "";
                     if (data.length > 0) {
                         data.forEach(notification => {
+                            let timestamp = new Date(notification.created_at);
+                            let formattedTime = timestamp.toLocaleDateString('ar-EG', {
+                                weekday: 'long',
+                                year: 'numeric',
+                                month: 'long',
+                                day: 'numeric',
+                                hour: '2-digit',
+                                minute: '2-digit'
+                            });
+
                             let item = `
-                        <li class="dropdown-item d-flex align-items-center">
-                            <span class="notification-time">${notification.create}</span>
-                            <div class="notification-content">
-                                <strong>${notification.data.title}</strong>
-                                <span class="d-block">${notification.data.message}</span>
-                            </div>
-                        </li>`;
+                                <li class="dropdown-item">
+                                    <div class="notification-content">
+                                        <strong>${notification.data.title}</strong>
+                                        <span class="d-block">${notification.data.message}</span>
+                                    </div>
+                                    <span class="notification-time">${formattedTime}</span>
+                                </li>`;
                             notificationList.innerHTML += item;
                         });
                     } else {
@@ -218,6 +233,7 @@
                 .catch(error => console.error("Error fetching notifications:", error));
         });
     });
-
 </script>
+
+
 
