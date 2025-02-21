@@ -35,37 +35,41 @@ Route::group(['middleware' => ['auth:api']], function () {
     Route::post('logout', [AuthController::class, 'logout']);
     Route::post('refresh', [AuthController::class, 'refresh']);
 
-    Route::apiResource('trip', TripController::class);
-    Route::get('next_trip', [TripController::class, 'next_trip']);
-    Route::get('update_trip_status/{trip_id}/', [TripController::class, 'update_trip_status']);
-    Route::get('all_student_trip/{trip_id}', [TripController::class, 'all_student_trip']);
-    Route::get('all_student_Back_trip/{trip_id}', [TripController::class, 'all_student_Back_trip']);
 
-    Route::get('checkout/{trip_id}/{student_id}/{status}', [CheckoutController::class, 'store']);
-    Route::get('view_checkout/{trip_id}', [CheckoutController::class, 'view']);
-
+    //supervisor -----------------------------------------------------------------------------
+    Route::middleware('role:supervisor')->group(function () {
+        Route::apiResource('trip', TripController::class);
+        Route::get('update_trip_status/{trip_id}/', [TripController::class, 'update_trip_status']);
+        Route::get('all_student_trip/{trip_id}', [TripController::class, 'all_student_trip']);
+        Route::get('all_student_Back_trip/{trip_id}', [TripController::class, 'all_student_Back_trip']);
+        Route::get('checkout/{trip_id}/{student_id}/{status}', [CheckoutController::class, 'store']);
+        Route::get('view_checkout/{trip_id}', [CheckoutController::class, 'view']);
+        Route::post('update_station_status/{station_id}', [StationController::class, 'update_station_status']);
+    });
+    
+    //both ------------------------------------------------------------------------------
     Route::get('all_station_trip/{trip_id}', [StationController::class, 'all_station_trip']);
-    Route::post('update_station_status/{station_id}', [StationController::class, 'update_station_status']);
-
+    Route::get('next_trip', [TripController::class, 'next_trip']);
     Route::get('view_info', [UserController::class, 'view_info']);
     Route::post('update_info', [UserController::class, 'update_info']);
+
+    //parent ------------------------------------------------------------------------------
+    Route::middleware('role:parent')->group(function () {
+        Route::get('all_children', [UserController::class, 'all_children']);
+        Route::get('all_student_trips/{student_id}', [StudentController::class, 'all_student_trips']);
+        Route::post('update_student_status_transport', [StudentController::class, 'update_student_status_transport']);
+        Route::get('details_Trip/{trip_id}', [TripController::class, 'details_Trip']);
+        Route::post('update_student_status/{student_id}/{trip_id}', [TripController::class, 'update_student_status']);
+        Route::get('trip_filter', [TripController::class, 'trip_filter']);
+        Route::get('all_transport', [TransportController::class, 'all_transport']);
+        Route::delete('delete_transport/{transport_id}', [TransportController::class, 'delete_transport']);
+        Route::get('student_station/{student_id}', [StationController::class, 'student_station']);
+    });
+
 
     Route::post('trip-tracks', [TripTrackController::class, 'store']);
     Route::get('trip-tracks/{trip}', [TripTrackController::class, 'show']);
     Route::get('trip-tracks/for-parent/{student}',[TripTrackController::class,'trackForParent']);
-
-    Route::get('all_children', [UserController::class, 'all_children']);
-    Route::get('all_student_trips/{student_id}', [StudentController::class, 'all_student_trips']);
-    Route::post('update_student_status_transport', [StudentController::class, 'update_student_status_transport']);
-
-    Route::get('details_Trip/{trip_id}', [TripController::class, 'details_Trip']);
-    Route::post('update_student_status/{student_id}/{trip_id}', [TripController::class, 'update_student_status']);
-    Route::get('trip_filter', [TripController::class, 'trip_filter']);
-
-    Route::get('all_transport', [TransportController::class, 'all_transport']);
-    Route::delete('delete_transport/{transport_id}', [TransportController::class, 'delete_transport']);
-
-    Route::get('student_station/{student_id}', [StationController::class, 'student_station']);
 
     Route::post('/student/{student}/got-off', [StudentController::class, 'studentGotOff'])->middleware('role:supervisor');
     Route::prefix('notifications')->group(function (){
