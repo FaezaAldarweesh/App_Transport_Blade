@@ -45,7 +45,7 @@ class StudentController extends Controller
         if ($AllTransports instanceof \Illuminate\Http\JsonResponse) {
         return $AllTransports;
         }
-        return $this->success_Response( null, ".تمت عملية تسجيل طلب نقل الطالب بنجاح يرجى ,الانتظار حتى يتم الموافقة عليه من قبل المدير", 200);
+        return $this->success_Response( null, ".تمت عملية تسجيل طلب نقل الطالب بنجاح يرجى ,الانتظار حتى يتم الموافقة عليه من قبل مدير النظام", 200);
     }
 
 
