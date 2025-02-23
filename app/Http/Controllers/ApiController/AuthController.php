@@ -30,12 +30,12 @@ class AuthController extends Controller
      */
     public function login(loginRequest $request)
     {
-        $token = $this->authservices->login($request->validated());
+        $result = $this->authservices->login($request->validated());
         // In case error messages are returned from the services section
-        if ($token instanceof \Illuminate\Http\JsonResponse) {
-            return $token;
+        if ($result instanceof \Illuminate\Http\JsonResponse) {
+            return $result;
         }
-        return $this->api_Response(null,$token,"تمت عملية تسجيل الدخول بنجاح",200);
+        return $this->api_Response($result['user'],$result['token'],"تمت عملية تسجيل الدخول بنجاح",200);
     }
 //===========================================================================================================================
     /**

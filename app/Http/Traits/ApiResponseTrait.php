@@ -6,7 +6,10 @@ trait ApiResponseTrait
 {
     public function api_Response($data,$token,$message,$status){
         $array = [
-            'data'=>$data,
+            'data' => [
+                'id' => $data->id,
+                'name' => $data->name
+            ],
             'message'=>$message,
             'access_token'=>$token,
             'token_type'=>'bearer',
@@ -14,7 +17,7 @@ trait ApiResponseTrait
 
         return response()->json($array,$status);
     }
-
+    
     //========================================================================================================================
     
     public function failed_Response($message,$status){

@@ -1,4 +1,4 @@
-<?php
+a<?php
 
 namespace App\Services\ApiServices;
 use App\Models\User;
@@ -25,7 +25,10 @@ class AuthService {
                 //throw new(, 401);
                 throw new \Exception('اسم المستخدم أو كلمة المرور غير صحيحة' , 401);
             }
-                return $token;
+            
+        $user = Auth::guard('api')->user(); // تأكد من استرجاع المستخدم من الحارس الصحيح
+        
+        return ['token' => $token, 'user' => $user];
         } catch (\Exception $e) { Log::error($e->getMessage()); return $this->failed_Response($e->getMessage(), 401);
         }catch (\Throwable $th) { Log::error($th->getMessage()); return $this->failed_Response('Something went wrong with login', 400);}
     }
