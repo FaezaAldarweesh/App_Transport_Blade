@@ -5,6 +5,7 @@ namespace App\Http\Controllers\ApiController;
 use App\Http\Controllers\Controller;
 use App\Http\Resources\NotificationResource;
 use App\Http\Traits\ApiResponseTrait;
+use Carbon\Carbon;
 use Illuminate\Support\Facades\Log;
 
 class NotificationController extends Controller
@@ -18,7 +19,9 @@ class NotificationController extends Controller
      */
     public function userNotification()
     {
-        $notifications = auth()->user()->notifications()->latest()->get();
+        $notifications = auth()->user()->notifications()
+            ->where('created_at', '>=', Carbon::now()->subDays(4))
+            ->latest()->get();
         return $this->success_Response(NotificationResource::collection($notifications), 'تمت العملية بنجاح', 200);
     }
 

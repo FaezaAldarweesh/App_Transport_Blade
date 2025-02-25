@@ -6,6 +6,7 @@ use App\Http\Controllers\Controller;
 use App\Http\Requests\User_Rqeuests\Store_User_Request;
 use App\Http\Requests\User_Rqeuests\Update_User_Request;
 use App\Http\Resources\NotificationResource;
+use Carbon\Carbon;
 use Illuminate\Http\Request;
 use App\Http\Requests\UserReq;
 use App\Models\Table;
@@ -163,7 +164,9 @@ class UserController extends Controller
     //========================================================================================================================
 
     public function getNotificationForUser(){
-        $notifications = auth()->user()->notifications()->latest()->get();
+        $notifications = auth()->user()->notifications()
+            ->where('created_at', '>=', Carbon::now()->subDays(7))
+            ->latest()->get();
         return response()->json(NotificationResource::collection($notifications));
     }
 }
